@@ -53,7 +53,7 @@ const Footer = () => {
 
           {/* Column 2: Mission Statement */}
           <div className="flex items-center">
-            <p className="text-sm sm:text-base leading-relaxed lg:leading-loose text-center md:text-justify">
+            <p className="text-sm sm:text-base leading-relaxed lg:leading-loose text-center md:text-justify  mr-14">
               At Learning Souls, we are dedicated to spreading knowledge and
               hope through the distribution of Islamic books. Our mission is to
               provide spiritual and educational resources, offering comfort and

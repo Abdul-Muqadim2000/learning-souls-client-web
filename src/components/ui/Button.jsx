@@ -59,5 +59,46 @@ function SecondaryButton({
     </button>
   );
 }
+function TertiaryButton({
+  text,
+  icon: Icon,
+  onClick,
+  type = "button",
+  disabled = false,
+  className = "",
+  href,
+}) {
+  const baseClassName = `
+    inline-flex items-center justify-center gap-2
+    px-6 py-2.5 rounded-full
+    bg-[#bd2387] text-white
+    font-medium text-sm
+    transition-all duration-200
+    hover:opacity-90 hover:scale-105
+    disabled:opacity-50 cursor-pointer
+    ${className}
+  `;
 
-export { PrimaryButton, SecondaryButton };
+  if (href) {
+    return (
+      <a href={href} className={baseClassName}>
+        {text && <span>{text}</span>}
+        {Icon && <Icon className="w-4 h-4" />}
+      </a>
+    );
+  }
+
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={baseClassName}
+    >
+      {text && <span>{text}</span>}
+      {Icon && <Icon className="w-4 h-4" />}
+    </button>
+  );
+}
+
+export { PrimaryButton, SecondaryButton, TertiaryButton };
