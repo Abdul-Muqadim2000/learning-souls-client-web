@@ -1,12 +1,12 @@
 import CardList from "@/components/CardList";
 import { cardListData } from "@/components/lib/cardListData";
-import GenaricHeader from "@/components/GenaricHeader";
+import GenericHeader from "@/components/GenericHeader";
 
 const page = () => {
   return (
     <>
       {/* Title Section */}
-      <GenaricHeader title="Our Projects" />
+      <GenericHeader title="Our Projects" bgColor={"var(--color-tertiary)"} textColor={"var(--color-primary)"} />
 
       {/* Cards Section */}
       <CardList cards={cardListData} />

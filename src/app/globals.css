@@ -30,6 +30,60 @@ body {
   animation: pulse-hover 1s infinite;
 }
 
+/* ===============================
+   Timeline Scroll Animations
+================================ */
+
+@keyframes slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.timeline-animate-left {
+  opacity: 0;
+  animation: slide-in-left 0.9s ease-out forwards;
+}
+
+.timeline-animate-right {
+  opacity: 0;
+  animation: slide-in-right 0.9s ease-out forwards;
+}
+
+/* Stagger effect */
+.timeline-delay-1 {
+  animation-delay: 0.1s;
+}
+.timeline-delay-2 {
+  animation-delay: 0.25s;
+}
+.timeline-delay-3 {
+  animation-delay: 0.4s;
+}
+.timeline-delay-4 {
+  animation-delay: 0.55s;
+}
+.timeline-delay-5 {
+  animation-delay: 0.7s;
+}
+
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

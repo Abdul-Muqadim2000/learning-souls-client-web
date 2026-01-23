@@ -1,7 +1,7 @@
 export const cardListData = [
   {
     id: 1,
-    bgImage: "/images/card-1.jpg",
+    bgImage: "/images/project1.png",
     title: "Distributing Quran Seerah",
     description:
       "Distributing Quran Translations and Seerah Books to Multi-Faith Rooms in NHS Hospitals and HM Prisons Services.",
@@ -11,7 +11,7 @@ export const cardListData = [
   },
   {
     id: 2,
-    bgImage: "/images/card-2.jpg",
+    bgImage: "/images/project2.png",
     title: "Quran Translations",
     description:
       "Publishing & Distributing Quran Translations for Children through Electronic and Paper Media.",
@@ -21,7 +21,7 @@ export const cardListData = [
   },
   {
     id: 3,
-    bgImage: "/images/card-3.jpg",
+    bgImage: "/images/project3.jpg",
     title: "Encyclopedia of Hadith ",
     description:
       "Developing a Free, Multi-Language Encyclopedia of Hadith of Prophet Muhammad (PBUH).",

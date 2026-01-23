@@ -1,10 +1,15 @@
-import GenaricHeader from "@/components/GenaricHeader";
+import GenericHeader from "@/components/GenericHeader";
 import ImageContentSection from "@/components/ImageContentSection";
+import TimeLine from "@/components/TimeLine";
 
 const page = () => {
   return (
     <>
-      <GenaricHeader title="About Us" image="/images/app-store.png" />
+      <GenericHeader
+        title="About Us"
+        image="/images/app-store.png"
+        textColor={"var(--color-primary)"}
+      />
 
       <ImageContentSection
         imageSrc="/images/logo.png"
@@ -22,6 +27,8 @@ const page = () => {
         qualification="FRCEM, Masters in Islamic Studies"
         signatureImage="/images/signature.png"
       />
+
+      <TimeLine />
     </>
   );
 };

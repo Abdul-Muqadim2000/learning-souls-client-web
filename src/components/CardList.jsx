@@ -59,10 +59,7 @@ const CardList = ({ cards = [], title }) => {
                   {/* Button (Bottom) */}
                   <div>
                     <Link href={card.buttonLink}>
-                      <SecondaryButton
-                        text={card.buttonText}
-                        className="bg-(--color-secondary) text-(--color-secondary) hover:opacity-90"
-                      />
+                      <SecondaryButton text={card.buttonText} />
                     </Link>
                   </div>
                 </div>

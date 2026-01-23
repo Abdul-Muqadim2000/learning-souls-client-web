@@ -30,35 +30,40 @@ function PrimaryButton({
 
 function SecondaryButton({
   text,
+  children,
   icon: Icon,
   onClick,
   type = "button",
   disabled = false,
   className = "",
+  // style,
 }) {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
+      // style={style}
       className={`
         inline-flex items-center justify-center gap-2
         px-6 py-2.5 rounded-full
-        bg-white
+         cursor-pointer
         border border-[var(--color-secondary)]
-        text-[var(--color-secondary)]
         font-medium text-sm
         transition-all duration-200
-        hover:bg-[var(--color-secondary)] hover:text-white
-        disabled:opacity-50 cursor-pointer
+        hover:bg-[var(--color-secondary)]
+        disabled:opacity-50 disabled:cursor-not-allowed
         ${className}
       `}
     >
       {Icon && <Icon className="w-4 h-4" />}
-      {text && <span>{text}</span>}
+      <span>{children || text}</span>
     </button>
   );
 }
+
+export default SecondaryButton;
+
 function TertiaryButton({
   text,
   icon: Icon,

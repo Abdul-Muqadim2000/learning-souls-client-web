@@ -4,13 +4,13 @@ import HeroCarousel from "./HeroCarousel";
 // To add more slides, simply add more objects to this array
 const heroSlides = [
   {
-    backgroundImage: "/images/random.png",
-    title: "Nourish Your Soul with Knowledge of The Quran",
+    backgroundImage: "/images/hero-img.jpg",
+    // title: "Nourish Your Soul with Knowledge of The Quran",
 
-    primaryButton: {
-      text: "Read More",
-      href: "/insights/value-driven-innovation-automation",
-    },
+    // primaryButton: {
+    //   text: "Read More",
+    //   href: "/insights/value-driven-innovation-automation",
+    // },
     // secondaryButton: {
     //   text: "Talk to Sales",
     //   href: "/contact-us",
