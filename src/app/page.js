@@ -5,6 +5,7 @@ import ImageContentSection from "@/components/ImageContentSection";
 import Support from "@/components/Support";
 import CarouselSlider from "@/components/CarouselSlider";
 import TeamCarousel from "@/components/TeamCarousal";
+import ProductList from "@/components/ProductList";
 
 export default function Home() {
   const carouselItems = [
@@ -91,6 +92,7 @@ export default function Home() {
           // ... more members
         ]}
       />
+      <ProductList />
     </main>
   );
 }

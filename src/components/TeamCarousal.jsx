@@ -139,7 +139,7 @@ const TeamCarousel = ({ teamMembers = [] }) => {
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#f5f5f5] overflow-hidden py-10 px-5">
       {/* Title with gradient effect */}
       <h1
-        className="text-[7.5rem] font-black uppercase tracking-[-0.02em] mb-8 pointer-events-none whitespace-nowrap"
+        className="text-[4.5rem] font-black uppercase tracking-[-0.02em] mb-8 pointer-events-none whitespace-nowrap"
         style={{
           background:
             "linear-gradient(to bottom, #bd2387 0%, #d946a1 50%, #bd2387 100%)",

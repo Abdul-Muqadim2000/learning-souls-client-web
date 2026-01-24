@@ -8,7 +8,14 @@ const heightClasses = {
   xl: "h-[320px] sm:h-[400px] lg:h-[480px]",
 };
 
-const GenericHeader = ({ title, image, bgColor, textColor, height = "md" }) => {
+const GenericHeader = ({
+  title,
+  subtitle,
+  image,
+  bgColor,
+  textColor,
+  height = "md",
+}) => {
   return (
     <section
       className={`w-full flex items-center justify-center ${
@@ -18,17 +25,36 @@ const GenericHeader = ({ title, image, bgColor, textColor, height = "md" }) => {
         backgroundImage: image ? `url(${image})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundColor: image
-          ? "transparent"
-          : bgColor || "var(--color-primary)",
+        backgroundColor: image ? "transparent" : bgColor || "",
       }}
     >
-      <h1
-        className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center uppercase"
-        style={{ color: textColor || "var(--color-secondary)" }}
-      >
-        {title}
-      </h1>
+      <div className="flex flex-col items-center justify-center">
+        <h1
+          className="text-[4.5rem] font-black uppercase tracking-[-0.02em] pointer-events-none whitespace-nowrap"
+          style={{
+            background:
+              "linear-gradient(to bottom, #bd2387 0%, #d946a1 50%, #bd2387 100%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)",
+            maskImage:
+              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)",
+            color: textColor || "var(--color-secondary)",
+          }}
+        >
+          {title}
+        </h1>
+        {subtitle && (
+          <p
+            className="mt-2 text-center max-w-4xl px-4 text-sm sm:text-base lg:text-lg"
+            style={{ color: textColor || "var(--color-secondary)" }}
+          >
+            {subtitle}
+          </p>
+        )}
+      </div>
     </section>
   );
 };

@@ -11,7 +11,7 @@ const Support = () => {
         <GenericHeader
           title="Support our Mission"
           textColor={"var(--color-secondary)"}
-          height="sm"
+          height="md"
         />
       </div>
 
@@ -21,7 +21,7 @@ const Support = () => {
           {/* LEFT CARD */}
           <div className="flex justify-center">
             <div
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 max-w-md w-full text-center relative mt-[-130] z-10 top-[-20] min-h-[500px] flex flex-col justify-center items-center"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 max-w-md w-full text-center relative mt-[-130] z-10 bottom-[40] min-h-[500px] flex flex-col justify-center items-center"
               style={{
                 backgroundImage: "url(/images/mission-img1.jpg)",
                 backgroundSize: "200%",
@@ -29,8 +29,7 @@ const Support = () => {
                 backgroundBlendMode: "overlay",
                 backgroundRepeat: "no-repeat",
                 backgroundColor: "rgba(255, 255, 255, 0.8)",
-                boxShadow:
-                  "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 100px 20px rgba(0, 0, 0, 0.3)",
+                boxShadow: "0 10px 25px -8px rgba(0, 0, 0, 0.3)",
               }}
             >
               <div className="max-w-xs mx-auto">
