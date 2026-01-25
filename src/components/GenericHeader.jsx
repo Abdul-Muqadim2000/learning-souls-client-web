@@ -1,11 +1,11 @@
 import React from "react";
 
 const heightClasses = {
-  xs: "h-[60px] sm:h-[100px] lg:h-[140px]",
-  sm: "h-[160px] sm:h-[200px] lg:h-[240px]",
-  md: "h-[200px] sm:h-[250px] lg:h-[300px]",
-  lg: "h-[260px] sm:h-[320px] lg:h-[380px]",
-  xl: "h-[320px] sm:h-[400px] lg:h-[480px]",
+  xs: "h-[40px] sm:h-[60px] lg:h-[80px]",
+  sm: "h-[80px] sm:h-[100px] lg:h-[120px]",
+  md: "h-[100px] sm:h-[120px] lg:h-[150px]",
+  lg: "h-[140px] sm:h-[160px] lg:h-[200px]",
+  xl: "h-[180px] sm:h-[220px] lg:h-[260px]",
 };
 
 const GenericHeader = ({

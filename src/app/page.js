@@ -7,6 +7,12 @@ import CarouselSlider from "@/components/CarouselSlider";
 import TeamCarousel from "@/components/TeamCarousal";
 import ProductList from "@/components/ProductList";
 
+export const metadata = {
+  title: "Home - Learning Souls",
+  description:
+    "Welcome to Learning Souls - Empowering people with correct knowledge through enlightening education and charitable works",
+};
+
 export default function Home() {
   const carouselItems = [
     {
@@ -47,6 +53,41 @@ export default function Home() {
     },
   ];
 
+  const upcomingBooksItems = [
+    {
+      image: "/images/product1.jpg",
+      heading: "Coming Soon",
+    },
+    {
+      image: "/images/product2.jpg",
+      heading: "Coming Soon",
+    },
+    {
+      image: "/images/product3.jpg",
+      heading: "Coming Soon",
+    },
+    {
+      image: "/images/project1.png",
+      heading: "Coming Soon",
+    },
+    {
+      image: "/images/project2.png",
+      heading: "Coming Soon",
+    },
+    {
+      image: "/images/project3.jpg",
+      heading: "Coming Soon",
+    },
+    {
+      image: "/images/mission-img.png",
+      heading: "Coming Soon",
+    },
+    {
+      image: "/images/mission-img1.jpg",
+      heading: "Coming Soon",
+    },
+  ];
+
   return (
     <main>
       <Hero />
@@ -60,7 +101,15 @@ export default function Home() {
         signatureImage="/images/signature.png"
       />
       <Support />
-      <CarouselSlider items={carouselItems} title="Our Projects" />
+      <CarouselSlider items={carouselItems} title="PICTURE GALLERY" />
+      <ProductList />
+      <CarouselSlider
+        items={upcomingBooksItems}
+        title="UPCOMMING BOOKS"
+        bgColor="var(--color-tertiary)"
+        bgImage="/images/books-bg.png"
+        textColor="white"
+      />
       <TeamCarousel
         teamMembers={[
           {
@@ -92,7 +141,6 @@ export default function Home() {
           // ... more members
         ]}
       />
-      <ProductList />
     </main>
   );
 }

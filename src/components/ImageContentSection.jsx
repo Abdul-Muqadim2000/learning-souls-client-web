@@ -31,7 +31,7 @@ const ImageContentSection = ({
           {/* Content (Left) */}
           <div className="space-y-10">
             {/* Title */}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#bd2387]">
+            <h2 className="text-2xl sm:text-3xl lg:text-6xl font-bold text-[#bd2387]">
               {title}
             </h2>
             {/* Subtitle */}

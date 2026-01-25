@@ -10,6 +10,9 @@ const CarouselSlider = ({
   intervalTime = 4000,
   autoPlay = true,
   title,
+  bgColor,
+  bgImage,
+  textColor,
 }) => {
   const [currIndex, setCurrIndex] = useState(0);
   const [dimensions, setDimensions] = useState({ width: 275, height: 300 });
@@ -92,9 +95,19 @@ const CarouselSlider = ({
   if (items.length === 0) return null;
 
   return (
-    <section className="w-full py-20 overflow-hidden relative">
+    <section
+      className="w-full py-20 overflow-hidden relative"
+      style={{
+        backgroundColor: bgColor || "transparent",
+        backgroundImage: bgImage ? `url(${bgImage})` : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Title */}
-      {title && <GenericHeader title={title} height={"xs"} />}
+      {title && (
+        <GenericHeader title={title} height={"xs"} textColor={textColor} />
+      )}
 
       <div className="relative max-w-7xl mx-auto">
         {/* Carousel Body */}
@@ -147,7 +160,7 @@ const CarouselSlider = ({
                             src={item.image}
                             alt={item.heading || `Slide ${index + 1}`}
                             fill
-                            className="object-cover"
+                            className="object-cover "
                           />
                           {/* Overlay for text readability */}
                           {(item.heading || item.description) && (
@@ -211,7 +224,8 @@ const CarouselSlider = ({
         <div className="flex items-center justify-center gap-8 mt-8 cursor-pointer">
           <button
             onClick={prev}
-            className="text-[var(--color-secondary)] hover:scale-110 transition-transform duration-300 cursor-pointer"
+            className="hover:scale-110 transition-transform duration-300 cursor-pointer"
+            style={{ color: textColor || "var(--color-secondary)" }}
             aria-label="Previous"
           >
             <ChevronLeft size={48} />
@@ -223,11 +237,17 @@ const CarouselSlider = ({
               <button
                 key={index}
                 onClick={() => move(index)}
-                className={`rounded-full transition-all duration-300 ${
-                  index === currIndex
-                    ? "w-3 h-3 bg-[var(--color-secondary)]"
-                    : "w-2 h-2 bg-gray-400 hover:bg-gray-300"
-                }`}
+                className={`rounded-full transition-all duration-300`}
+                style={{
+                  width: index === currIndex ? "12px" : "8px",
+                  height: index === currIndex ? "12px" : "8px",
+                  backgroundColor:
+                    index === currIndex
+                      ? textColor || "var(--color-secondary)"
+                      : textColor
+                        ? `${textColor}80`
+                        : "rgb(156, 163, 175)",
+                }}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
@@ -235,7 +255,8 @@ const CarouselSlider = ({
 
           <button
             onClick={next}
-            className="text-[var(--color-secondary)] hover:scale-110 transition-transform duration-300 cursor-pointer"
+            className="hover:scale-110 transition-transform duration-300 cursor-pointer"
+            style={{ color: textColor || "var(--color-secondary)" }}
             aria-label="Next"
           >
             <ChevronRight size={48} />

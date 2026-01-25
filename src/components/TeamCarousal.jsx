@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import GenericHeader from "./GenericHeader";
 
 const TeamCarousel = ({ teamMembers = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -138,25 +139,15 @@ const TeamCarousel = ({ teamMembers = [] }) => {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#f5f5f5] overflow-hidden py-10 px-5">
       {/* Title with gradient effect */}
-      <h1
-        className="text-[4.5rem] font-black uppercase tracking-[-0.02em] mb-8 pointer-events-none whitespace-nowrap"
-        style={{
-          background:
-            "linear-gradient(to bottom, #bd2387 0%, #d946a1 50%, #bd2387 100%)",
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          color: "transparent",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)",
-          maskImage:
-            "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)",
-        }}
-      >
-        OUR TEAM
-      </h1>
+
+      <GenericHeader
+        title="OUR TEAM"
+        textColor={"var(--color-tertiary)"}
+        height="md"
+      />
 
       <div
-        className="w-full max-w-[1200px] h-[450px] relative mt-2    "
+        className="w-full max-w-[1400px] h-[450px] relative mt-2    "
         style={{ perspective: "1000px" }}
       >
         <button

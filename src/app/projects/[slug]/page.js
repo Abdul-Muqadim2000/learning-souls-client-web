@@ -1,13 +1,7 @@
-"use client";
 // app/our-projects/[slug]/page.jsx
-import { useParams } from "next/navigation";
 
-export default function ProjectPage() {
-  const params = useParams();
-  const { slug } = params;
-
-  // Map slug to title/content
-  const projects = {
+// Map slug to title/content
+const projects = {
     "quran-translation-for-all": {
       title: "Quran Translation for All",
       description:
@@ -21,10 +15,21 @@ export default function ProjectPage() {
       title: "Translation of Hadith",
       description: "Description of another project...",
     },
-    // Add more submenus here
-  };
+  // Add more submenus here
+};
 
+export async function generateMetadata({ params }) {
+  const { slug } = params;
   const project = projects[slug];
+  
+  return {
+    title: project ? `${project.title} - Learning Souls` : \"Project - Learning Souls\",
+    description: project ? project.description : \"Project details\",
+  };
+}
+
+export default function ProjectPage({ params }) {
+  const { slug } = params;
 
   if (!project) return <p>Project not found</p>;
 

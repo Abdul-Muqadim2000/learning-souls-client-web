@@ -2,6 +2,12 @@ import GenericHeader from "@/components/GenericHeader";
 import ImageContentSection from "@/components/ImageContentSection";
 import TimeLine from "@/components/TimeLine";
 
+export const metadata = {
+  title: "About Us - Learning Souls",
+  description:
+    "Learn about our mission to empower people with correct knowledge and help them out of darkness into light through enlightening knowledge",
+};
+
 const page = () => {
   return (
     <>

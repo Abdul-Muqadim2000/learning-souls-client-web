@@ -16,12 +16,12 @@ const Support = () => {
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <div className="max-w-6xl mx-auto px-4 py-26">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* LEFT CARD */}
           <div className="flex justify-center">
             <div
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 max-w-md w-full text-center relative mt-[-130] z-10 bottom-[40] min-h-[500px] flex flex-col justify-center items-center"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 max-w-md w-full text-center relative mt-[-160] z-10 bottom-[40] min-h-[500px] flex flex-col justify-center items-center"
               style={{
                 backgroundImage: "url(/images/mission-img1.jpg)",
                 backgroundSize: "200%",

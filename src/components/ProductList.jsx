@@ -13,8 +13,8 @@ const ProductListItem = ({
   secondaryButtonHref = "#",
 }) => {
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-[280px] h-[380px] rounded-lg shadow-2xl overflow-hidden mb-6">
+    <div className="flex flex-col items-center mt-10">
+      <div className="w-[290px] h-[400px] rounded-lg shadow-2xl overflow-hidden mb-6">
         <div className="relative w-full h-full">
           <Image
             src={imageUrl}
@@ -75,7 +75,7 @@ const ProductList = ({ products = [] }) => {
           height="md"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 justify-items-center">
           {displayProducts.map((product, index) => (
             <ProductListItem key={index} {...product} />
           ))}

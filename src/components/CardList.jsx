@@ -1,18 +1,18 @@
-import React from "react";
 import Link from "next/link";
 import { SecondaryButton } from "./ui/Button";
+import GenericHeader from "./GenericHeader";
 
-const CardList = ({ cards = [], title }) => {
+const CardList = ({ cards = [] }) => {
   if (!cards || cards.length === 0) return null;
 
   return (
-    <section className="bg-(--color-primary) py-16 sm:py-20 lg:py-24">
-      {/* Section Title */}
-      {title && (
-        <h2 className="text-5xl sm:text-5xl font-bold text-(--color-secondary) text-center mb-12">
-          {title}
-        </h2>
-      )}
+    <section className="bg-(--color-primary) py-1 sm:py-20 lg:py-20">
+      <GenericHeader
+        title="OUR PROJECTS"
+        textColor={"var(--color-secondary)"}
+        height="md"
+      />
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {cards.map((card) => (
@@ -41,8 +41,8 @@ const CardList = ({ cards = [], title }) => {
                   }}
                 />
 
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/45" />
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80" />
 
                 {/* Content */}
                 <div className="relative z-10 h-full flex flex-col justify-between text-center text-(--color-primary) p-6 sm:p-8">
