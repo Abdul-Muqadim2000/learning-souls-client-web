@@ -5,6 +5,7 @@ import PageWrapper from "@/components/PageWrapper";
 import { Poppins } from "next/font/google";
 import MarqueeRibbon from "@/components/MarqueeRibbon";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <PageWrapper>{children}</PageWrapper>
           <Footer />
+          <SpeedInsights />
         </AuthProvider>
       </body>
     </html>
