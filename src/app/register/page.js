@@ -47,11 +47,12 @@ const RegisterPage = () => {
       username: data.username,
       email: data.email,
       password: data.password,
+      passwordConfirm: data.passwordConfirm,
     });
 
     if (result.success) {
       // Show OTP form with challengeId
-      setChallengeId(result.data.challengeId);
+      setChallengeId(result.data.data);
       setAuthType("register");
       setShowOTP(true);
     } else {

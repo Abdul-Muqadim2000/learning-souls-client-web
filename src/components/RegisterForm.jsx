@@ -9,7 +9,7 @@ const RegisterForm = ({ onSubmit = () => {} }) => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    passwordConfirm: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -61,10 +61,10 @@ const RegisterForm = ({ onSubmit = () => {} }) => {
     }
 
     // Confirm Password validation
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password";
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
+    if (!formData.passwordConfirm) {
+      newErrors.passwordConfirm = "Please confirm your password";
+    } else if (formData.password !== formData.passwordConfirm) {
+      newErrors.passwordConfirm = "Passwords do not match";
     }
 
     setErrors(newErrors);
@@ -136,11 +136,11 @@ const RegisterForm = ({ onSubmit = () => {} }) => {
           {/* Confirm Password Input */}
           <PasswordInput
             label="Confirm Password"
-            name="confirmPassword"
+            name="passwordConfirm"
             placeholder="Re-enter your password"
-            value={formData.confirmPassword}
+            value={formData.passwordConfirm}
             onChange={handleChange}
-            error={errors.confirmPassword}
+            error={errors.passwordConfirm}
             required
           />
 
