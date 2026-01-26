@@ -88,7 +88,8 @@ body {
 ================================ */
 
 @keyframes swing {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(-6deg);
   }
   50% {
@@ -97,7 +98,8 @@ body {
 }
 
 @keyframes swing-delayed {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(6deg);
   }
   50% {
@@ -113,7 +115,6 @@ body {
   animation: swing-delayed 3s ease-in-out infinite;
   animation-delay: 0.5s;
 }
-
 
 /* :root {
   --background: #ffffff;

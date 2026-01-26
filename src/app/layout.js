@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import PageWrapper from "@/components/PageWrapper";
 import { Poppins } from "next/font/google";
 
 const inter = Poppins({
@@ -33,7 +34,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Navbar />
-        {children}
+        <PageWrapper>{children}</PageWrapper>
         <Footer />
       </body>
     </html>

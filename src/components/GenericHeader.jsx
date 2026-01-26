@@ -21,6 +21,7 @@ const GenericHeader = ({
   height = "md",
   buttonText,
   buttonLink,
+  overlay = false,
 }) => {
   return (
     <section
@@ -34,6 +35,10 @@ const GenericHeader = ({
         backgroundColor: image ? "transparent" : bgColor || "",
       }}
     >
+      {/* Black overlay for images */}
+      {image && overlay && (
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+      )}
       <div className="flex flex-col items-center justify-center max-w-6xl mt-4 mb-8">
         <h1
           className="uppercase tracking-[-0.02em] pointer-events-none text-center leading-[1] font-black"
