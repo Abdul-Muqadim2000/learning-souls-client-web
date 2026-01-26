@@ -13,13 +13,13 @@ const page = () => {
     <>
       <GenericHeader
         title="About Us"
-        image="/images/about-us.jpg"
+        image="/images/about-us.webp"
         textColor={"var(--color-primary)"}
         height="xxl"
       />
 
       <ImageContentSection
-        imageSrc="/images/gallery-img7.jpg"
+        imageSrc="/images/gallery-img7.webp"
         imageAlt="Our Mission"
         title="Hour History"
         subtitle="From the Start"
@@ -29,10 +29,10 @@ const page = () => {
           "With the backing of dedicated supporters, we began distributing educational resources and forming partnerships to expand our reach.",
         ]}
         showProfile={true}
-        profileImage="/images/profile-pic.jpg"
+        profileImage="/images/profile-pic.webp"
         profileName="Dr Ghazanfar Shah"
         qualification="FRCEM, Masters in Islamic Studies"
-        signatureImage="/images/signature.png"
+        signatureImage="/images/signature.webp"
       />
 
       <TimeLine />

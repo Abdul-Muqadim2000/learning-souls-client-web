@@ -4,7 +4,7 @@ import HeroCarousel from "./HeroCarousel";
 // To add more slides, simply add more objects to this array
 const heroSlides = [
   {
-    backgroundImage: "/images/hero-img.jpg",
+    backgroundImage: "/images/hero-img.webp",
     // title: "Nourish Your Soul with Knowledge of The Quran",
 
     // primaryButton: {

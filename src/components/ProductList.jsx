@@ -48,15 +48,15 @@ const ProductListItem = ({
 const ProductList = ({ products = [] }) => {
   const defaultProducts = [
     {
-      imageUrl: "/images/product3.jpg",
+      imageUrl: "/images/product3.webp",
       imageAltText: "The Meaning of THE WISE QURAN",
     },
     {
-      imageUrl: "/images/product2.jpg",
+      imageUrl: "/images/product2.webp",
       imageAltText: "MUHAMMAD - A Prophet for Our Time",
     },
     {
-      imageUrl: "/images/product1.jpg",
+      imageUrl: "/images/product1.webp",
       imageAltText: "MUHAMMAD - His Life Based on the Earliest Sources",
     },
   ];

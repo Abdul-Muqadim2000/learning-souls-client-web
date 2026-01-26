@@ -1,19 +1,14 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
-function DropdownMenu({ label, items, href }) {
-  const [isOpen, setIsOpen] = useState(false);
+function DropdownMenu({ label, items, href, isOpen, onOpen, onClose }) {
   const [hoveredItem, setHoveredItem] = useState(null);
   const dropdownRef = useRef(null);
-  const timeoutRef = useRef(null);
 
   const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    setIsOpen(true);
+    onOpen();
     // Set first item as default
     if (!hoveredItem && items.length > 0) {
       setHoveredItem(items[0]);
@@ -21,18 +16,8 @@ function DropdownMenu({ label, items, href }) {
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 200);
+    onClose();
   };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
 
   return (
     <>

@@ -16,62 +16,62 @@ export const metadata = {
 export default function Home() {
   const carouselItems = [
     {
-      image: "/images/gallery-img1.jpg",
+      image: "/images/gallery-img1.webp",
     },
     {
-      image: "/images/gallery-img2.jpg",
+      image: "/images/gallery-img2.webp",
     },
     {
-      image: "/images/gallery-img3.jpg",
+      image: "/images/gallery-img3.webp",
     },
     {
-      image: "/images/gallery-img4.jpg",
+      image: "/images/gallery-img4.webp",
     },
     {
-      image: "/images/gallery-img5.jpg",
+      image: "/images/gallery-img5.webp",
     },
     {
-      image: "/images/gallery-img6.jpg",
+      image: "/images/gallery-img6.webp",
     },
     {
-      image: "/images/gallery-img7.jpg",
+      image: "/images/gallery-img7.webp",
     },
     {
-      image: "/images/gallery-img8.jpg",
+      image: "/images/gallery-img8.webp",
     },
     {
-      image: "/images/gallery-img9.jpg",
+      image: "/images/gallery-img9.webp",
     },
     {
-      image: "/images/gallery-img10.jpg",
+      image: "/images/gallery-img10.webp",
     },
     {
-      image: "/images/gallery-img11.jpg",
+      image: "/images/gallery-img11.webp",
     },
     {
-      image: "/images/gallery-img12.jpg",
+      image: "/images/gallery-img12.webp",
     },
   ];
 
   const upcomingBooksItems = [
     {
-      image: "/images/ucb1.png",
+      image: "/images/ucb1.webp",
       heading: "Coming Soon",
     },
     {
-      image: "/images/ucb2.jpg",
+      image: "/images/ucb2.webp",
       heading: "Coming Soon",
     },
     {
-      image: "/images/ucb3.jpg",
+      image: "/images/ucb3.webp",
       heading: "Coming Soon",
     },
     {
-      image: "/images/ucb4.jpg",
+      image: "/images/ucb4.webp",
       heading: "Coming Soon",
     },
     {
-      image: "/images/ucb5.jpg",
+      image: "/images/ucb5.webp",
       heading: "Coming Soon",
     },
   ];
@@ -83,10 +83,10 @@ export default function Home() {
 
       <ImageContentSection
         showProfile={true}
-        profileImage="/images/profile-pic.jpg"
+        profileImage="/images/profile-pic.webp"
         profileName="Dr Ghazanfar Shah"
         qualification="FRCEM, Masters in Islamic Studies"
-        signatureImage="/images/signature.png"
+        signatureImage="/images/signature.webp"
       />
       <Support />
       <CarouselSlider items={carouselItems} title="PICTURE GALLERY" />
@@ -95,9 +95,9 @@ export default function Home() {
         items={upcomingBooksItems}
         title="UPCOMMING BOOKS"
         bgColor="var(--color-tertiary)"
-        bgImage="/images/books-bg.png"
+        bgImage="/images/books-bg.webp"
         textColor="white"
-        scale={0.7}
+        scale={0.8}
       />
       <TeamCarousel
         teamMembers={[

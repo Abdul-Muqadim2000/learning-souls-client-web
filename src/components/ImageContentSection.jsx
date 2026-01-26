@@ -2,16 +2,16 @@ import React from "react";
 import Image from "next/image";
 
 const ImageContentSection = ({
-  imageSrc = "/images/mission-img.png",
+  imageSrc = "/images/mission-img.webp",
   imageAlt = "Our Mission",
   title = "Our Mission",
   subtitle = "",
   description = [],
   showProfile = false,
-  profileImage = "/images/profile-pic.jpg",
+  profileImage = "/images/profile-pic.webp",
   profileName = "Dr Ghazanfar Shah",
   qualification = "FRCEM, Masters in Islamic Studies",
-  signatureImage = "/images/signature.png",
+  signatureImage = "/images/signature.webp",
 }) => {
   return (
     <section className="bg-[var(--color-primary)] py-24 sm:py-28 lg:py-12">

@@ -38,7 +38,7 @@ export default function AlMustafaTranslation() {
         textColor="var(--color-primary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        backgroundImage={"/images/al-mustafa-header.png"}
+        backgroundImage={"/images/al-mustafa-header.webp"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - ALLAH EDITION"}
@@ -52,7 +52,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-primary)"
         primaryButtonText={"Coming Soon"}
         primaryButtonLink={"#"}
-        // backgroundImage={"/images/al-mustafa-header.png"}
+        // backgroundImage={"/images/al-mustafa-header.webp"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - TAJWEED EDITION"}
@@ -67,7 +67,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        // backgroundImage={"/images/al-mustafa-header.png"}
+        // backgroundImage={"/images/al-mustafa-header.webp"}
       />
       <FullscreenHeader
         subheaderText={
@@ -83,7 +83,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-primary)"
         primaryButtonText={"Coming Soon"}
         primaryButtonLink={"#"}
-        // backgroundImage={"/images/al-mustafa-header.png"}
+        // backgroundImage={"/images/al-mustafa-header.webp"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - EASY URDU TRANSLATION"}
@@ -97,7 +97,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        // backgroundImage={"/images/al-mustafa-header.png"}
+        // backgroundImage={"/images/al-mustafa-header.webp"}
       />
 
       {/* FAQ Section */}

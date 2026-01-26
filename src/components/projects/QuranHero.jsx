@@ -60,7 +60,7 @@ export default function QuranHero({
         >
           <div className="relative w-full h-full flex items-center justify-center">
             <Image
-              src="/images/project2.png"
+              src="/images/project2.webp"
               alt="Al-Mustafa Translation"
               width={400}
               height={400}

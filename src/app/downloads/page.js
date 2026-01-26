@@ -9,7 +9,7 @@ export const metadata = {
 const downloadCardsData = [
   {
     id: 1,
-    bgImage: "/images/project1.png",
+    bgImage: "/images/project1.webp",
     title: "Books Distribution Project",
     description:
       "Access our comprehensive collection of books for distribution. Download educational and Islamic literature.",
@@ -19,7 +19,7 @@ const downloadCardsData = [
   },
   {
     id: 2,
-    bgImage: "/images/project2.png",
+    bgImage: "/images/project2.webp",
     title: "Al-Mustafa Translation",
     description:
       "Download translations of Islamic texts and scholarly works with accurate and reliable translations.",
@@ -29,7 +29,7 @@ const downloadCardsData = [
   },
   {
     id: 3,
-    bgImage: "/images/project3.jpg",
+    bgImage: "/images/project3.webp",
     title: "Apps",
     description:
       "Download our mobile and desktop applications designed to enhance your learning experience.",

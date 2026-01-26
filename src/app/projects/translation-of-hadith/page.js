@@ -36,7 +36,7 @@ const projectData = {
       "Project initiated in 2016 with collection of Books of Hadith from original sources.",
       "We collected 60 books when by the grace of Almighty Allah, we learned about the collection of Parent books of Hadith in Arabic by University of Madinah Al Munawarah known as Maktabah Shamilah. 328 or so Parent books of hadith that make the basis of All hadith book source. Allah provided us with those books in 2018 in Arabic and we have compiled all these books in a data base to make the foundation of this project. Total number of hadith in all these books is approximately 1.34 million. There are repetitions with minor differences and same hadith have been narrated through multiple sources. Lots of Ahdith has been checked and graded. Original books writers and later scholars worked on the authenticity of these ahdith. Some are Authentic or sahih, Reliable or Hassan, some are Weak or Zaeef and Fabricated or Maudu (موضوع).",
     ],
-    image: "/images/books-bg.png",
+    image: "/images/books-bg.webp",
   },
   translation: {
     title:
@@ -55,7 +55,7 @@ export default function TranslationOfHadithPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Combined Hero + Banner */}
       <QuranHero
-        heroImage="/images/translation-hadith.jpg"
+        heroImage="/images/translation-hadith.webp"
         bannerTitle={projectData.hero.bannerTitle}
       />
 
@@ -86,7 +86,7 @@ export default function TranslationOfHadithPage() {
             {/* Right - Image */}
             <div className="relative h-96 md:h-full min-h-100 rounded-lg overflow-hidden shadow-lg">
               <Image
-                src="/images/translation2.jpg"
+                src="/images/translation2.webp"
                 alt="Hadith Books Collection"
                 fill
                 className="object-cover"

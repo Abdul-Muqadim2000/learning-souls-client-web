@@ -11,7 +11,7 @@ const Support = () => {
         <GenericHeader
           title="Support our Mission"
           textColor={"var(--color-secondary)"}
-          height="md"
+          height="xl"
         />
       </div>
 
@@ -23,7 +23,7 @@ const Support = () => {
             <div
               className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 max-w-md w-full text-center relative mt-[-160] z-10 bottom-[40] min-h-[500px] flex flex-col justify-center items-center"
               style={{
-                backgroundImage: "url(/images/mission-img1.jpg)",
+                backgroundImage: "url(/images/mission-img1.webp)",
                 backgroundSize: "200%",
                 backgroundPosition: "center",
                 backgroundBlendMode: "overlay",
@@ -93,7 +93,7 @@ const Support = () => {
 
             <div className="mt-4     ">
               <Image
-                src="/images/jazakallah.png"
+                src="/images/jazakallah.webp"
                 alt="جزاكم الله خيرًا"
                 width={240}
                 height={64}

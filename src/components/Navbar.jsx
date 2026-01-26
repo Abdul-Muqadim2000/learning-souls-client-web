@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import NavItem from "./NavItem";
 import { DropdownMenu, MobileDropdownMenu } from "./DropdownMenu";
@@ -11,10 +11,36 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const { user, logout, isAuthenticated } = useAuth();
+  const closeTimeoutRef = useRef(null);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const handleDropdownOpen = (label) => {
+    // Clear any pending close timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setOpenDropdown(label);
+  };
+
+  const handleDropdownClose = () => {
+    // Use a short delay to allow moving between dropdowns
+    closeTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 100);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -99,7 +125,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Image
-              src="/images/logo.png"
+              src="/images/logo.webp"
               alt="Learning Souls Logo"
               width={80}
               height={80}
@@ -117,6 +143,9 @@ const Navbar = () => {
                   label={link.label}
                   href={link.href}
                   items={link.items}
+                  isOpen={openDropdown === link.label}
+                  onOpen={() => handleDropdownOpen(link.label)}
+                  onClose={handleDropdownClose}
                 />
               ) : (
                 <NavItem key={link.href} href={link.href} label={link.label} />

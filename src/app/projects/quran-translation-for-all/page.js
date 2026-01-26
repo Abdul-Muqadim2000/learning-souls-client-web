@@ -102,25 +102,25 @@ const projectData = {
         title: "God Edition",
         description:
           "With out Arabic. Suitable for western non Muslim readers. Names and places are in English",
-        image: "/images/ucb1.png",
+        image: "/images/ucb1.webp",
       },
       {
         title: "Allah Edition",
         description:
           "Arabic and English in two columns Ayah by Ayah. Names and places are Arabic",
-        image: "/images/ucb2.jpg",
+        image: "/images/ucb2.webp",
       },
       {
         title: "Tajweed Edition",
         description:
           "Allah Edition with Arabic in Colour tajweed Best for Kids who are learning to recite Quran",
-        image: "/images/ucb4.jpg",
+        image: "/images/ucb4.webp",
       },
       {
         title: "Advanced Learners Edition",
         description:
           "Allah edition with word by word meaning in the Arabic section",
-        image: "/images/ucb5.jpg",
+        image: "/images/ucb5.webp",
       },
     ],
   },
@@ -134,7 +134,7 @@ export default function QuranTranslationPage() {
         title={projectData.hero.title}
         bannerTitle={projectData.banner.title}
         bannerSubtitle={projectData.banner.subtitle}
-       heroImage="/images/quran-translationn.jpg"
+        heroImage="/images/quran-translationn.webp"
       />
 
       {/* Editions Showcase Section */}

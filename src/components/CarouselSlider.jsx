@@ -109,7 +109,7 @@ const CarouselSlider = ({
     >
       {/* Title */}
       {title && (
-        <GenericHeader title={title} height={"xs"} textColor={textColor} />
+        <GenericHeader title={title} height={"lg"} textColor={textColor} />
       )}
 
       <div

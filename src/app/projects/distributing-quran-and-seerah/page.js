@@ -27,7 +27,7 @@ const projectData = {
   hero: {
     title: "Distributing Quran And Seerah",
     subtitle: "At NHS Hospitals and HM prisons",
-    image: "/images/project1.png",
+    image: "/images/project1.webp",
   },
   content: {
     title:
@@ -39,7 +39,7 @@ const projectData = {
   },
   books: [
     {
-      imageUrl: "/images/product1.jpg",
+      imageUrl: "/images/product1.webp",
       imageAltText: "The Meaning of THE WISE QURAN",
       title: "The Meaning of THE WISE QURAN",
       description:
@@ -50,7 +50,7 @@ const projectData = {
       secondaryButtonHref: "#",
     },
     {
-      imageUrl: "/images/product2.jpg",
+      imageUrl: "/images/product2.webp",
       imageAltText: "MUHAMMAD - A Prophet for Our Time",
       title: "MUHAMMAD - A Prophet for Our Time",
       description:
@@ -61,7 +61,7 @@ const projectData = {
       secondaryButtonHref: "#",
     },
     {
-      imageUrl: "/images/product3.jpg",
+      imageUrl: "/images/product3.webp",
       imageAltText: "MUHAMMAD - His Life Based on the Earliest Sources",
       title: "MUHAMMAD - His Life Based on the Earliest Sources",
       description:

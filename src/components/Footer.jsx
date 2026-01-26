@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <div className="mb-6 flex justify-center md:justify-start">
               <Image
-                src="/images/logo.png"
+                src="/images/logo.webp"
                 alt="Learning Souls Logo"
                 width={120}
                 height={120}
@@ -76,7 +76,7 @@ const Footer = () => {
                 className="h-10 sm:h-12 lg:h-14 w-auto"
               />
               <Image
-                src="/images/footer-charity.png"
+                src="/images/footer-charity.webp"
                 alt="Charity Commission"
                 width={180}
                 height={80}
@@ -88,7 +88,7 @@ const Footer = () => {
 
             <div className="flex justify-center mb-6">
               <Image
-                src="/images/footer-kids.png"
+                src="/images/footer-kids.webp"
                 alt="Khushi Kidz Partner"
                 width={180}
                 height={60}
@@ -104,7 +104,7 @@ const Footer = () => {
                 aria-label="Download on the App Store"
               >
                 <Image
-                  src="/images/app-store.png"
+                  src="/images/app-store.webp"
                   alt="Download on the App Store"
                   width={200}
                   height={60}
@@ -117,7 +117,7 @@ const Footer = () => {
                 aria-label="Get it on Google Play"
               >
                 <Image
-                  src="/images/google-play.png"
+                  src="/images/google-play.webp"
                   alt="Get it on Google Play"
                   width={200}
                   height={60}
