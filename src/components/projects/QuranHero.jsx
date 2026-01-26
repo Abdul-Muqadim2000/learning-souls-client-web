@@ -11,17 +11,21 @@ export default function QuranHero({
       {/* First Row - Hero with Background Image */}
       <div
         className="relative py-36 px-8 overflow-hidden"
-        style={{ backgroundColor: "var(--color-secondary)" }}
+        style={{
+          backgroundColor: heroImage ? "transparent" : "var(--color-secondary)",
+        }}
       >
         {/* Background Image */}
         {heroImage && (
-          <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0">
             <Image
               src={heroImage}
               alt="Background"
               fill
               className="object-cover"
             />
+            {/* Dark overlay for better text readability */}
+            {/* <div className="absolute inset-0 bg-black opacity-40"></div> */}
           </div>
         )}
 

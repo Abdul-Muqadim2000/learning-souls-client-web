@@ -25,6 +25,7 @@ const page = () => {
         bgColor={"var(--color-tertiary)"}
         textColor={"var(--color-primary)"}
         height="xxl"
+        image="/images/books-bg.png"
       />
 
       {/* Cards Section */}

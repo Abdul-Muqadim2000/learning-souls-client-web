@@ -13,20 +13,20 @@ const page = () => {
     <>
       <GenericHeader
         title="About Us"
-        image="/images/app-store.png"
+        image="/images/about-us.jpg"
         textColor={"var(--color-primary)"}
         height="xxl"
       />
 
       <ImageContentSection
-        imageSrc="/images/logo.png"
+        imageSrc="/images/gallery-img7.jpg"
         imageAlt="Our Mission"
         title="Hour History"
-        subtitle="Our Mission"
+        subtitle="From the Start"
         description={[
-          "Caring for others in body and soul is the highest of human behaviours that distinguishes humankind from all other creatures.",
-          "Empowering people with correct knowledge is one of the best ways to help.",
-          "At Learning Souls, we have started our journey with the aim to get people out of darkness into light through enlightening knowledge. We will in sha Allah help people out of material poverty as well as educational poverty. Join us in every project and work towards everlasting success.",
+          "Learning Souls was founded with a vision to promote education and understanding based on Islamic principles, aiming to foster community and interfaith harmony.",
+          "Today, we continue our work with the same commitment, striving to make a lasting positive impact through education",
+          "With the backing of dedicated supporters, we began distributing educational resources and forming partnerships to expand our reach.",
         ]}
         showProfile={true}
         profileImage="/images/profile-pic.jpg"

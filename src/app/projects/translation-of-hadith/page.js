@@ -26,8 +26,9 @@ export const metadata = {
 const projectData = {
   hero: {
     title: "Translation of Hadith",
-    bannerTitle: "Understanding Hadith",
-    bannerSubtitle: "Authentic Translation for All",
+    bannerTitle:
+      "Translations & Publication of 1.34 million Hadith of the Prophet PBUH in English and Urdu",
+    // bannerSubtitle: "Authentic Translation for All",
   },
   whatWeDo: {
     title: "What we are doing?",
@@ -54,9 +55,8 @@ export default function TranslationOfHadithPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Combined Hero + Banner */}
       <QuranHero
-        title={projectData.hero.title}
+        heroImage="/images/translation-hadith.jpg"
         bannerTitle={projectData.hero.bannerTitle}
-        bannerSubtitle={projectData.hero.bannerSubtitle}
       />
 
       {/* What We Are Doing Section - Content Left, Image Right */}
@@ -86,7 +86,7 @@ export default function TranslationOfHadithPage() {
             {/* Right - Image */}
             <div className="relative h-96 md:h-full min-h-100 rounded-lg overflow-hidden shadow-lg">
               <Image
-                src={projectData.whatWeDo.image}
+                src="/images/translation2.jpg"
                 alt="Hadith Books Collection"
                 fill
                 className="object-cover"
