@@ -24,7 +24,7 @@ export default function EditionsShowcase({ title, description, editions }) {
             {editions.slice(0, 2).map((edition, index) => (
               <div
                 key={index}
-                className="flex flex-col md:flex-row overflow-hidden bg-gray-50 rounded-lg hover:shadow-lg transition-shadow min-h-[280px]"
+                className="flex flex-col md:flex-row overflow-hidden bg-gray-100 rounded-lg hover:shadow-lg transition-shadow min-h-[280px]"
               >
                 {/* Image */}
                 <div className="relative w-full md:w-2/5 shrink-0 min-h-[200px] md:min-h-full">

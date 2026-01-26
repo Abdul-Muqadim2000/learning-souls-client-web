@@ -6,10 +6,12 @@ import NavItem from "./NavItem";
 import { DropdownMenu, MobileDropdownMenu } from "./DropdownMenu";
 import { PrimaryButton } from "./ui/Button";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, logout, isAuthenticated } = useAuth();
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -123,10 +125,28 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA Button */}
-          <div className="hidden lg:flex items-center">
-            <Link href="/register">
-              <PrimaryButton text="Donate Now" className="px-6 xl:px-8" />
-            </Link>
+          <div className="hidden lg:flex items-center gap-4">
+            {isAuthenticated ? (
+              <>
+                <Link href="/dashboard">
+                  <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 transition-colors">
+                    <User size={20} />
+                    <span>{user?.username || "Dashboard"}</span>
+                  </button>
+                </Link>
+                <button
+                  onClick={logout}
+                  className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
+                >
+                  <LogOut size={20} />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <Link href="/register">
+                <PrimaryButton text="Donate Now" className="px-6 xl:px-8" />
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -167,13 +187,34 @@ const Navbar = () => {
               </div>
             ),
           )}
-          <div className="pt-2">
-            <Link href="/register">
-              <PrimaryButton
-                text="Get Started"
-                className="w-full justify-center"
-              />
-            </Link>
+          <div className="pt-2 space-y-2">
+            {isAuthenticated ? (
+              <>
+                <Link href="/dashboard" onClick={closeMobileMenu}>
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                    <User size={20} />
+                    <span>{user?.username || "Dashboard"}</span>
+                  </button>
+                </Link>
+                <button
+                  onClick={() => {
+                    logout();
+                    closeMobileMenu();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                >
+                  <LogOut size={20} />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <Link href="/register" onClick={closeMobileMenu}>
+                <PrimaryButton
+                  text="Donate Now"
+                  className="w-full justify-center"
+                />
+              </Link>
+            )}
           </div>
         </div>
       </div>
