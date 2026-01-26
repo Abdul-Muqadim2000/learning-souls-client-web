@@ -28,7 +28,9 @@ export function AuthProvider({ children }) {
     try {
       if (isAuthenticated()) {
         const userData = await getCurrentUser();
-        setUser(userData);
+        // Parse nested data structure if needed
+        const parsedUser = userData.data || userData;
+        setUser(parsedUser);
       }
     } catch (error) {
       console.error("Auth check failed:", error);
@@ -65,9 +67,11 @@ export function AuthProvider({ children }) {
 
       // Fetch user data after successful verification
       const userData = await getCurrentUser();
-      setUser(userData);
+      // Parse nested data structure if needed
+      const parsedUser = userData.data || userData;
+      setUser(parsedUser);
 
-      return { success: true, user: userData };
+      return { success: true, user: parsedUser };
     } catch (error) {
       return { success: false, error: error.message };
     }

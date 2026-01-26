@@ -6,6 +6,7 @@ import LoginForm from "@/components/LoginForm";
 import RegisterForm from "@/components/RegisterForm";
 import OTPForm from "@/components/OTPForm";
 import { useAuth } from "@/contexts/AuthContext";
+import { ArrowLeft } from "lucide-react";
 
 const RegisterPage = () => {
   const { login, register, verifyMFA, isAuthenticated } = useAuth();
@@ -32,7 +33,7 @@ const RegisterPage = () => {
 
     if (result.success) {
       // Show OTP form with challengeId
-      setChallengeId(result.data.challengeId);
+      setChallengeId(result.data.data);
       setAuthType("login");
       setShowOTP(true);
     } else {
@@ -51,6 +52,8 @@ const RegisterPage = () => {
     });
 
     if (result.success) {
+      console.clear();
+      console.log("Registration successful:", result);
       // Show OTP form with challengeId
       setChallengeId(result.data.data);
       setAuthType("register");
@@ -104,7 +107,8 @@ const RegisterPage = () => {
               }}
               className="text-sm text-gray-600 hover:text-gray-800"
             >
-              ← Back to {authType === "login" ? "Login" : "Registration"}
+              <ArrowLeft />
+              Back to {authType === "login" ? "Login" : "Registration"}
             </button>
           </div>
         </div>

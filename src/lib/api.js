@@ -23,6 +23,7 @@ async function fetchWithAuth(url, options = {}) {
     ...options,
     headers,
   });
+  console.log("fetchWithAuth response:", response);
 
   // If token expired, try to refresh
   if (response.status === 401 && accessToken) {
@@ -108,8 +109,11 @@ export async function verifyMFA(challengeId, code) {
   const data = await response.json();
 
   // Store the JWT token
-  if (data.token) {
-    localStorage.setItem("accessToken", data.token);
+  if (data.data.accessToken) {
+    localStorage.setItem("accessToken", data.data.accessToken);
+  }
+  if (data.data.refreshToken) {
+    localStorage.setItem("refreshToken", data.data.refreshToken);
   }
 
   return data;
@@ -175,7 +179,8 @@ export async function getCurrentUser() {
   }
 
   const data = await response.json();
-  return data;
+
+  return data.data;
 }
 
 /**

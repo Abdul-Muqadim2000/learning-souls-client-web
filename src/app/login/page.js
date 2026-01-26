@@ -32,7 +32,8 @@ export default function LoginPage() {
 
     if (result.success) {
       // Show OTP form with challengeId
-      setChallengeId(result.data.challengeId);
+      // Handle nested data structure from API response
+      setChallengeId(result.data.data || result.data.challengeId);
       setShowOTP(true);
     } else {
       setError(result.error || "Login failed. Please try again.");
