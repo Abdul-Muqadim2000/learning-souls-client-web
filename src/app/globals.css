@@ -83,6 +83,38 @@ body {
   animation-delay: 0.7s;
 }
 
+/* ===============================
+   Lantern Animations
+================================ */
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes swing-delayed {
+  0%,
+  100% {
+    transform: rotate(6deg);
+  }
+  50% {
+    transform: rotate(-6deg);
+  }
+}
+
+.animate-swing {
+  animation: swing 3s ease-in-out infinite;
+}
+
+.animate-swing-delayed {
+  animation: swing-delayed 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
 
 /* :root {
   --background: #ffffff;

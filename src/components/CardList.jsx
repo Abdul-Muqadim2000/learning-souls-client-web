@@ -2,16 +2,18 @@ import Link from "next/link";
 import { SecondaryButton } from "./ui/Button";
 import GenericHeader from "./GenericHeader";
 
-const CardList = ({ cards = [] }) => {
+const CardList = ({ cards = [], showTitle = true }) => {
   if (!cards || cards.length === 0) return null;
 
   return (
     <section className="bg-(--color-primary) py-1 sm:py-20 lg:py-20">
-      <GenericHeader
-        title="OUR PROJECTS"
-        textColor={"var(--color-secondary)"}
-        height="md"
-      />
+      {showTitle && (
+        <GenericHeader
+          title="OUR PROJECTS"
+          textColor={"var(--color-secondary)"}
+          height="md"
+        />
+      )}
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">

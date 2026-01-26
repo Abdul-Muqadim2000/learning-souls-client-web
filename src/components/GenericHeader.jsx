@@ -6,6 +6,7 @@ const heightClasses = {
   md: "h-[100px] sm:h-[120px] lg:h-[150px]",
   lg: "h-[140px] sm:h-[160px] lg:h-[200px]",
   xl: "h-[180px] sm:h-[220px] lg:h-[260px]",
+  "2xl": "h-[220px] sm:h-[280px] lg:h-[350px]",
 };
 
 const GenericHeader = ({
@@ -15,10 +16,11 @@ const GenericHeader = ({
   bgColor,
   textColor,
   height = "md",
+  overlay = false,
 }) => {
   return (
     <section
-      className={`w-full flex items-center justify-center ${
+      className={`w-full flex items-center justify-center relative ${
         heightClasses[height]
       }`}
       style={{
@@ -28,7 +30,12 @@ const GenericHeader = ({
         backgroundColor: image ? "transparent" : bgColor || "",
       }}
     >
-      <div className="flex flex-col items-center justify-center">
+      {/* Black overlay for images */}
+      {image && overlay && (
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+      )}
+
+      <div className="flex flex-col items-center justify-center relative z-10">
         <h1
           className="text-[4.5rem] font-black uppercase tracking-[-0.02em] pointer-events-none whitespace-nowrap"
           style={{

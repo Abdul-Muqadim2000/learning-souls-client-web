@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import NavItem from "./NavItem";
 import { DropdownMenu, MobileDropdownMenu } from "./DropdownMenu";
 import { PrimaryButton } from "./ui/Button";
@@ -50,11 +51,25 @@ const Navbar = () => {
         { href: "/downloads/apps", label: "Apps" },
       ],
     },
-    { href: "/about-us", label: "About" },
+    {
+      href: "/about-us",
+      label: "About",
+      isDropdown: true,
+      items: [
+        {
+          href: "/downloads/join-us",
+          label: "Join Us",
+        },
+        {
+          href: "/downloads/contact-us",
+          label: "Contact Us",
+        },
+      ],
+    },
   ];
 
   return (
-    <nav className="w-full bg-white border-b sticky top-0 z-50 shadow-sm">
+    <nav className="w-full bg-white  sticky top-0 z-50 shadow-sm">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
           {/* Logo */}
@@ -87,7 +102,9 @@ const Navbar = () => {
 
           {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center">
-            <PrimaryButton text="Get Started" className="px-6 xl:px-8" />
+            <Link href="/register">
+              <PrimaryButton text="Donate Now" className="px-6 xl:px-8" />
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -128,10 +145,12 @@ const Navbar = () => {
             ),
           )}
           <div className="pt-2">
-            <PrimaryButton
-              text="Get Started"
-              className="w-full justify-center"
-            />
+            <Link href="/register">
+              <PrimaryButton
+                text="Get Started"
+                className="w-full justify-center"
+              />
+            </Link>
           </div>
         </div>
       </div>

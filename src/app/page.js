@@ -55,35 +55,23 @@ export default function Home() {
 
   const upcomingBooksItems = [
     {
-      image: "/images/product1.jpg",
+      image: "/images/ucb1.png",
       heading: "Coming Soon",
     },
     {
-      image: "/images/product2.jpg",
+      image: "/images/ucb2.jpg",
       heading: "Coming Soon",
     },
     {
-      image: "/images/product3.jpg",
+      image: "/images/ucb3.jpg",
       heading: "Coming Soon",
     },
     {
-      image: "/images/project1.png",
+      image: "/images/ucb4.jpg",
       heading: "Coming Soon",
     },
     {
-      image: "/images/project2.png",
-      heading: "Coming Soon",
-    },
-    {
-      image: "/images/project3.jpg",
-      heading: "Coming Soon",
-    },
-    {
-      image: "/images/mission-img.png",
-      heading: "Coming Soon",
-    },
-    {
-      image: "/images/mission-img1.jpg",
+      image: "/images/ucb5.jpg",
       heading: "Coming Soon",
     },
   ];
