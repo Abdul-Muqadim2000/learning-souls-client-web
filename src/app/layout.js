@@ -3,8 +3,9 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import PageWrapper from "@/components/PageWrapper";
 import { Poppins } from "next/font/google";
+import MarqueeRibbon from "@/components/MarqueeRibbon";
 
-const inter = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -32,7 +33,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={poppins.className}>
+        <MarqueeRibbon
+          text="Surely We have made this Quran easy to learn, so is there anyone who would understand! (Al-Quran 54:17,22,32,40)"
+          fontSize="0.875rem"
+          fontWeight="normal"
+          textColor="var(--color-primary)"
+          bgColor="var(--color-tertiary)"
+          gap="16rem"
+          padding="0.5rem"
+          speed={30}
+          separator=""
+        />
         <Navbar />
         <PageWrapper>{children}</PageWrapper>
         <Footer />
