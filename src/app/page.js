@@ -97,6 +97,7 @@ export default function Home() {
         bgColor="var(--color-tertiary)"
         bgImage="/images/books-bg.png"
         textColor="white"
+        scale={0.7}
       />
       <TeamCarousel
         teamMembers={[

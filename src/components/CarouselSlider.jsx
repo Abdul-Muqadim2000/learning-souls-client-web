@@ -13,6 +13,9 @@ const CarouselSlider = ({
   bgColor,
   bgImage,
   textColor,
+  slideWidth = 275,
+  slideHeight = null,
+  scale = 1, // Overall scale of the carousel (0.5 = 50%, 1 = 100%, 1.5 = 150%)
 }) => {
   const [currIndex, setCurrIndex] = useState(0);
   const [dimensions, setDimensions] = useState({ width: 275, height: 300 });
@@ -29,15 +32,15 @@ const CarouselSlider = ({
   // Handle resize
   useEffect(() => {
     const handleResize = () => {
-      const width = Math.max(window.innerWidth * 0.25, 275);
-      const height = window.innerHeight * 0.5;
+      const width = Math.max(window.innerWidth * 0.25, slideWidth);
+      const height = slideHeight || width * 1.4; // Portrait aspect ratio (1:1.4) if not specified
       setDimensions({ width, height });
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [slideWidth, slideHeight]);
 
   const startTimer = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -109,7 +112,10 @@ const CarouselSlider = ({
         <GenericHeader title={title} height={"xs"} textColor={textColor} />
       )}
 
-      <div className="relative max-w-7xl mx-auto">
+      <div
+        className="relative max-w-7xl mx-auto"
+        style={{ transform: `scale(${scale})`, transformOrigin: "center" }}
+      >
         {/* Carousel Body */}
         <div className="py-8 overflow-hidden">
           <div
