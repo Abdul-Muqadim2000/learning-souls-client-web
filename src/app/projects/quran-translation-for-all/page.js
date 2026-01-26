@@ -96,31 +96,31 @@ const projectData = {
   editionsShowcase: {
     title: "Different Styles Of The Presentation For Different Type Of Readers",
     description:
-      "This project started in 2019 with the vision of making the Word of Allah (Quran) as easy to learn as possible. Our goal is to help readers understand the meaning of the Quran so they can read it fluently with comprehension. We have created multiple editions to cater to different learning styles and age groups, ensuring that everyone can access and understand the Holy Quran in the best way suited for them.",
+      "This project started in 2013 with the intention that everyone can learn the meaning of the Quran as soon as they start to read Quran Ayah by Ayah. Initially we translated some Ayahs of the Quran in the language of  7-11 years old to help them understand the initial lessons of the Tajweed and later it extended to the complete Quran. We are not making people Alim through this translation but knowledgeable. Quran Translations has taken over 10 years and is in the final editing and verification process.  We hope it will open the hearts of many Muslims as well as non Muslims to learn more about Islam, Quran and the one who brought it to human kind.",
     editions: [
       {
-        title: "Gilt Edition",
+        title: "God Edition",
         description:
-          "This premium edition features rich Arabic text with an awesome font specifically designed for western kids. It includes premium binding and cover prints with simple words and phrases that make it easy to understand for young readers.",
-        image: "/images/product1.jpg",
+          "With out Arabic. Suitable for western non Muslim readers. Names and places are in English",
+        image: "/images/ucb1.png",
       },
       {
-        title: "Main Edition",
+        title: "Allah Edition",
         description:
-          "Our main edition presents Arabic and English side by side, making it suitable for all readers. It uses simple language perfect for kids while maintaining the beauty and eloquence of the original text with beautiful features and phrases.",
-        image: "/images/product2.jpg",
+          "Arabic and English in two columns Ayah by Ayah. Names and places are Arabic",
+        image: "/images/ucb2.jpg",
       },
       {
-        title: "Revised Edition",
+        title: "Tajweed Edition",
         description:
-          "The revised edition provides Arabic text with precise translation, making it best for kids who are learning to recite the Quran. This edition is perfect for Quran recitation practice and understanding the meanings simultaneously.",
-        image: "/images/product3.jpg",
+          "Allah Edition with Arabic in Colour tajweed Best for Kids who are learning to recite Quran",
+        image: "/images/ucb4.jpg",
       },
       {
         title: "Advanced Learners Edition",
         description:
-          "Designed for serious students, this edition features Arabic text with word-by-word meaning and advanced vocabulary support. It helps learners develop a deeper understanding of the Quranic language and its nuances.",
-        image: "/images/books-bg.png",
+          "Allah edition with word by word meaning in the Arabic section",
+        image: "/images/ucb5.jpg",
       },
     ],
   },
@@ -134,6 +134,7 @@ export default function QuranTranslationPage() {
         title={projectData.hero.title}
         bannerTitle={projectData.banner.title}
         bannerSubtitle={projectData.banner.subtitle}
+       heroImage="/images/quran-translationn.jpg"
       />
 
       {/* Editions Showcase Section */}
@@ -163,7 +164,6 @@ export default function QuranTranslationPage() {
       </ContentSection>
 
       {/* Support Section - Donation Area */}
-     
     </div>
   );
 }
