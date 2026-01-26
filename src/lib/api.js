@@ -196,3 +196,39 @@ export function isAuthenticated() {
 export async function apiCall(endpoint, options = {}) {
   return fetchWithAuth(`${API_URL}${endpoint}`, options);
 }
+
+/**
+ * Update user profile
+ */
+export async function updateProfile(profileData) {
+  const response = await fetchWithAuth(`${API_URL}/user/update-profile`, {
+    method: "PUT",
+    body: JSON.stringify(profileData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Profile update failed");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+/**
+ * Create a donation
+ */
+export async function createDonation(donationData) {
+  const response = await fetchWithAuth(`${API_URL}/payment/donation`, {
+    method: "POST",
+    body: JSON.stringify(donationData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Donation failed");
+  }
+
+  const data = await response.json();
+  return data;
+}
