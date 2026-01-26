@@ -15,7 +15,7 @@ const page = () => {
         title="About Us"
         image="/images/app-store.png"
         textColor={"var(--color-primary)"}
-        height="2xl"  
+        height="xxl"
       />
 
       <ImageContentSection

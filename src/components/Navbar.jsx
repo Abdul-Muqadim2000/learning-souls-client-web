@@ -24,14 +24,20 @@ const Navbar = () => {
         {
           href: "/projects/quran-translation-for-all",
           label: "Quran Translation For All",
+          description:
+            "Making the Quran accessible to everyone through comprehensive translations in multiple languages.",
         },
         {
           href: "/projects/distributing-quran-and-seerah",
           label: "Distributing Quran and Seerah",
+          description:
+            "Distributing the Holy Quran and Seerah books to communities worldwide to spread Islamic knowledge.",
         },
         {
           href: "/projects/translation-of-hadith",
           label: "Translation of Hadith",
+          description:
+            "Translating authentic Hadith collections into multiple languages for better understanding of the Prophet's teachings.",
         },
       ],
     },
@@ -41,14 +47,23 @@ const Navbar = () => {
       isDropdown: true,
       items: [
         {
-          href: "/downloads/book-distribution-project",
+          href: "/downloads/books-distribution-project",
           label: "Books Distribution Project",
+          description:
+            "Download and access Islamic books that are being distributed worldwide to promote Islamic education.",
         },
         {
           href: "/downloads/al-mustafa-translation",
           label: "Al-Mustafa Translation",
+          description:
+            "Access the Al-Mustafa Quran translation with Tajweed, word-by-word meaning, and renowned recitations.",
         },
-        { href: "/downloads/apps", label: "Apps" },
+        {
+          href: "/downloads/apps",
+          label: "Apps",
+          description:
+            "Explore our collection of Islamic mobile applications including Jummah Khutbah, Hadith, and more.",
+        },
       ],
     },
     {
@@ -59,17 +74,24 @@ const Navbar = () => {
         {
           href: "/downloads/join-us",
           label: "Join Us",
+          description:
+            "Become part of our mission to spread Islamic knowledge and contribute to our various projects.",
         },
         {
           href: "/downloads/contact-us",
           label: "Contact Us",
+          description:
+            "Get in touch with us for queries, suggestions, or to learn more about our organization.",
         },
       ],
     },
   ];
 
   return (
-    <nav className="w-full bg-white  sticky top-0 z-50 shadow-sm">
+    <nav
+      className="w-full bg-white sticky top-0 z-50 shadow-sm"
+      style={{ "--navbar-height": "5rem" }}
+    >
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
           {/* Logo */}
@@ -85,7 +107,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 relative">
             {navLinks.map((link, index) =>
               link.isDropdown ? (
                 <DropdownMenu
@@ -125,7 +147,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+        className={`lg:hidden mb-4 overflow-hidden transition-all duration-300 ease-in-out ${
           isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -135,6 +157,7 @@ const Navbar = () => {
               <MobileDropdownMenu
                 key={index}
                 label={link.label}
+                href={link.href}
                 items={link.items}
                 onItemClick={closeMobileMenu}
               />

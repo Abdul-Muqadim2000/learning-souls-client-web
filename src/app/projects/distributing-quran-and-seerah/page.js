@@ -83,7 +83,7 @@ export default function DistributingQuranSeerahPage() {
         subtitle={projectData.hero.subtitle}
         image={projectData.hero.image}
         textColor="white"
-        height="2xl"
+        height="xxl"
         overlay={true}
       />
 

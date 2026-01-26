@@ -24,8 +24,7 @@ const page = () => {
         title="Our Projects"
         bgColor={"var(--color-tertiary)"}
         textColor={"var(--color-primary)"}
-        height="2xl"
-        
+        height="xxl"
       />
 
       {/* Cards Section */}
