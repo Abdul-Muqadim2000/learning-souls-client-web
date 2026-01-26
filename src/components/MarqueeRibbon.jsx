@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const MarqueeRibbon = ({
   text = "Your text here",
@@ -13,12 +13,20 @@ const MarqueeRibbon = ({
   gap = "4rem", // Gap between repeated text
   separator = "•", // Separator between text items
 }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div
       className="w-full overflow-hidden relative"
       style={{
         backgroundColor: bgColor,
         padding: padding,
+        opacity: isMounted ? 1 : 0,
+        transition: "opacity 0.3s ease-in",
       }}
     >
       <div className="marquee-container">
@@ -26,6 +34,7 @@ const MarqueeRibbon = ({
           className="marquee-content"
           style={{
             animation: `marquee ${speed}s linear infinite`,
+            animationPlayState: isMounted ? "running" : "paused",
           }}
         >
           {/* Repeat the content multiple times for seamless loop */}
@@ -56,19 +65,22 @@ const MarqueeRibbon = ({
         .marquee-container {
           display: flex;
           width: 100%;
+          overflow: hidden;
         }
 
         .marquee-content {
           display: flex;
           align-items: center;
           animation: marquee ${speed}s linear infinite;
+          will-change: transform;
+          flex-shrink: 0;
         }
 
         @keyframes marquee {
-          0% {
+          from {
             transform: translateX(0);
           }
-          100% {
+          to {
             transform: translateX(-33.333%);
           }
         }
