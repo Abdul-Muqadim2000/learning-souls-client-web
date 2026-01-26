@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import LoginForm from "@/components/LoginForm";
 import OTPForm from "@/components/OTPForm";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const { login, verifyMFA, isAuthenticated } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -114,5 +114,19 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-gray-600">Loading...</div>
+        </div>
+      }
+    >
+      <LoginPageContent />
+    </Suspense>
   );
 }
