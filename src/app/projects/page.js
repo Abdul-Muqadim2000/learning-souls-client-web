@@ -26,6 +26,7 @@ const page = () => {
         headerTextSize={"9rem"}
         headerTextColor={"var(--color-secondary)"}
         imageSize="scale-90 lg:scale-50"
+        showShapes={true}
         bgColor="var(--color-primary)"
         backgroundImage="/images/Asset-1.webp"
         height="60vh"

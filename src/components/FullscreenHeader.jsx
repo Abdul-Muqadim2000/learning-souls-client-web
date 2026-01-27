@@ -23,6 +23,7 @@ const FullscreenHeader = ({
   helperImage1,
   helperImage2,
   imageSize = "scale-90 lg:scale-100",
+  showShapes = false,
   bgColor = "var(--color-tertiary)",
   textColor = "var(--color-primary)",
   height = "100vh",
@@ -133,38 +134,43 @@ const FullscreenHeader = ({
         {helperImage && (
           <div className="flex items-center justify-center lg:justify-end">
             <div className="relative w-full max-w-2xl aspect-square">
-              {/* Abstract Shape 1 */}
-              <svg
-                className="absolute -top-24 -left-24 w-[140%] h-[140%] rotate-[18deg] z-0 blur-3xl"
-                viewBox="0 0 400 400"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="0"
-                  y="40"
-                  width="300"
-                  height="300"
-                  rx="90"
-                  fill="var(--color-tertiary)"
-                  opacity="0.7"
-                />
-              </svg>
+              {/* Abstract Shapes - Only render if showShapes is true */}
+              {showShapes && (
+                <>
+                  {/* Abstract Shape 1 */}
+                  <svg
+                    className="absolute top-0 left-0 w-[100%] h-[100%] rotate-[18deg] z-0 blur-3xl"
+                    viewBox="0 0 400 400"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="0"
+                      y="40"
+                      width="300"
+                      height="300"
+                      rx="90"
+                      fill="var(--color-tertiary)"
+                      opacity="0.7"
+                    />
+                  </svg>
 
-              {/* Abstract Shape 2 */}
-              <svg
-                className="absolute -bottom-20 -right-20 w-[120%] h-[120%] rotate-[-12deg] z-0 blur-3xl"
-                viewBox="0 0 400 400"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="40"
-                  y="20"
-                  width="300"
-                  height="300"
-                  rx="110"
-                  fill="var(--color-secondary)"
-                />
-              </svg>
+                  {/* Abstract Shape 2 */}
+                  <svg
+                    className="absolute bottom-0 right-0 w-[100%] h-[100%] rotate-[-12deg] z-0 blur-3xl"
+                    viewBox="0 0 400 400"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="40"
+                      y="20"
+                      width="300"
+                      height="300"
+                      rx="110"
+                      fill="var(--color-secondary)"
+                    />
+                  </svg>
+                </>
+              )}
 
               {/* Image Stack */}
               <div className="relative w-full h-full flex items-center justify-center">
