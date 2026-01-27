@@ -22,24 +22,26 @@ const FullscreenHeader = ({
   helperImage,
   bgColor = "var(--color-tertiary)",
   textColor = "var(--color-primary)",
+  height = "100vh",
 }) => {
   return (
     <section
-      className="w-full min-h-screen flex items-center justify-center py-16 lg:px-24"
+      className="w-full flex items-center justify-center py-16 lg:px-24"
       style={{
+        height: height || "100vh",
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundColor: bgColor,
       }}
     >
-      <div className="max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div className="max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-center" style={{ minHeight: height || "100vh" }}>
         {/* Left Column - Content */}
         <div className="flex flex-col justify-center space-y-6">
           {/* Header Text */}
           {headerText && (
             <h1
-              className="uppercase tracking-[-0.02em] font-black leading-[1.1]"
+              className="uppercase tracking-[-0.02em] font-black leading-[1]"
               style={{
                 fontSize: headerTextSize || "clamp(2.5rem, 5vw, 4.5rem)",
                 background:

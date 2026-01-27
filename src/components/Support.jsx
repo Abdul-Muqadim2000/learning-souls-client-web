@@ -2,6 +2,7 @@ import React from "react";
 import GenericHeader from "./GenericHeader";
 import { PrimaryButton } from "./ui/Button";
 import Image from "next/image";
+import Link from "next/link";
 
 const Support = () => {
   return (
@@ -41,8 +42,9 @@ const Support = () => {
                   Partner with us by donating to one of our active campaigns.
                   Your generosity fuels our work.
                 </p>
-
-                <PrimaryButton className="px-14 py-4" text={"Donate Now"} />
+                <Link href="/register">
+                  <PrimaryButton className="px-14 py-4" text={"Donate Now"} />
+                </Link>
               </div>
             </div>
           </div>
