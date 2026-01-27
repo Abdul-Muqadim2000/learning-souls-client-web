@@ -123,7 +123,7 @@ const RegisterPage = () => {
   // If OTP form should be shown
   if (showOTP && challengeId) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="flex items-center justify-center bg-gray-50 py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full">
           {otpError && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">

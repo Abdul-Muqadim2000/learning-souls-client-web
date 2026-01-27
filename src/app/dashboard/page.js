@@ -6,7 +6,8 @@ import { PrimaryButton } from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { updateProfile, createDonation } from "@/lib/api";
-import StripePayment, { PaymentSuccess } from "@/components/StripePayment";
+import StripePaymentForm from "@/components/StripePaymentForm";
+import { PaymentSuccess } from "@/components/StripePayment";
 import {
   LogOut,
   User,
@@ -389,16 +390,20 @@ function DonationContent({ showSuccess, onSuccessShown }) {
         donationData.name = name;
       }
 
+      console.log("Creating donation with data:", donationData);
       const response = await createDonation(donationData);
+      console.log("Donation response:", response);
 
       // Store the payment intent details
-      if (response.data) {
+      if (response && response.data) {
         setPaymentIntent(response.data);
         setStep("payment");
       } else {
+        console.error("Invalid response structure:", response);
         throw new Error("Invalid response from server");
       }
     } catch (error) {
+      console.error("Donation error:", error);
       setResponseMessage({
         type: "error",
         text: error.message || "Failed to create donation. Please try again.",
@@ -442,11 +447,10 @@ function DonationContent({ showSuccess, onSuccessShown }) {
   if (step === "payment" && paymentIntent) {
     return (
       <div className="max-w-3xl">
-        <StripePayment
+        <StripePaymentForm
           clientSecret={paymentIntent.clientSecret}
           amount={amount}
           currency={currency}
-          onError={handlePaymentError}
         />
       </div>
     );

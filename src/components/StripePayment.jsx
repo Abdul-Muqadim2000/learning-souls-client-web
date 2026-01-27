@@ -5,10 +5,19 @@ import { loadStripe } from "@stripe/stripe-js";
 import { CheckCircle } from "lucide-react";
 import { PrimaryButton } from "./ui/Button";
 
+// Check if Stripe publishable key is configured
+const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+
+if (!stripePublishableKey) {
+  console.error(
+    "Stripe publishable key is not configured. Please add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY to your .env.local file.",
+  );
+}
+
 // Load Stripe outside of component to avoid recreating on every render
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-);
+const stripePromise = stripePublishableKey
+  ? loadStripe(stripePublishableKey)
+  : null;
 
 // Main Stripe Payment Component - Redirects to Stripe hosted page
 export default function StripePayment({
@@ -23,37 +32,71 @@ export default function StripePayment({
   useEffect(() => {
     if (!clientSecret) return;
 
+    // Check if Stripe is configured
+    if (!stripePromise) {
+      const configError =
+        "Stripe is not configured. Please check your environment variables.";
+      setError(configError);
+      if (onError) onError(configError);
+      return;
+    }
+
     const redirectToStripe = async () => {
       setIsRedirecting(true);
       try {
         const stripe = await stripePromise;
 
         if (!stripe) {
-          throw new Error("Stripe failed to load");
+          throw new Error(
+            "Failed to load Stripe.js. Please check your internet connection and Stripe publishable key.",
+          );
         }
 
-        // Redirect to Stripe's hosted payment page
-        const { error: stripeError } = await stripe.confirmPayment({
+        console.log(
+          "Redirecting to Stripe payment page with clientSecret:",
+          clientSecret,
+        );
+
+        // Use the Payment Element approach - this will redirect to Stripe's hosted page
+        // Stripe automatically handles the redirect when using confirmPayment
+        const result = await stripe.confirmPayment({
           clientSecret,
           confirmParams: {
             return_url: `${window.location.origin}/dashboard?payment=success`,
+            payment_method_data: {
+              billing_details: {
+                email: currency, // This will be ignored, just placeholder
+              },
+            },
           },
+          redirect: "if_required", // Only redirect if needed (like 3D Secure)
         });
 
-        if (stripeError) {
-          setError(stripeError.message);
-          if (onError) onError(stripeError.message);
+        console.log("Stripe result:", result);
+
+        // If we reach here, payment succeeded without redirect
+        if (result.error) {
+          console.error("Stripe error:", result.error);
+          setError(result.error.message);
+          if (onError) onError(result.error.message);
           setIsRedirecting(false);
+        } else if (
+          result.paymentIntent &&
+          result.paymentIntent.status === "succeeded"
+        ) {
+          // Payment succeeded, redirect to success page
+          window.location.href = `/dashboard?payment=success`;
         }
       } catch (err) {
-        setError(err.message || "Failed to redirect to payment page");
+        console.error("Caught error:", err);
+        setError(err.message || "Failed to process payment");
         if (onError) onError(err.message);
         setIsRedirecting(false);
       }
     };
 
     redirectToStripe();
-  }, [clientSecret, onError]);
+  }, [clientSecret, onError, currency]);
 
   return (
     <div className="max-w-3xl mx-auto">

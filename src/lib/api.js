@@ -219,16 +219,32 @@ export async function updateProfile(profileData) {
  * Create a donation
  */
 export async function createDonation(donationData) {
-  const response = await fetchWithAuth(`${API_URL}/payment/donation`, {
-    method: "POST",
-    body: JSON.stringify(donationData),
-  });
+  try {
+    const response = await fetchWithAuth(`${API_URL}/payment/donation`, {
+      method: "POST",
+      body: JSON.stringify(donationData),
+    });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Donation failed");
+    console.log("Raw response status:", response.status);
+    console.log("Raw response ok:", response.ok);
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("API error response:", error);
+      throw new Error(error.message || "Donation failed");
+    }
+
+    const data = await response.json();
+    console.log("Parsed response data:", data);
+    return data;
+  } catch (error) {
+    console.error("Create donation error:", error);
+    // If it's a network error (backend not running)
+    if (error.message === "Failed to fetch" || error instanceof TypeError) {
+      throw new Error(
+        "Unable to connect to server. Please ensure the backend is running.",
+      );
+    }
+    throw error;
   }
-
-  const data = await response.json();
-  return data;
 }
