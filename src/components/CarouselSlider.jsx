@@ -107,6 +107,7 @@ const CarouselSlider = ({
         backgroundPosition: "center",
       }}
     >
+      
       {/* Title */}
       {title && (
         <GenericHeader title={title} height={"lg"} textColor={textColor} />

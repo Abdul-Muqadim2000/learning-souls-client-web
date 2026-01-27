@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SecondaryButton } from "./ui/Button";
 import GenericHeader from "./GenericHeader";
+import Image from "next/image";
 
 const CardList = ({ cards = [], showTitle = true }) => {
   if (!cards || cards.length === 0) return null;

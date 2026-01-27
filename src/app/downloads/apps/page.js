@@ -89,6 +89,7 @@ export default function Apps() {
         textColor={"var(--color-primary)"}
         bgColor={"var(--color-tertiary)"}
         textSize={"6rem"}
+        image={"/images/about-us.webp"}
       />
       {appsData.map((app) => (
         <FullscreenHeader

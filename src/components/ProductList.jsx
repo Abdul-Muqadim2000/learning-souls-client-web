@@ -35,7 +35,7 @@ const ProductListItem = ({
         </Link>
         <Link
           href={secondaryButtonHref}
-          className="px-8 py-2 bg-white border-2 border-(--color-secondary) text-(--color-secondary) rounded-full text-sm font-semibold hover:bg-(--color-secondary) hover:text-white transition-all duration-300 flex items-center gap-2"
+          className="px-8 py-2 bg-white border-2 border-(--color-secondary) text-(--color-secondary) rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-gray-200 transition-colors"
         >
           <QrCode size={16} />
           {secondaryButtonText}

@@ -57,11 +57,11 @@ function DropdownMenu({ label, items, href, isOpen, onOpen, onClose }) {
           shadow-lg
           z-50
           transition-all duration-200 ease-out
-          min-w-[700px]
+          min-w-[900px]
           origin-top
           ${isOpen ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-4 scale-95 pointer-events-none"}
         `}
-        style={{ left: "-100px" }}
+        style={{ left: "-170px" }}
       >
         <div className="flex">
           {/* Left Column - Options List */}
@@ -73,7 +73,7 @@ function DropdownMenu({ label, items, href, isOpen, onOpen, onClose }) {
                   href={item.href}
                   onMouseEnter={() => setHoveredItem(item)}
                   className={`
-                    block px-4 py-3
+                    block px-4 py-6
                     text-base font-medium
                     rounded-lg
                     transition-all duration-200
@@ -92,9 +92,9 @@ function DropdownMenu({ label, items, href, isOpen, onOpen, onClose }) {
           </div>
 
           {/* Right Column - Dynamic Content Panel */}
-          <div className="w-1/2 p-6 flex flex-col justify-between">
+          <div className="w-1/2 p-6 flex flex-col justify-center ">
             {hoveredItem && (
-              <div className="space-y-4">
+              <div className="space-y-8">
                 <h3 className="text-xl font-bold text-[#09b29d]">
                   {hoveredItem.label}
                 </h3>
@@ -104,12 +104,12 @@ function DropdownMenu({ label, items, href, isOpen, onOpen, onClose }) {
                 <Link
                   href={hoveredItem.href}
                   className="
-                    inline-block px-6 py-2
+                    inline-block px-6 py-3
                     text-sm font-medium
                     text-white bg-[#bd2387]
                     hover:bg-[#9e1e6f]
-                    rounded-lg
                     transition-colors duration-200
+                    rounded-full
                   "
                 >
                   Learn More

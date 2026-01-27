@@ -29,20 +29,42 @@ const Input = ({
 
   // Base input styles using CSS variables
   const baseInputStyles = `
-    w-full px-4 py-3 rounded-lg border-2 
-    bg-[var(--color-primary)] 
-    text-gray-800
-    border-gray-300
-    focus:border-[var(--color-secondary)] 
+    w-full px-6 py-4 
+    bg-[#c8e6df] 
+    text-gray-700
+    placeholder-gray-500
     focus:outline-none 
     focus:ring-2 
-    focus:ring-[var(--color-secondary)]/20
+    focus:ring-[#09b29d]
     transition-all duration-200
     disabled:bg-gray-100 
     disabled:cursor-not-allowed
     disabled:text-gray-500
-    ${error ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""}
+    ${error ? "border-2 border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-0"}
     ${className}
+  `;
+
+  // Specific styles for textarea (rounded corners instead of full)
+  const textareaStyles = `
+    w-full px-6 py-4 rounded-lg
+    bg-[#c8e6df] 
+    text-gray-700
+    placeholder-gray-500
+    focus:outline-none 
+    focus:ring-2 
+    focus:ring-[#09b29d]
+    transition-all duration-200
+    disabled:bg-gray-100 
+    disabled:cursor-not-allowed
+    disabled:text-gray-500
+    resize-y
+    ${error ? "border-2 border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-0"}
+    ${className}
+  `;
+
+  // Regular input styles (rounded-full)
+  const regularInputStyles = `
+    ${baseInputStyles} rounded-full
   `;
 
   // Label styles
@@ -68,7 +90,7 @@ const Input = ({
             required={required}
             disabled={disabled}
             rows={rows}
-            className={baseInputStyles}
+            className={textareaStyles}
             {...rest}
           />
         );
@@ -83,7 +105,7 @@ const Input = ({
             onChange={onChange}
             required={required}
             disabled={disabled}
-            className={baseInputStyles}
+            className={regularInputStyles}
             {...rest}
           >
             {placeholder && (
@@ -111,14 +133,14 @@ const Input = ({
               placeholder={placeholder}
               required={required}
               disabled={disabled}
-              className={baseInputStyles}
+              className={regularInputStyles}
               {...rest}
             />
             {showPasswordToggle && (
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[var(--color-secondary)] transition-colors"
+                className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#09b29d] transition-colors"
                 tabIndex={-1}
               >
                 {showPassword ? (
@@ -174,7 +196,7 @@ const Input = ({
             placeholder={placeholder}
             required={required}
             disabled={disabled}
-            className={baseInputStyles}
+            className={regularInputStyles}
             {...rest}
           />
         );

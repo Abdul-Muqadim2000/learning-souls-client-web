@@ -3,6 +3,7 @@ import EditionsShowcase from "@/components/projects/EditionsShowcase";
 import ContentSection from "@/components/projects/ContentSection";
 
 import FeatureList from "@/components/projects/FeatureList";
+import Image from "next/image";
 
 // Metadata for SEO
 export const metadata = {
@@ -147,8 +148,17 @@ export default function QuranTranslationPage() {
       {/* Main Content - Different Styles Section */}
 
       {/* Purchase Information & Features Section */}
-      <ContentSection className="bg-gray-100">
-        <div className="max-w-6xl mx-auto">
+      <ContentSection className="relative bg-gray-100">
+        <Image
+          src="/images/white-bg1.jpg"
+          alt="Background"
+          fill
+          priority
+          className="object-cover "
+        />
+
+        <div className="absolute inset-0 bg-white/50"></div>
+        <div className="relative max-w-6xl mx-auto">
           <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-8">
             {projectData.purchaseInfo.text}
           </p>

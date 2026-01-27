@@ -100,13 +100,13 @@ const Navbar = () => {
       isDropdown: true,
       items: [
         {
-          href: "/downloads/join-us",
+          href: "/join-us",
           label: "Join Us",
           description:
             "Become part of our mission to spread Islamic knowledge and contribute to our various projects.",
         },
         {
-          href: "/downloads/contact-us",
+          href: "/contact-us",
           label: "Contact Us",
           description:
             "Get in touch with us for queries, suggestions, or to learn more about our organization.",
@@ -120,7 +120,7 @@ const Navbar = () => {
       className="w-full bg-white sticky top-0 z-50 shadow-sm"
       style={{ "--navbar-height": "5rem" }}
     >
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-8xl mx-auto px-8 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
           {/* Logo */}
           <div className="flex-shrink-0">
@@ -135,7 +135,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8 relative">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-14 relative">
             {navLinks.map((link, index) =>
               link.isDropdown ? (
                 <DropdownMenu
@@ -200,7 +200,7 @@ const Navbar = () => {
           isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="px-4 pt-2 pb-4 space-y-3 bg-white border-t">
+        <div className="px-8 pt-2 pb-4 space-y-3 bg-white border-t">
           {navLinks.map((link, index) =>
             link.isDropdown ? (
               <MobileDropdownMenu

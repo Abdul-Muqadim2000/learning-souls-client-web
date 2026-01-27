@@ -97,8 +97,18 @@ export default function TranslationOfHadithPage() {
       </section>
 
       {/* Translation & Publication Section */}
-      <ContentSection className="bg-gray-100">
-        <div className="max-w-6xl mx-auto">
+      <ContentSection className="relative bg-gray-100">
+        <Image
+          src="/images/white-bg1.jpg"
+          alt="Background"
+          fill
+          priority
+          className="object-cover "
+        />
+
+        <div className="absolute inset-0 bg-white/50"></div>
+
+        <div className="relative max-w-6xl mx-auto">
           <h2
             className="text-2xl md:text-3xl font-bold mb-8 text-center"
             style={{ color: "var(--color-tertiary)" }}

@@ -9,6 +9,9 @@ const FullscreenHeader = ({
   subheaderText,
   helperText,
   listItems,
+  listItemsColor,
+  listItemsFontSize,
+  listItemsBold = false,
   primaryButtonText,
   primaryButtonLink,
   primaryButtonIcon,
@@ -77,8 +80,11 @@ const FullscreenHeader = ({
           {/* List Items */}
           {listItems && listItems.length > 0 && (
             <ul
-              className="space-y-2 text-sm sm:text-base lg:text-lg"
-              style={{ color: textColor }}
+              className={`space-y-2 text-sm sm:text-base lg:text-lg ${listItemsBold ? "font-bold" : ""}`}
+              style={{
+                color: listItemsColor || textColor,
+                fontSize: listItemsFontSize || undefined,
+              }}
             >
               {listItems.map((item, index) => (
                 <li key={index} className="flex items-start gap-2">
@@ -117,7 +123,7 @@ const FullscreenHeader = ({
         {/* Right Column - Helper Image */}
         {helperImage && (
           <div className="flex items-center justify-center lg:justify-end">
-            <div className="relative w-full max-w-lg aspect-square">
+            <div className="relative w-full max-w-2xl aspect-square">
               <Image
                 src={helperImage}
                 alt="Helper illustration"

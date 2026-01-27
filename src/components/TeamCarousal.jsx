@@ -138,6 +138,16 @@ const TeamCarousel = ({ teamMembers = [] }) => {
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#f5f5f5] overflow-hidden py-10 px-5">
+      <Image
+        src="/images/white-bg1.jpg"
+        alt="Background"
+        fill
+        priority
+        className="object-cover "
+      />
+
+      <div className="absolute inset-0 bg-white/50"></div>
+
       {/* Title with gradient effect */}
 
       <GenericHeader

@@ -49,9 +49,16 @@ const MarqueeRibbon = ({
                 marginRight: gap,
                 display: "inline-flex",
                 alignItems: "center",
-                gap: gap,
+                gap: "1rem",
               }}
             >
+              {/* Al-Quran Badge */}
+              <span className="bg-white px-4 py-1 rounded shadow-sm inline-block">
+                <span className="text-[#09b29d] font-semibold text-sm">
+                  Al-Quran
+                </span>
+              </span>
+              
               {text}
               {separator && (
                 <span style={{ marginLeft: gap }}>{separator}</span>

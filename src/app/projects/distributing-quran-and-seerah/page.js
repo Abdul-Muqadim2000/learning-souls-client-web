@@ -106,6 +106,7 @@ export default function DistributingQuranSeerahPage() {
 
           {/* Description Paragraphs */}
           <div className="space-y-6">
+            
             {projectData.content.paragraphs.map((paragraph, index) => (
               <p
                 key={index}
@@ -131,31 +132,29 @@ export default function DistributingQuranSeerahPage() {
           {/* Books Grid with Titles and Descriptions */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
             {projectData.books.map((book, index) => (
-              <div key={index} className="flex flex-col items-center max-w-sm">
+              <div key={index} className="flex flex-col w-full max-w-sm">
                 {/* Book Image */}
-                <div className="w-72.5 h-100 rounded-lg shadow-2xl overflow-hidden mb-6">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={book.imageUrl}
-                      alt={book.imageAltText}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                <div className="relative w-full aspect-[3/4] rounded-lg shadow-2xl overflow-hidden mb-6">
+                  <Image
+                    src={book.imageUrl}
+                    alt={book.imageAltText}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
 
                 {/* Book Title */}
-                <h3 className="text-xl font-bold text-gray-800 mb-3 text-center">
+                <h3 className="text-xl font-bold text-gray-800 mb-3 text-center min-h-[3.5rem] flex items-center justify-center">
                   {book.title}
                 </h3>
 
                 {/* Book Description */}
-                <p className="text-gray-600 text-sm leading-relaxed text-center mb-6 px-4">
+                <p className="text-gray-600 text-sm leading-relaxed text-center mb-6 px-4 flex-grow">
                   {book.description}
                 </p>
 
                 {/* Buttons */}
-                <div className="flex gap-4">
+                <div className="flex gap-4 justify-center">
                   <a
                     href={book.primaryButtonHref}
                     className="px-8 py-2 bg-[#bd2387] text-white rounded-full text-sm font-semibold hover:bg-[#a01d72] transition-all duration-300 flex items-center gap-2"

@@ -38,7 +38,7 @@ export default function AlMustafaTranslation() {
         textColor="var(--color-primary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        backgroundImage={"/images/al-mustafa-header.webp"}
+        backgroundImage={"/images/al-mustafa1.png"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - ALLAH EDITION"}
@@ -48,11 +48,15 @@ export default function AlMustafaTranslation() {
           "Suitable for all readers, universally accessible",
           "Designed to be understood in just one read",
         ]}
+        listItemsColor="var(--color-tertiary)"
+        listItemsFontSize="clamp(1rem, 2vw, 1.25rem)"
+        listItemsBold={true}
         textColor="var(--color-secondary)"
         bgColor="var(--color-primary)"
         primaryButtonText={"Coming Soon"}
         primaryButtonLink={"#"}
-        // backgroundImage={"/images/al-mustafa-header.webp"}
+        backgroundImage={"/images/Asset-1.png"}
+        helperImage={"/images/ucb2.webp"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - TAJWEED EDITION"}
@@ -67,7 +71,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        // backgroundImage={"/images/al-mustafa-header.webp"}
+        helperImage={"/images/ucb4.webp"}
       />
       <FullscreenHeader
         subheaderText={
@@ -79,11 +83,15 @@ export default function AlMustafaTranslation() {
           "Arabic text with word-by-word translations.",
           "Designed for readers seeking a deeper translation of the Quran",
         ]}
+        listItemsColor="var(--color-tertiary)"
+        listItemsFontSize="clamp(1rem, 2vw, 1.25rem)"
+        listItemsBold={true}
         textColor="var(--color-secondary)"
         bgColor="var(--color-primary)"
         primaryButtonText={"Coming Soon"}
         primaryButtonLink={"#"}
-        // backgroundImage={"/images/al-mustafa-header.webp"}
+        backgroundImage={"/images/Asset-1.png"}
+        helperImage={"/images/ucb5.webp"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - EASY URDU TRANSLATION"}
@@ -93,11 +101,11 @@ export default function AlMustafaTranslation() {
           "Word by word and full Ayah translations",
           "Easiest translation for Urdu readers",
         ]}
-        textColor="var(--color-primary)"
+        helperImage={"/images/ucb3.webp"}
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        // backgroundImage={"/images/al-mustafa-header.webp"}
+        // backgroundImage={"/images/Asset-1.png"}
       />
 
       {/* FAQ Section */}

@@ -14,8 +14,18 @@ const ImageContentSection = ({
   signatureImage = "/images/signature.webp",
 }) => {
   return (
-    <section className="bg-[var(--color-primary)] py-24 sm:py-28 lg:py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24 sm:py-28 lg:py-12">
+      <Image
+        src="/images/white-bg1.jpg"
+        alt="Background"
+        fill
+        priority
+        className="object-cover "
+      />
+
+      <div className="absolute inset-0 bg-white/50"></div>
+
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Image (Left) */}
           <div className="relative w-full h-[320px] sm:h-[400px] lg:h-[510px] rounded-xl overflow-hidden shadow-xl">
