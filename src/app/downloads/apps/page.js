@@ -1,5 +1,7 @@
 import GenericHeader from "@/components/GenericHeader";
 import FullscreenHeader from "@/components/FullscreenHeader";
+import Image from "next/image";
+import { SecondaryButton } from "@/components/ui/Button";
 
 export const metadata = {
   title: "Apps - Learning Souls",
@@ -21,6 +23,8 @@ const appsData = [
     bgColor: "var(--color-primary)",
     headerTextColor: "var(--color-secondary)",
     textColor: "var(--color-tertiary)",
+    backgroundImage: "/images/Asset-1.png",
+    helperImage: "/images/Khutbah-jumma.jpg",
   },
   {
     id: 2,
@@ -37,6 +41,7 @@ const appsData = [
     bgColor: "var(--color-secondary)",
     headerTextColor: "var(--color-primary)",
     textColor: "yellow",
+    helperImage: "/images/Name-of-Allah.svg",
   },
   {
     id: 3,
@@ -57,6 +62,8 @@ const appsData = [
     bgColor: "var(--color-primary)",
     headerTextColor: "var(--color-secondary)",
     textColor: "var(--color-tertiary)",
+    backgroundImage: "/images/Asset-1.png",
+    helperImage: "/images/project3.webp",
   },
   {
     id: 4,
@@ -77,6 +84,7 @@ const appsData = [
     bgColor: "var(--color-secondary)",
     headerTextColor: "var(--color-primary)",
     textColor: "yellow",
+    helperImage: "/images/project2.webp",
   },
 ];
 
@@ -103,8 +111,180 @@ export default function Apps() {
           bgColor={app.bgColor}
           headerTextColor={app.headerTextColor}
           textColor={app.textColor}
+          backgroundImage={app.backgroundImage}
+          helperImage={app.helperImage}
         />
       ))}
+
+      {/* Our Sponsors Section */}
+      <section
+        className="w-full py-16 px-4 relative"
+        style={{
+          backgroundImage: "url(/images/Asset-1.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundColor: "white",
+        }}
+      >
+        {/* White overlay for readability */}
+        <div className="absolute inset-0 bg-white/30"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Title */}
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-center text-[#09b29d] mb-12 md:mb-16">
+            OUR SPONSORS
+          </h2>
+
+          {/* Two Columns Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Left Column */}
+            <div className="flex flex-col items-center space-y-6">
+              {/* Image */}
+              <div className="relative w-full max-w-md aspect-square">
+                <Image
+                  src="/images/khushii-quran-stories.png"
+                  alt="Khushii Quran Stories"
+                  fill
+                  className="object-contain rounded-lg"
+                />
+              </div>
+
+              {/* Title */}
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
+                Khushii Quran Stories
+              </h3>
+
+              {/* Unordered List */}
+              <ul className="space-y-3 w-full text-[#bd2387] text-lg font-bold text-justify">
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Engaging stories from the Quran designed for children and
+                    families
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Beautiful illustrations to bring Islamic teachings to life
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>Interactive learning experience for young minds</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Available in multiple languages for global accessibility
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Audio narration to enhance storytelling experience
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>Educational content approved by Islamic scholars</span>
+                </li>
+              </ul>
+
+              {/* Button */}
+              <div className="pt-4">
+                <SecondaryButton
+                  as="a"
+                  href="#"
+                  text="Coming Soon"
+                  className="px-8 py-3"
+                />
+              </div>
+            </div>
+
+            {/* Right Column */}
+            <div className="flex flex-col items-center space-y-6">
+              {/* Image */}
+              <div className="relative w-full max-w-md aspect-square">
+                <Image
+                  src="/images/Khushi.jpg"
+                  alt="Khushii Dua App"
+                  fill
+                  className="object-contain rounded-lg"
+                />
+              </div>
+
+              {/* Title */}
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
+                Khushii Dua App
+              </h3>
+
+              {/* Unordered List */}
+              <ul className="space-y-3 w-full text-[#bd2387] text-lg font-bold text-justify">
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Comprehensive collection of daily Islamic prayers and
+                    supplications
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Easy-to-read Arabic text with transliteration and
+                    translation
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Audio recitations by renowned scholars for proper
+                    pronunciation
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Categorized duas for different occasions and needs
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>Bookmark and favorite your most-used prayers</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>
+                    Daily reminders to help maintain spiritual practices
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>Offline access to all content for convenience</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>Share duas with family and friends easily</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1">•</span>
+                  <span>Regular updates with new content and features</span>
+                </li>
+              </ul>
+
+              {/* Button */}
+              <div className="pt-4">
+                <SecondaryButton
+                  as="a"
+                  href="#"
+                  text="Coming Soon"
+                  className="px-8 py-3"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

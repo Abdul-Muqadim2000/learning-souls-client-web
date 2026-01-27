@@ -48,6 +48,8 @@ const page = () => {
         bgColor={"var(--color-secondary)"}
         textColor={"var(--color-primary)"}
         height="xxl"
+        image="/images/downloads-bg.jpg"
+        overlay={true}
       />
 
       {/* Cards Section */}

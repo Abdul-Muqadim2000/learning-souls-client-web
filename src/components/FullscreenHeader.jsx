@@ -111,7 +111,7 @@ const FullscreenHeader = ({
                 <SecondaryButton
                   as="a"
                   href={secondaryButtonLink}
-                  className="px-6 xl:px-8 bg-(--color-tertiary) text-(--color-primary) hover:bg-(--color-tertiary)-700 border-0"
+                  className="px-8 py-2 bg-white border-2 border-(--color-secondary) text-(--color-secondary) rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-gray-200 transition-colors"
                   text={secondaryButtonText}
                   icon={secondaryButtonIcon}
                 />

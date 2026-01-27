@@ -85,8 +85,7 @@ export default function ContactUs() {
         title="Contact Us"
         image="/images/contact-us.jpg"
         textColor="white"
-        height="md"
-        overlay={true}
+        height="xxl"
       />
 
       {/* Section 2: Form Section */}
