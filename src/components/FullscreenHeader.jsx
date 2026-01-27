@@ -22,6 +22,7 @@ const FullscreenHeader = ({
   helperImage,
   helperImage1,
   helperImage2,
+  imageSize = "scale-90 lg:scale-100",
   bgColor = "var(--color-tertiary)",
   textColor = "var(--color-primary)",
   height = "100vh",
@@ -194,7 +195,7 @@ const FullscreenHeader = ({
                 )}
 
                 {/* Front Image */}
-                <div className="relative scale-90 lg:scale-50 z-20">
+                <div className={`relative ${imageSize} z-20`}>
                   <Image
                     src={helperImage}
                     alt="Helper illustration main"

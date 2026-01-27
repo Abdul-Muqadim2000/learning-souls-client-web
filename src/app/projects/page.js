@@ -25,6 +25,7 @@ const page = () => {
         headerText={"Our Projects"}
         headerTextSize={"9rem"}
         headerTextColor={"var(--color-secondary)"}
+        imageSize="scale-90 lg:scale-50"
         bgColor="var(--color-primary)"
         backgroundImage="/images/Asset-1.webp"
         height="60vh"

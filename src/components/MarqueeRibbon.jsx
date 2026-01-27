@@ -21,7 +21,7 @@ const MarqueeRibbon = ({
 
   return (
     <div
-      className="w-full overflow-hidden relative"
+      className="w-full overflow-hidden relative z-100"
       style={{
         backgroundColor: bgColor,
         padding: padding,
@@ -54,11 +54,11 @@ const MarqueeRibbon = ({
             >
               {/* Al-Quran Badge */}
               <span className="bg-white px-4 py-1 rounded shadow-sm inline-block">
-                <span className="text-[#09b29d] font-semibold text-sm">
+                <span className="text-(--color-secondary) font-semibold text-sm">
                   Al-Quran
                 </span>
               </span>
-              
+
               {text}
               {separator && (
                 <span style={{ marginLeft: gap }}>{separator}</span>

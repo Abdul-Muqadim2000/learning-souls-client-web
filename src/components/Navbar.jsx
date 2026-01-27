@@ -117,7 +117,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="w-full bg-white sticky top-0 z-50 shadow-sm"
+      className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-100 shadow-sm"
       style={{ "--navbar-height": "5rem" }}
     >
       <div className="max-w-8xl mx-auto px-8 sm:px-6 lg:px-8">
