@@ -48,7 +48,7 @@ const page = () => {
         bgColor={"var(--color-secondary)"}
         textColor={"var(--color-primary)"}
         height="xxl"
-        image="/images/downloads-bg.jpg"
+        image="/images/downloads-bg.webp"
         overlay={true}
       />
 

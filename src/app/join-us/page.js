@@ -110,7 +110,7 @@ export default function JoinUs() {
     <div className="w-full">
       {/* Section 1: Generic Header */}
       <GenericHeader
-        image="/images/join-us.jpg"
+        image="/images/join-us.webp"
         textColor="white"
         height="xxl"
         // overlay={true}

@@ -16,7 +16,7 @@ const ImageContentSection = ({
   return (
     <section className="relative py-24 sm:py-28 lg:py-12">
       <Image
-        src="/images/white-bg1.jpg"
+        src="/images/white-bg1.webp"
         alt="Background"
         fill
         priority

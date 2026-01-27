@@ -24,7 +24,7 @@ const appsData = [
     headerTextColor: "var(--color-secondary)",
     textColor: "var(--color-tertiary)",
     backgroundImage: "/images/Asset-1.png",
-    helperImage: "/images/Khutbah-jumma.jpg",
+    helperImage: "/images/Khutbah-jumma.webp",
   },
   {
     id: 2,
@@ -207,7 +207,7 @@ export default function Apps() {
               {/* Image */}
               <div className="relative w-full max-w-md aspect-square">
                 <Image
-                  src="/images/Khushi.jpg"
+                  src="/images/Khushi.webp"
                   alt="Khushii Dua App"
                   fill
                   className="object-contain rounded-lg"

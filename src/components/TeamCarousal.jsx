@@ -139,7 +139,7 @@ const TeamCarousel = ({ teamMembers = [] }) => {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#f5f5f5] overflow-hidden py-10 px-5">
       <Image
-        src="/images/white-bg1.jpg"
+        src="/images/white-bg1.webp"
         alt="Background"
         fill
         priority

@@ -83,7 +83,7 @@ export default function ContactUs() {
       {/* Section 1: Generic Header */}
       <GenericHeader
         title="Contact Us"
-        image="/images/contact-us.jpg"
+        image="/images/contact-us.webp"
         textColor="white"
         height="xxl"
       />

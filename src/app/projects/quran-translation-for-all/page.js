@@ -150,7 +150,7 @@ export default function QuranTranslationPage() {
       {/* Purchase Information & Features Section */}
       <ContentSection className="relative bg-gray-100">
         <Image
-          src="/images/white-bg1.jpg"
+          src="/images/white-bg1.webp"
           alt="Background"
           fill
           priority
