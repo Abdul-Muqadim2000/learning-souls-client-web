@@ -50,6 +50,7 @@ const page = () => {
         height="xxl"
         image="/images/downloads-bg.webp"
         overlay={true}
+        textSize={"6rem"}
       />
 
       {/* Cards Section */}

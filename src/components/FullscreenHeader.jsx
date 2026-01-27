@@ -20,6 +20,8 @@ const FullscreenHeader = ({
   secondaryButtonIcon,
   backgroundImage,
   helperImage,
+  helperImage1,
+  helperImage2,
   bgColor = "var(--color-tertiary)",
   textColor = "var(--color-primary)",
   height = "100vh",
@@ -35,7 +37,10 @@ const FullscreenHeader = ({
         backgroundColor: bgColor,
       }}
     >
-      <div className="max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-center" style={{ minHeight: height || "100vh" }}>
+      <div
+        className="max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
+        style={{ minHeight: height || "100vh" }}
+      >
         {/* Left Column - Content */}
         <div className="flex flex-col justify-center space-y-6">
           {/* Header Text */}
@@ -123,16 +128,83 @@ const FullscreenHeader = ({
         </div>
 
         {/* Right Column - Helper Image */}
+        {/* Right Column - Helper Image with Abstract SVG Shapes */}
         {helperImage && (
           <div className="flex items-center justify-center lg:justify-end">
             <div className="relative w-full max-w-2xl aspect-square">
-              <Image
-                src={helperImage}
-                alt="Helper illustration"
-                fill
-                className="object-contain"
-                priority
-              />
+              {/* Abstract Shape 1 */}
+              <svg
+                className="absolute -top-24 -left-24 w-[140%] h-[140%] rotate-[18deg] z-0 blur-3xl"
+                viewBox="0 0 400 400"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="0"
+                  y="40"
+                  width="300"
+                  height="300"
+                  rx="90"
+                  fill="var(--color-tertiary)"
+                  opacity="0.7"
+                />
+              </svg>
+
+              {/* Abstract Shape 2 */}
+              <svg
+                className="absolute -bottom-20 -right-20 w-[120%] h-[120%] rotate-[-12deg] z-0 blur-3xl"
+                viewBox="0 0 400 400"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="40"
+                  y="20"
+                  width="300"
+                  height="300"
+                  rx="110"
+                  fill="var(--color-secondary)"
+                />
+              </svg>
+
+              {/* Image Stack */}
+              <div className="relative w-full h-full flex items-center justify-center">
+                {/* Back Left Image */}
+                {helperImage1 && (
+                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 scale-50 z-10 opacity-80">
+                    <Image
+                      src={helperImage1}
+                      alt="Helper illustration left"
+                      width={500}
+                      height={500}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+
+                {/* Back Right Image */}
+                {helperImage2 && (
+                  <div className="absolute -right-12 top-1/2 -translate-y-1/2 scale-50 z-10 opacity-80">
+                    <Image
+                      src={helperImage2}
+                      alt="Helper illustration right"
+                      width={500}
+                      height={500}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+
+                {/* Front Image */}
+                <div className="relative scale-90 lg:scale-50 z-20">
+                  <Image
+                    src={helperImage}
+                    alt="Helper illustration main"
+                    width={600}
+                    height={600}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </div>
             </div>
           </div>
         )}

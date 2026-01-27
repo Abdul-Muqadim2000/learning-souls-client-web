@@ -23,7 +23,7 @@ const appsData = [
     bgColor: "var(--color-primary)",
     headerTextColor: "var(--color-secondary)",
     textColor: "var(--color-tertiary)",
-    backgroundImage: "/images/Asset-1.png",
+    backgroundImage: "/images/Asset-1.webp",
     helperImage: "/images/Khutbah-jumma.webp",
   },
   {
@@ -62,7 +62,7 @@ const appsData = [
     bgColor: "var(--color-primary)",
     headerTextColor: "var(--color-secondary)",
     textColor: "var(--color-tertiary)",
-    backgroundImage: "/images/Asset-1.png",
+    backgroundImage: "/images/Asset-1.webp",
     helperImage: "/images/project3.webp",
   },
   {
@@ -120,7 +120,7 @@ export default function Apps() {
       <section
         className="w-full py-16 px-4 relative"
         style={{
-          backgroundImage: "url(/images/Asset-1.png)",
+          backgroundImage: "url(/images/Asset-1.webp)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundColor: "white",
@@ -142,7 +142,7 @@ export default function Apps() {
               {/* Image */}
               <div className="relative w-full max-w-md aspect-square">
                 <Image
-                  src="/images/khushii-quran-stories.png"
+                  src="/images/khushii-quran-stories.webp"
                   alt="Khushii Quran Stories"
                   fill
                   className="object-contain rounded-lg"

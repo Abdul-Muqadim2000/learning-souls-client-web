@@ -176,10 +176,15 @@ const RegisterPage = () => {
                 <h1 className="text-4xl font-bold mb-4">
                   {isLogin ? "Welcome Back!" : "Join Us Today!"}
                 </h1>
-                <p className="text-white/80 max-w-sm mx-auto">
+                {/* <p className="text-white/80 max-w-sm mx-auto">
                   {isLogin
                     ? "To stay connected with us please login with your personal info"
                     : "Create an account to access all our features and resources"}
+                </p> */}
+                <p className="mt-8 text-white/80 max-w-sm mx-auto">
+                  {isLogin
+                    ? "Or create a new account if you don't have one"
+                    : "Or login if you already have an account"}
                 </p>
               </div>
 
@@ -189,7 +194,7 @@ const RegisterPage = () => {
                   setIsLogin(!isLogin);
                   setError("");
                 }}
-                className="mt-8 px-8 py-3 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-[#09b29d] transition-all duration-300"
+                className="px-8 py-3 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-[#09b29d] transition-all duration-300"
               >
                 {isLogin ? "REGISTER" : "LOGIN"}
               </button>
@@ -201,10 +206,10 @@ const RegisterPage = () => {
             <div className="max-w-md mx-auto w-full">
               {/* Welcome Text */}
               <div className="mb-8">
-                <h1 className="text-5xl font-bold text-gray-800 mb-2 lowercase">
-                  welcome
-                </h1>
-                <p className="text-gray-500">
+                {/* <h1 className="text-5xl font-bold text-gray-800 mb-2 lowercase">
+                  {isLogin ? "Welcome Back" : "Welcome Aboard!"}
+                </h1> */}
+                <p className="text-gray-500 text-lg font-bold">
                   {isLogin
                     ? "Login in to your account to continue"
                     : "Create your account to get started"}

@@ -24,9 +24,13 @@ const page = () => {
       <FullscreenHeader
         headerText={"Our Projects"}
         headerTextSize={"9rem"}
-        backgroundImage="/images/books-bg.webp"
+        headerTextColor={"var(--color-secondary)"}
+        bgColor="var(--color-primary)"
+        backgroundImage="/images/Asset-1.webp"
         height="60vh"
         helperImage={"/images/ucb1.webp"}
+        helperImage1={"/images/ucb2.webp"}
+        helperImage2={"/images/ucb3.webp"}
       />
       {/* Cards Section */}
       <CardList cards={cardListData} showTitle={false} />
