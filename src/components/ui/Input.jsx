@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 /**
@@ -31,7 +32,8 @@ const Input = ({
   const baseInputStyles = `
     w-full px-6 py-4 
     bg-[#c8e6df] 
-    text-gray-700
+    text-gray-900
+    font-semibold
     placeholder-gray-500
     focus:outline-none 
     focus:ring-2 
@@ -48,7 +50,7 @@ const Input = ({
   const textareaStyles = `
     w-full px-6 py-4 rounded-lg
     bg-[#c8e6df] 
-    text-gray-700
+    text-gray-900
     placeholder-gray-500
     focus:outline-none 
     focus:ring-2 
@@ -98,27 +100,32 @@ const Input = ({
       case "select":
       case "dropdown":
         return (
-          <select
-            id={inputId}
-            name={name}
-            value={value}
-            onChange={onChange}
-            required={required}
-            disabled={disabled}
-            className={regularInputStyles}
-            {...rest}
-          >
-            {placeholder && (
-              <option value="" disabled>
-                {placeholder}
-              </option>
-            )}
-            {options.map((option, index) => (
-              <option key={index} value={option.value || option}>
-                {option.label || option}
-              </option>
-            ))}
-          </select>
+          <div className="relative inline-block w-full">
+            <select
+              id={inputId}
+              name={name}
+              value={value}
+              onChange={onChange}
+              required={required}
+              disabled={disabled}
+              className={`${regularInputStyles} appearance-none pr-12`}
+              {...rest}
+            >
+              {placeholder && (
+                <option value="" disabled>
+                  {placeholder}
+                </option>
+              )}
+              {options.map((option, index) => (
+                <option key={index} value={option.value || option}>
+                  {option.label || option}
+                </option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+              <ChevronDown />
+            </span>
+          </div>
         );
 
       case "password":

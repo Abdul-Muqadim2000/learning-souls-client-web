@@ -38,7 +38,7 @@ export default function AlMustafaTranslation() {
         textColor="var(--color-primary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        backgroundImage={"/images/al-mustafa1.webp"}
+        backgroundImage={"/images/al-mustafa1.png"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - ALLAH EDITION"}
