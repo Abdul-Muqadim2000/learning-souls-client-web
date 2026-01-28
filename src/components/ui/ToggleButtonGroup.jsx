@@ -55,8 +55,13 @@ const ToggleButtonGroup = ({
       >
         {options.map((option) => {
           const optionValue = option.value || option;
+          const optionColor = option.color || option;
           const optionLabel = option.label || option;
           const optionDescription = option.description || "";
+          const optionBadge = option.badge; // Badge text to display
+          const optionBadgeImage = option.badgeImage; // Badge image/icon URL
+          const optionBgColor = option.bgColor; // Custom background color
+          const optionTextColor = option.textColor; // Custom text color
           const isSelected = value === optionValue;
 
           return (
@@ -64,23 +69,64 @@ const ToggleButtonGroup = ({
               key={optionValue}
               type="button"
               onClick={() => onChange(optionValue)}
+              style={{
+                ...(optionBgColor && isSelected
+                  ? { backgroundColor: optionBgColor }
+                  : optionBgColor && !isSelected
+                    ? { backgroundColor: optionBgColor, opacity: 0.7 }
+                    : {}),
+                ...(optionTextColor ? { color: optionTextColor } : {}),
+              }}
               className={`
-                px-6 py-4 rounded-full
+                relative px-6 py-4 rounded-full
                 transition-all duration-200
                 font-medium text-center
-                focus:outline-none focus:ring-2 focus:ring-[#09b29d]
+                focus:outline-none cursor-pointer
+                overflow-visible
                 ${
-                  isSelected
-                    ? "bg-[#c8e6df] text-gray-900 border-2 border-[#09b29d]"
-                    : "bg-white border-2 border-gray-300 text-gray-700 hover:border-[#09b29d] hover:bg-gray-50"
+                  optionBgColor
+                    ? isSelected
+                      ? `${!optionTextColor ? "text-gray-900" : ""} border-0 shadow-lg scale-105 focus:shadow-xl`
+                      : `${!optionTextColor ? "text-gray-700" : ""} border-0 shadow hover:shadow-lg hover:scale-102 focus:shadow-lg focus:scale-100`
+                    : isSelected
+                      ? `bg-[#c8e6df] ${!optionTextColor ? "text-gray-900" : ""} border-2 border-[#09b29d] focus:ring-2 focus:ring-[#09b29d]`
+                      : `bg-white border-2 border-gray-300 ${!optionTextColor ? "text-gray-700" : ""} hover:border-[#09b29d] hover:bg-gray-50 focus:ring-2 focus:ring-[#09b29d]`
                 }
               `}
             >
-              <div className="text-base font-semibold">{optionLabel}</div>
+              {/* Tilted Badge in corner */}
+              {(optionBadge || optionBadgeImage) && (
+                <div className="absolute -top-2 -right-2 z-20">
+                  <span
+                    className={`
+                      inline-flex items-center gap-1.5
+                      px-2.5 py-1  rounded-md text-xs font-bold
+                      shadow-md border transform rotate-15
+                      transition-all duration-200
+                      ${
+                        isSelected
+                          ? "bg-white border-white scale-110"
+                          : "bg-white text-gray-700 border-gray-300"
+                      }
+                    `}
+                  >
+                    {optionBadgeImage && (
+                      <img
+                        src={optionBadgeImage}
+                        alt=""
+                        className="w-6 h-6 object-contain"
+                      />
+                    )}
+                    {optionBadge && <span>{optionBadge}</span>}
+                  </span>
+                </div>
+              )}
+
+              <div className="text-base font-semibold relative z-10">
+                {optionLabel}
+              </div>
               {optionDescription && (
-                <div
-                  className={`text-xs mt-1 ${isSelected ? "text-gray-600" : "text-gray-500"}`}
-                >
+                <div className={`text-xs mt-1 relative z-10`}>
                   {optionDescription}
                 </div>
               )}

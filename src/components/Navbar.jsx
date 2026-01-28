@@ -121,9 +121,9 @@ const Navbar = () => {
       style={{ "--navbar-height": "5rem" }}
     >
       <div className="max-w-8xl mx-auto px-8 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
+        <div className="relative flex items-center justify-between h-16 sm:h-20 lg:h-24">
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 z-10">
             <Image
               src="/images/logo.webp"
               alt="Learning Souls Logo"
@@ -134,8 +134,8 @@ const Navbar = () => {
             />
           </div>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-14 relative">
+          {/* Desktop Navigation Links - Centered to viewport */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-14 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             {navLinks.map((link, index) =>
               link.isDropdown ? (
                 <DropdownMenu
@@ -154,7 +154,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA Button */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4 z-10">
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard">
@@ -181,7 +181,11 @@ const Navbar = () => {
                   />
                 </Link>
                 <Link href="/donate">
-                  <PrimaryButton text="Donate Now" className="px-6 xl:px-8" icon={HandCoinsIcon} />
+                  <PrimaryButton
+                    text="Donate Now"
+                    className="px-6 xl:px-8"
+                    icon={HandCoinsIcon}
+                  />
                 </Link>
               </>
             )}

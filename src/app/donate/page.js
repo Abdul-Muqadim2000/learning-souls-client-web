@@ -4,7 +4,13 @@ import { useState } from "react";
 import SecondaryButton, { PrimaryButton } from "@/components/ui/Button";
 import Input, { NumberInput, EmailInput, Select } from "@/components/ui/Input";
 import ToggleButtonGroup from "@/components/ui/ToggleButtonGroup";
-import { ChevronRight, Loader2 } from "lucide-react";
+import {
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Mail,
+} from "lucide-react";
 
 export default function DonatePage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -132,10 +138,12 @@ export default function DonatePage() {
 
           {/* Navigation Buttons */}
           <div className="flex justify-between mt-6">
-            {currentStep > 1 && (
+            {currentStep > 0 && (
               <SecondaryButton
                 onClick={handleBack}
                 text="Back"
+                icon={ChevronLeft}
+                disabled={currentStep === 1}
                 className="hover:text-white"
               />
             )}
@@ -148,9 +156,23 @@ export default function DonatePage() {
             ) : (
               <PrimaryButton
                 onClick={handleSubmit}
-                text={isLoading ? "Processing..." : "Complete Donation"}
-                icon={isLoading ? Loader2 : undefined}
-                className="ml-auto bg-green-600 hover:bg-green-700"
+                text={
+                  isLoading
+                    ? "Processing..."
+                    : formData.paymentMethod === "stripe"
+                      ? "Proceed to Stripe Payment"
+                      : formData.paymentMethod === "paypal"
+                        ? "Proceed to PayPal Payment"
+                        : "Submit & Get Bank Details"
+                }
+                icon={isLoading ? Loader2 : CheckCircle}
+                className={`ml-auto ${
+                  formData.paymentMethod === "stripe"
+                    ? "!bg-[#635BFF] hover:!bg-[#5349e6]"
+                    : formData.paymentMethod === "paypal"
+                      ? "!bg-[#2790C3] hover:!bg-[#1f7ba8]"
+                      : "!bg-green-600 hover:!bg-green-700"
+                }`}
                 iconClassName={isLoading ? "animate-spin" : ""}
                 disabled={isLoading}
               />
@@ -566,18 +588,28 @@ function Step3({ formData, updateFormData }) {
         options={[
           {
             value: "stripe",
-            label: "💳 Card Payment",
+            label: "Card Payment",
             description: "Pay with Debit/Credit Card",
+            // badge: "Stripe",
+            textColor: "#ffffff",
+            badgeImage: "/icons/stripe-logo.svg",
+            bgColor: "#635BFF",
           },
           {
             value: "paypal",
-            label: "🅿️ PayPal",
+            label: "PayPal",
             description: "Pay with PayPal",
+            // badge: "PayPal",
+            textColor: "#ffffff",
+            badgeImage: "/icons/paypal-logo.svg",
+            bgColor: "#2790C3",
           },
           {
             value: "bank-transfer",
-            label: "🏦 Bank Transfer",
-            description: "Manual bank transfer",
+            label: "Bank Transfer",
+            description: "Manual transfer",
+            badge: <Mail size={16} strokeWidth={3} />,
+            bgColor: "#f0f9ff",
           },
         ]}
         value={formData.paymentMethod}
@@ -585,7 +617,7 @@ function Step3({ formData, updateFormData }) {
         columns={3}
         responsiveColumns={{ sm: 1, md: 3, lg: 3 }}
       />
-      <p className="text-xs mb-4 italic">
+      <p className="text-xs mb-4 italic text-end">
         {formData.paymentMethod === "stripe" &&
           "You'll be redirected to Stripe's secure payment page"}
         {formData.paymentMethod === "paypal" &&

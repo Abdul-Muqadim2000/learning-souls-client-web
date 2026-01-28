@@ -35,6 +35,8 @@ const Input = ({
     text-gray-900
     font-semibold
     placeholder-gray-500
+    border-2
+    hover:border-(--color-secondary)
     focus:outline-none 
     focus:ring-2 
     focus:ring-[#09b29d]
@@ -42,7 +44,7 @@ const Input = ({
     disabled:bg-gray-100 
     disabled:cursor-not-allowed
     disabled:text-gray-500
-    ${error ? "border-2 border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-0"}
+    ${error ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-300 focus:border-[#09b29d]"}
     ${className}
   `;
 
@@ -52,6 +54,7 @@ const Input = ({
     bg-[#c8e6df] 
     text-gray-900
     placeholder-gray-500
+    border-2
     focus:outline-none 
     focus:ring-2 
     focus:ring-[#09b29d]
@@ -60,7 +63,7 @@ const Input = ({
     disabled:cursor-not-allowed
     disabled:text-gray-500
     resize-y
-    ${error ? "border-2 border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-0"}
+    ${error ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-300 focus:border-[#09b29d]"}
     ${className}
   `;
 
