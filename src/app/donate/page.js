@@ -4,10 +4,11 @@ import { useState } from "react";
 import SecondaryButton, { PrimaryButton } from "@/components/ui/Button";
 import Input, { NumberInput, EmailInput, Select } from "@/components/ui/Input";
 import ToggleButtonGroup from "@/components/ui/ToggleButtonGroup";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Loader2 } from "lucide-react";
 
 export default function DonatePage() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     // Step 1: Donation Details
     donationFrequency: "one-time", // 'one-time' or 'monthly'
@@ -22,6 +23,8 @@ export default function DonatePage() {
     addressLine: "",
     city: "",
     country: "",
+    // Step 3: Payment Method
+    paymentMethod: "stripe", // 'paypal', 'stripe', 'bank-transfer'
   });
 
   const updateFormData = (field, value) => {
@@ -41,9 +44,39 @@ export default function DonatePage() {
   };
 
   const handleSubmit = async () => {
-    // TODO: Server communication will be implemented here
-    console.log("Final donation data:", formData);
-    alert("Donation submitted! (Server integration pending)");
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/public/donate`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Donation failed");
+      }
+
+      console.log("Response data:", data);
+
+      // Handle Stripe/PayPal redirect
+      if (data.data?.redirectUrl) {
+        window.location.href = data.data.redirectUrl;
+        return;
+      }
+
+      // Handle other payment methods (bank transfer, etc.)
+      alert(data.message || "Donation submitted successfully!");
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error submitting donation:", error);
+      alert(error.message || "Failed to process donation. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -93,10 +126,12 @@ export default function DonatePage() {
           {currentStep === 2 && (
             <Step2 formData={formData} updateFormData={updateFormData} />
           )}
-          {currentStep === 3 && <Step3 formData={formData} />}
+          {currentStep === 3 && (
+            <Step3 formData={formData} updateFormData={updateFormData} />
+          )}
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8 pt-6 border-t">
+          <div className="flex justify-between mt-6">
             {currentStep > 1 && (
               <SecondaryButton
                 onClick={handleBack}
@@ -113,8 +148,11 @@ export default function DonatePage() {
             ) : (
               <PrimaryButton
                 onClick={handleSubmit}
-                text="Complete Donation"
+                text={isLoading ? "Processing..." : "Complete Donation"}
+                icon={isLoading ? Loader2 : undefined}
                 className="ml-auto bg-green-600 hover:bg-green-700"
+                iconClassName={isLoading ? "animate-spin" : ""}
+                disabled={isLoading}
               />
             )}
           </div>
@@ -448,7 +486,7 @@ function Step2({ formData, updateFormData }) {
 }
 
 // Step 3: Payment (Placeholder)
-function Step3({ formData }) {
+function Step3({ formData, updateFormData }) {
   return (
     <div className="space-y-6">
       <div>
@@ -523,9 +561,41 @@ function Step3({ formData }) {
           </div>
         </div>
       </div>
+      <ToggleButtonGroup
+        label="Select Payment Method"
+        options={[
+          {
+            value: "stripe",
+            label: "💳 Card Payment",
+            description: "Pay with Debit/Credit Card",
+          },
+          {
+            value: "paypal",
+            label: "🅿️ PayPal",
+            description: "Pay with PayPal",
+          },
+          {
+            value: "bank-transfer",
+            label: "🏦 Bank Transfer",
+            description: "Manual bank transfer",
+          },
+        ]}
+        value={formData.paymentMethod}
+        onChange={(value) => updateFormData("paymentMethod", value)}
+        columns={3}
+        responsiveColumns={{ sm: 1, md: 3, lg: 3 }}
+      />
+      <p className="text-xs mb-4 italic">
+        {formData.paymentMethod === "stripe" &&
+          "You'll be redirected to Stripe's secure payment page"}
+        {formData.paymentMethod === "paypal" &&
+          "You'll be redirected to PayPal's secure payment page"}
+        {formData.paymentMethod === "bank-transfer" &&
+          "Bank transfer details will be sent to your email"}
+      </p>
 
-      {/* Payment Placeholder */}
-      <div className="bg-blue-50 border-2 border-blue-300 border-dashed rounded-lg p-8 text-center">
+      {/* Payment Method Info */}
+      {/* <div className="bg-blue-50 border-2 border-blue-300 border-dashed rounded-lg p-8 text-center">
         <div className="text-blue-600 mb-3">
           <svg
             className="w-16 h-16 mx-auto"
@@ -542,17 +612,27 @@ function Step3({ formData }) {
           </svg>
         </div>
         <h3 className="text-xl font-semibold text-blue-900 mb-2">
-          Payment Integration Coming Soon
+          {formData.paymentMethod === "stripe" &&
+            "Card Payment - Integration Coming Soon"}
+          {formData.paymentMethod === "paypal" &&
+            "PayPal - Integration Coming Soon"}
+          {formData.paymentMethod === "bank-transfer" &&
+            "Bank Transfer Details Will Be Sent"}
         </h3>
         <p className="text-blue-700 mb-4">
-          Stripe payment gateway will be integrated here
+          {formData.paymentMethod === "stripe" &&
+            "You'll be redirected to Stripe's secure payment page"}
+          {formData.paymentMethod === "paypal" &&
+            "You'll be redirected to PayPal's secure payment page"}
+          {formData.paymentMethod === "bank-transfer" &&
+            "Bank transfer details will be sent to your email"}
         </p>
         <div className="text-sm text-blue-600">
           <p>✓ Secure payment processing</p>
           <p>✓ Multiple payment methods</p>
           <p>✓ Instant receipt via email</p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

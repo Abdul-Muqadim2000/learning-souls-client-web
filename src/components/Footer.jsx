@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, MailIcon } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -132,7 +132,11 @@ const Footer = () => {
         <div className="border-t border-(--color-primary)/20 pt-4 sm:pt-6">
           <div className="flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm gap-2 sm:gap-4">
             <p className="text-center sm:text-left">
-              © {currentYear} Learning Souls
+              © {currentYear} Learning Souls <span className="ml-6">|</span>
+              <a href="mailto:admin@learningsouls.org" className="ml-6">
+                <MailIcon className="inline-block mr-1" size={14} />{" "}
+                admin@learningsouls.org
+              </a>
             </p>
             <p className="text-center sm:text-right">
               REGISTERED CHARITY NUMBER: 1211998

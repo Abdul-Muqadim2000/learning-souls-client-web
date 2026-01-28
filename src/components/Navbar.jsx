@@ -4,9 +4,9 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import NavItem from "./NavItem";
 import { DropdownMenu, MobileDropdownMenu } from "./DropdownMenu";
-import { PrimaryButton } from "./ui/Button";
+import SecondaryButton, { PrimaryButton } from "./ui/Button";
 import Image from "next/image";
-import { Menu, X, User, LogOut } from "lucide-react";
+import { Menu, X, User, LogOut, MailIcon, HandCoinsIcon } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
@@ -172,9 +172,18 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              <Link href="/register">
-                <PrimaryButton text="Donate Now" className="px-6 xl:px-8" />
-              </Link>
+              <>
+                <Link href="mailto:admin@learningsouls.org">
+                  <SecondaryButton
+                    text="Contact Us"
+                    className="px-6 xl:px-8"
+                    icon={MailIcon}
+                  />
+                </Link>
+                <Link href="/donate">
+                  <PrimaryButton text="Donate Now" className="px-6 xl:px-8" icon={HandCoinsIcon} />
+                </Link>
+              </>
             )}
           </div>
 
