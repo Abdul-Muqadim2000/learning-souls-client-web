@@ -137,6 +137,13 @@ const Footer = () => {
                 <MailIcon className="inline-block mr-1" size={14} />{" "}
                 admin@learningsouls.org
               </a>
+              <span className="ml-6">|</span>
+              <a
+                href="/terms-and-conditions"
+                className="ml-6 hover:underline transition-all duration-200"
+              >
+                Terms & Conditions
+              </a>
             </p>
             <p className="text-center sm:text-right">
               REGISTERED CHARITY NUMBER: 1211998
