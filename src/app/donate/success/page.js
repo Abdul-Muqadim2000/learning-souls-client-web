@@ -8,7 +8,7 @@ import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 function DonateSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
-  const [countdown, setCountdown] = useState(10);
+  const [countdown, setCountdown] = useState(120);
 
   useEffect(() => {
     // Countdown timer for auto-redirect

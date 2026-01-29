@@ -198,6 +198,80 @@ export async function apiCall(endpoint, options = {}) {
 }
 
 /**
+ * Request password reset - sends reset email
+ */
+export async function requestPasswordReset(email) {
+  const response = await fetch(`${API_URL}/auth/reset-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Password reset request failed");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+/**
+ * Request password setup (for users created via donation)
+ */
+export async function requestPasswordSetup(email) {
+  const response = await fetch(`${API_URL}/auth/request-password-setup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Password setup request failed");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+/**
+ * Complete password setup with token
+ */
+export async function setupPassword(token, password, passwordConfirm) {
+  const response = await fetch(`${API_URL}/auth/setup-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token, password, passwordConfirm }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Password setup failed");
+  }
+
+  const data = await response.json();
+
+  // Store the JWT tokens after successful setup
+  if (data.data?.tokens) {
+    if (data.data.tokens.accessToken) {
+      localStorage.setItem("accessToken", data.data.tokens.accessToken);
+    }
+    if (data.data.tokens.refreshToken) {
+      localStorage.setItem("refreshToken", data.data.tokens.refreshToken);
+    }
+  }
+
+  return data;
+}
+
+/**
  * Update user profile
  */
 export async function updateProfile(profileData) {

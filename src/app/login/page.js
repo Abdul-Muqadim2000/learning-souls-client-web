@@ -196,12 +196,18 @@ function LoginPageContent() {
                       required
                     />
 
-                    <div className="text-right">
+                    <div className="flex justify-between items-center text-sm">
                       <Link
-                        href="/forgot-password"
-                        className="text-sm text-gray-500 hover:text-[#09b29d]"
+                        href="/login/setup-password/request"
+                        className="text-gray-500 hover:text-[#09b29d] transition-colors"
                       >
-                        Forgot your password?
+                        New user? Set up password first.
+                      </Link>
+                      <Link
+                        href="/login/reset-password"
+                        className="text-gray-500 hover:text-[#09b29d] transition-colors"
+                      >
+                        Forgot password?
                       </Link>
                     </div>
                   </>
