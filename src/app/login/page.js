@@ -82,7 +82,7 @@ function LoginPageContent() {
   };
 
   return (
-    <div className=" flex items-center justify-center bg-gray-100 py-22 px-4">
+    <div className="flex items-center justify-center bg-gray-100 py-22 px-4">
       <div className="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
           {/* Left Side - Green Background with Leaf Shape */}

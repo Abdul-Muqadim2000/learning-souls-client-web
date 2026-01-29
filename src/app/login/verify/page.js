@@ -106,7 +106,7 @@ function VerifyPageContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4">
+    <div className=" flex items-center justify-center bg-gray-100 py-22 px-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
           {/* Icon */}
