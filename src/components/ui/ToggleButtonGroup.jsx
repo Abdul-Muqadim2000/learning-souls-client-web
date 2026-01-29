@@ -62,13 +62,15 @@ const ToggleButtonGroup = ({
           const optionBadgeImage = option.badgeImage; // Badge image/icon URL
           const optionBgColor = option.bgColor; // Custom background color
           const optionTextColor = option.textColor; // Custom text color
+          const optionDisabled = option.disabled || false; // Disabled state
           const isSelected = value === optionValue;
 
           return (
             <button
               key={optionValue}
               type="button"
-              onClick={() => onChange(optionValue)}
+              onClick={() => !optionDisabled && onChange(optionValue)}
+              disabled={optionDisabled}
               style={{
                 ...(optionBgColor && isSelected
                   ? { backgroundColor: optionBgColor }
@@ -81,16 +83,23 @@ const ToggleButtonGroup = ({
                 relative px-6 py-4 rounded-full
                 transition-all duration-200
                 font-medium text-center
-                focus:outline-none cursor-pointer
+                focus:outline-none
                 overflow-visible
                 ${
-                  optionBgColor
+                  optionDisabled
+                    ? "cursor-not-allowed opacity-50 bg-red-100 border-2 border-red-300 text-red-400"
+                    : "cursor-pointer"
+                }
+                ${
+                  !optionDisabled && optionBgColor
                     ? isSelected
                       ? `${!optionTextColor ? "text-gray-900" : ""} border-0 shadow-lg scale-105 focus:shadow-xl`
                       : `${!optionTextColor ? "text-gray-700" : ""} border-0 shadow hover:shadow-lg hover:scale-102 focus:shadow-lg focus:scale-100`
-                    : isSelected
+                    : !optionDisabled && isSelected
                       ? `bg-[#c8e6df] ${!optionTextColor ? "text-gray-900" : ""} border-2 border-[#09b29d] focus:ring-2 focus:ring-[#09b29d]`
-                      : `bg-white border-2 border-gray-300 ${!optionTextColor ? "text-gray-700" : ""} hover:border-[#09b29d] hover:bg-gray-50 focus:ring-2 focus:ring-[#09b29d]`
+                      : !optionDisabled
+                        ? `bg-white border-2 border-gray-300 ${!optionTextColor ? "text-gray-700" : ""} hover:border-[#09b29d] hover:bg-gray-50 focus:ring-2 focus:ring-[#09b29d]`
+                        : ""
                 }
               `}
             >

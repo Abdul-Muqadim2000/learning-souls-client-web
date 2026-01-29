@@ -18,9 +18,10 @@ export default function DonatePage() {
   const [formData, setFormData] = useState({
     // Step 1: Donation Details
     donationFrequency: "one-time", // 'one-time' or 'monthly'
-    projects: [], // Array of selected projects
+    projects: [], // Array of {name, amount} objects
     donationType: "Lillah", // 'Lillah', 'Khairat', 'Kafarah', 'Zakat'
     amount: 50,
+    currency: "GBP", // Default currency
     // Step 2: User Details
     fullname: "",
     email: "",
@@ -29,7 +30,9 @@ export default function DonatePage() {
     addressLine: "",
     city: "",
     country: "",
-    // Step 3: Payment Method
+    // Step 3: Gift Aid
+    giftAid: false,
+    // Step 4: Payment Method
     paymentMethod: "stripe", // 'paypal', 'stripe', 'bank-transfer'
   });
 
@@ -38,7 +41,34 @@ export default function DonatePage() {
   };
 
   const handleNext = () => {
-    if (currentStep < 3) {
+    // Validate step 1: At least one project must be selected
+    if (currentStep === 1) {
+      if (!formData.projects || formData.projects.length === 0) {
+        alert(
+          "Please select at least one project to donate to before proceeding.",
+        );
+        return;
+      }
+    }
+
+    // Validate step 2: Required fields must be filled
+    if (currentStep === 2) {
+      if (!formData.fullname || !formData.email || !formData.phone) {
+        alert(
+          "Please fill in all required fields (Full Name, Email, and Phone Number) before proceeding.",
+        );
+        return;
+      }
+
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+    }
+
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -91,22 +121,24 @@ export default function DonatePage() {
         {/* Progress Indicator */}
         <div className="mb-8">
           <div className="flex items-center w-full">
-            {[1, 2, 3].map((step, index) => (
+            {[1, 2, 3, 4].map((step, index) => (
               <>
                 <div
                   key={step}
                   className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition shrink-0 ${
                     currentStep >= step
-                      ? "border-green-600 bg-green-600 text-white"
+                      ? "border-(--color-secondary) bg-(--color-secondary) text-white"
                       : "border-gray-300 bg-white text-gray-400"
                   }`}
                 >
                   {step}
                 </div>
-                {index < 2 && (
+                {index < 3 && (
                   <div
                     className={`flex-1 h-1 mx-2 transition ${
-                      currentStep > step ? "bg-green-600" : "bg-gray-300"
+                      currentStep > step
+                        ? "bg-(--color-secondary)"
+                        : "bg-gray-300"
                     }`}
                   />
                 )}
@@ -117,8 +149,11 @@ export default function DonatePage() {
             <span className="text-xs font-medium text-gray-600">
               Donation Details
             </span>
-            <span className="text-xs font-medium text-gray-600 mr-10">
+            <span className="text-xs font-medium text-gray-600 mr-14">
               Your Information
+            </span>
+            <span className="text-xs font-medium text-gray-600 mr-18">
+              Gift Aid
             </span>
             <span className="text-xs font-medium text-gray-600">Payment</span>
           </div>
@@ -135,6 +170,9 @@ export default function DonatePage() {
           {currentStep === 3 && (
             <Step3 formData={formData} updateFormData={updateFormData} />
           )}
+          {currentStep === 4 && (
+            <Step4 formData={formData} updateFormData={updateFormData} />
+          )}
 
           {/* Navigation Buttons */}
           <div className="flex justify-between mt-6">
@@ -147,11 +185,17 @@ export default function DonatePage() {
                 className="hover:text-white"
               />
             )}
-            {currentStep < 3 ? (
+            {currentStep < 4 ? (
               <PrimaryButton
                 onClick={handleNext}
                 text="Next"
                 icon={ChevronRight}
+                disabled={
+                  (currentStep === 1 &&
+                    (!formData.projects || formData.projects.length === 0)) ||
+                  (currentStep === 2 &&
+                    (!formData.fullname || !formData.email || !formData.phone))
+                }
               />
             ) : (
               <PrimaryButton
@@ -186,30 +230,38 @@ export default function DonatePage() {
 
 // Step 1: Donation Details
 function Step1({ formData, updateFormData }) {
-  const projects = [
-    "Al-Mustafa Translation",
-    "Distributing Quran and Seerah",
-    "Quran Translation for All",
-    "Translation of Hadith",
-    "Books Distribution Project",
-    "General Fund",
-  ];
+  // Helper function to get currency symbol
+  const getCurrencySymbol = (currency) => {
+    const symbols = {
+      GBP: "£",
+      USD: "$",
+      EUR: "€",
+      AED: "د.إ",
+      SAR: "ر.س",
+      PKR: "₨",
+      INR: "₹",
+    };
+    return symbols[currency] || "$";
+  };
 
-  const suggestedProjects = [
+  const projects = [
     {
-      name: "Emergency Relief Fund",
-      description: "Support urgent needs in crisis situations",
-      image: "/images/ucb1.webp", // Placeholder - you'll provide the actual image
+      name: "Distributing Quran Seerah",
+      description:
+        "Distributing Quran Translations and Seerah Books to Multi-Faith Rooms in NHS Hospitals and HM Prisons Services.",
+      image: "/images/ucb1.webp",
     },
     {
-      name: "Education Scholarships",
-      description: "Help students access quality education",
-      image: "/images/ucb2.webp", // Placeholder - you'll provide the actual image
+      name: "Quran Translations",
+      description:
+        "Publishing & Distributing Quran Translations for Children through Electronic and Paper Media.",
+      image: "/images/ucb2.webp",
     },
     {
-      name: "Water Wells Project",
-      description: "Provide clean water to communities",
-      image: "/images/ucb3.webp", // Placeholder - you'll provide the actual image
+      name: "Encyclopedia of Hadith",
+      description:
+        "Developing a Free, Multi-Language Encyclopedia of Hadith of Prophet Muhammad (PBUH).",
+      image: "/images/ucb3.webp",
     },
   ];
 
@@ -217,23 +269,44 @@ function Step1({ formData, updateFormData }) {
 
   const toggleProject = (projectName) => {
     const currentProjects = formData.projects || [];
-    if (currentProjects.includes(projectName)) {
+    const existingProject = currentProjects.find((p) => p.name === projectName);
+
+    if (existingProject) {
       // Remove project if already selected
       updateFormData(
         "projects",
-        currentProjects.filter((p) => p !== projectName),
+        currentProjects.filter((p) => p.name !== projectName),
       );
     } else {
-      // Add project to the list
-      updateFormData("projects", [...currentProjects, projectName]);
+      // Add project to the list with default amount
+      updateFormData("projects", [
+        ...currentProjects,
+        { name: projectName, amount: 50 },
+      ]);
     }
   };
+
+  const updateProjectAmount = (projectName, amount) => {
+    const currentProjects = formData.projects || [];
+    updateFormData(
+      "projects",
+      currentProjects.map((p) =>
+        p.name === projectName ? { ...p, amount: parseFloat(amount) || 0 } : p,
+      ),
+    );
+  };
+
+  // Get available projects (not selected)
+  const selectedProjectNames = formData.projects.map((p) => p.name);
+  const availableProjects = projects.filter(
+    (project) => !selectedProjectNames.includes(project.name),
+  );
 
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Donation Details
+          Support our Projects
         </h2>
         <p className="text-gray-600">Choose your donation preferences</p>
       </div>
@@ -258,56 +331,119 @@ function Step1({ formData, updateFormData }) {
         columns={2}
       />
 
+      {/* Currency Selection */}
+      <Select
+        label="Currency"
+        value={formData.currency}
+        onChange={(e) => updateFormData("currency", e.target.value)}
+        options={[
+          { value: "GBP", label: "£ British Pound (GBP)" },
+          { value: "USD", label: "$ US Dollar (USD)" },
+          { value: "EUR", label: "€ Euro (EUR)" },
+          { value: "AED", label: "د.إ UAE Dirham (AED)" },
+          { value: "SAR", label: "ر.س Saudi Riyal (SAR)" },
+          { value: "PKR", label: "₨ Pakistani Rupee (PKR)" },
+          { value: "INR", label: "₹ Indian Rupee (INR)" },
+        ]}
+        required
+      />
+
       {/* Project Selection */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-3">
           Select Project(s) to Donate To
         </label>
 
-        {/* Display selected projects */}
+        {/* Display selected projects with amount inputs */}
         {formData.projects && formData.projects.length > 0 && (
-          <div className="mb-3 flex flex-wrap gap-2">
+          <div className="mb-4 space-y-3">
             {formData.projects.map((project) => (
               <div
-                key={project}
-                className="inline-flex items-center gap-2 bg-[#c8e6df] text-gray-900 px-4 py-2 rounded-full text-sm font-medium"
+                key={project.name}
+                className="bg-[#c8e6df] border border-green-300 rounded-lg p-4 flex items-center gap-4"
               >
-                <span>{project}</span>
-                <button
-                  onClick={() => toggleProject(project)}
-                  className="text-gray-600 hover:text-red-600 transition"
-                  aria-label="Remove project"
-                >
-                  ×
-                </button>
+                <div className="flex-1">
+                  <div className="font-semibold text-gray-900">
+                    {project.name}
+                  </div>
+                  <div className="text-sm text-gray-600 mt-1">
+                    {projects.find((p) => p.name === project.name)?.description}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {/* Show amount input only when more than 1 project is selected */}
+                  {formData.projects.length > 1 && (
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 font-medium">
+                        {getCurrencySymbol(formData.currency)}
+                      </span>
+                      <NumberInput
+                        value={project.amount}
+                        onChange={(e) =>
+                          updateProjectAmount(project.name, e.target.value)
+                        }
+                        min="1"
+                        step="0.01"
+                        placeholder="Amount"
+                        className="pl-7 w-32"
+                      />
+                    </div>
+                  )}
+                  <button
+                    onClick={() => toggleProject(project.name)}
+                    className="text-gray-600 hover:text-red-600 transition p-2 hover:bg-red-50 rounded"
+                    aria-label="Remove project"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         )}
 
-        <Select
-          value=""
-          onChange={(e) => {
-            if (e.target.value && !formData.projects.includes(e.target.value)) {
-              toggleProject(e.target.value);
-            }
-          }}
-          placeholder="Choose a project..."
-          options={projects}
-          className="pr-16"
-        />
+        {/* Show dropdown only if there are available projects */}
+        {availableProjects.length > 0 && (
+          <Select
+            value=""
+            onChange={(e) => {
+              if (e.target.value) {
+                toggleProject(e.target.value);
+              }
+            }}
+            placeholder="Choose a project..."
+            options={availableProjects.map((p) => p.name)}
+            className="pr-16"
+          />
+        )}
       </div>
 
-      {/* Suggested Projects - Show when at least one project is selected */}
-      {formData.projects && formData.projects.length > 0 && (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-5">
-          <h3 className="text-base font-semibold text-blue-900 mb-4">
-            Other Projects You Might Like
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {suggestedProjects.map((project) => {
-              const isSelected = formData.projects.includes(project.name);
-              return (
+      {/* Suggested Projects - Show only unselected projects when at least one project is selected */}
+      {formData.projects &&
+        formData.projects.length > 0 &&
+        availableProjects.length > 0 && (
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-5">
+            <h3 className="text-base font-semibold text-blue-900 mb-4">
+              Other Projects You Might Like
+            </h3>
+            <div
+              className={`grid grid-cols-1 gap-4 ${
+                availableProjects.length === 1
+                  ? "sm:grid-cols-1"
+                  : "sm:grid-cols-2"
+              }`}
+            >
+              {availableProjects.map((project) => (
                 <button
                   key={project.name}
                   onClick={() => toggleProject(project.name)}
@@ -318,36 +454,15 @@ function Step1({ formData, updateFormData }) {
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
                     style={{
                       backgroundImage: `url(${project.image})`,
-                      backgroundColor: isSelected ? "#09b29d" : "#6366f1", // Fallback colors
+                      backgroundColor: "#6366f1", // Fallback color
                     }}
                   />
 
                   {/* Overlay */}
-                  <div
-                    className={`absolute inset-0 transition-all duration-200 ${
-                      isSelected
-                        ? "bg-gradient-to-t from-green-900/90 via-green-800/70 to-green-700/50"
-                        : "bg-gradient-to-t from-black/80 via-black/60 to-black/30 group-hover:from-black/70 group-hover:via-black/50 group-hover:to-black/20"
-                    }`}
-                  />
+                  <div className="absolute inset-0 transition-all duration-200 bg-gradient-to-t from-black/80 via-black/50 to-black/30 group-hover:from-black/70 group-hover:via-black/40 group-hover:to-black/20" />
 
                   {/* Content */}
                   <div className="absolute inset-0 p-5 flex flex-col justify-end text-left">
-                    {isSelected && (
-                      <div className="absolute top-3 right-3 bg-white rounded-full p-1">
-                        <svg
-                          className="w-5 h-5 text-green-600"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                    )}
                     <h4 className="font-bold text-white mb-2 leading-tight drop-shadow-lg">
                       {project.name}
                     </h4>
@@ -356,54 +471,75 @@ function Step1({ formData, updateFormData }) {
                     </p>
                   </div>
                 </button>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Donation Type */}
       <ToggleButtonGroup
         label="Donation Type"
-        options={["Lillah", "Khairat", "Kafarah", "Zakat"]}
+        options={[
+          { value: "Lillah", label: "Lillah" },
+          { value: "Khairat", label: "Khairat" },
+          {
+            value: "Kafarah",
+            label: "Kafarah",
+            description: "NOT APPLICABLE",
+            disabled: true,
+          },
+          {
+            value: "Zakat",
+            label: "Zakat",
+            description: "NOT APPLICABLE",
+            disabled: true,
+          },
+        ]}
         value={formData.donationType}
         onChange={(value) => updateFormData("donationType", value)}
         responsiveColumns={{ base: 2, sm: 2, md: 4, lg: 4 }}
       />
 
-      {/* Quick Amount Selection */}
-      <ToggleButtonGroup
-        label="Quick Selection"
-        options={quickAmounts.map((amount) => ({
-          value: amount,
-          label: `$${amount}`,
-        }))}
-        value={formData.amount}
-        onChange={(value) => updateFormData("amount", value)}
-        columns={3}
-      />
-
-      {/* Custom Amount Input */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          OR Enter Custom Amount (USD)
-        </label>
-        <div className="relative">
-          <span className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 text-lg z-10">
-            $
-          </span>
-          <NumberInput
+      {/* Show Quick Amount and Custom Amount when no projects selected OR exactly 1 project selected */}
+      {(!formData.projects ||
+        formData.projects.length === 0 ||
+        formData.projects.length === 1) && (
+        <>
+          {/* Quick Amount Selection */}
+          <ToggleButtonGroup
+            label="Quick Selection"
+            options={quickAmounts.map((amount) => ({
+              value: amount,
+              label: `${getCurrencySymbol(formData.currency)}${amount}`,
+            }))}
             value={formData.amount}
-            onChange={(e) =>
-              updateFormData("amount", parseFloat(e.target.value) || 0)
-            }
-            min="1"
-            step="0.01"
-            placeholder="Enter custom amount"
-            className="pl-10"
+            onChange={(value) => updateFormData("amount", value)}
+            columns={3}
           />
-        </div>
-      </div>
+
+          {/* Custom Amount Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              OR Enter Custom Amount ({formData.currency})
+            </label>
+            <div className="relative">
+              <span className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 text-lg z-10">
+                {getCurrencySymbol(formData.currency)}
+              </span>
+              <NumberInput
+                value={formData.amount}
+                onChange={(e) =>
+                  updateFormData("amount", parseFloat(e.target.value) || 0)
+                }
+                min="1"
+                step="0.01"
+                placeholder="Enter custom amount"
+                className="pl-10"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -507,8 +643,81 @@ function Step2({ formData, updateFormData }) {
   );
 }
 
-// Step 3: Payment (Placeholder)
+// Step 3: Gift Aid
 function Step3({ formData, updateFormData }) {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          Reclaim Gift Aid
+        </h2>
+        <p className="text-gray-600 mb-6">
+          Add 25% more to your donation at no cost to you. A Gift Aid
+          declaration allows Learning Souls: Books of Light to claim tax back on
+          eligible donations. It means that for every £1 you donate to Learning
+          Souls: Books of Light we can claim back 25p, at no extra cost to you.
+        </p>
+      </div>
+
+      {/* Gift Aid Checkbox */}
+      <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6">
+        <label className="flex items-start gap-4 cursor-pointer group">
+          <div className="relative flex items-center justify-center mt-1">
+            <input
+              type="checkbox"
+              checked={formData.giftAid}
+              onChange={(e) => updateFormData("giftAid", e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-6 h-6 border-2 border-gray-400 rounded bg-white transition-all peer-checked:bg-[#09b29d] peer-checked:border-[#09b29d] peer-focus:ring-2 peer-focus:ring-[#09b29d] peer-focus:ring-offset-2 flex items-center justify-center">
+              {formData.giftAid && (
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+            </div>
+          </div>
+          <div className="flex-1">
+            <span className="text-base font-semibold text-gray-900 group-hover:text-green-700 transition">
+              Yes, I would like to claim Gift Aid (optional)
+            </span>
+            <p className="text-sm text-gray-700 mt-3 leading-relaxed">
+              By ticking the "Yes" box, I agree I would like Learning Souls:
+              Books of Light to reclaim the tax on all qualifying donations I
+              have made, as well as any future donations, until I notify them
+              otherwise. I understand that if I pay less Income Tax and/or
+              Capital Gains Tax than the amount of Gift Aid claimed on all my
+              donations in that tax year I may be asked to pay any difference. I
+              understand that Learning Souls: Books of Light will reclaim 25p of
+              tax on every £1 that I give.
+            </p>
+          </div>
+        </label>
+      </div>
+
+      {/* Additional Information */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-5">
+        <h3 className="font-semibold text-blue-900 mb-2">Please Note:</h3>
+        <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+          <li>You must be a UK taxpayer</li>
+          <li>You must have paid at least as much tax as we will reclaim</li>
+          <li>You can cancel your Gift Aid declaration at any time</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// Step 4: Payment
+function Step4({ formData, updateFormData }) {
   return (
     <div className="space-y-6">
       <div>
@@ -533,9 +742,36 @@ function Step3({ formData, updateFormData }) {
           <div className="flex flex-col space-y-1">
             <span className="text-gray-700">Project(s):</span>
             <div className="font-medium text-gray-900">
-              {formData.projects && formData.projects.length > 0
-                ? formData.projects.join(", ")
-                : "General Fund"}
+              {formData.projects && formData.projects.length > 0 ? (
+                <div className="space-y-2 mt-2">
+                  {formData.projects.map((project) => (
+                    <div
+                      key={project.name}
+                      className="flex justify-between items-center bg-white rounded px-3 py-2"
+                    >
+                      <span className="text-gray-800">{project.name}</span>
+                      <span className="font-semibold text-green-700">
+                        {formData.currency === "GBP"
+                          ? "£"
+                          : formData.currency === "EUR"
+                            ? "€"
+                            : formData.currency === "AED"
+                              ? "د.إ"
+                              : formData.currency === "SAR"
+                                ? "ر.س"
+                                : formData.currency === "PKR"
+                                  ? "₨"
+                                  : formData.currency === "INR"
+                                    ? "₹"
+                                    : "$"}
+                        {project.amount.toFixed(2)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                "General Fund"
+              )}
             </div>
           </div>
           <div className="flex justify-between">
@@ -545,9 +781,27 @@ function Step3({ formData, updateFormData }) {
             </span>
           </div>
           <div className="flex justify-between pt-3 border-t border-green-300">
-            <span className="text-gray-700 font-semibold">Amount:</span>
+            <span className="text-gray-700 font-semibold">Total Amount:</span>
             <span className="font-bold text-green-700 text-xl">
-              ${formData.amount.toFixed(2)} USD
+              {formData.currency === "GBP"
+                ? "£"
+                : formData.currency === "EUR"
+                  ? "€"
+                  : formData.currency === "AED"
+                    ? "د.إ"
+                    : formData.currency === "SAR"
+                      ? "ر.س"
+                      : formData.currency === "PKR"
+                        ? "₨"
+                        : formData.currency === "INR"
+                          ? "₹"
+                          : "$"}
+              {formData.projects && formData.projects.length > 0
+                ? formData.projects
+                    .reduce((sum, p) => sum + (p.amount || 0), 0)
+                    .toFixed(2)
+                : formData.amount.toFixed(2)}{" "}
+              {formData.currency}
             </span>
           </div>
         </div>
