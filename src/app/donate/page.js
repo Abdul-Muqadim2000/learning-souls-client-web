@@ -709,14 +709,14 @@ function Step3({ formData, updateFormData }) {
               Yes, I would like to claim Gift Aid (optional)
             </span>
             <p className="text-sm text-gray-700 mt-3 leading-relaxed">
-              By ticking the "Yes" box, I agree I would like Learning Souls:
-              Books of Light to reclaim the tax on all qualifying donations I
-              have made, as well as any future donations, until I notify them
-              otherwise. I understand that if I pay less Income Tax and/or
-              Capital Gains Tax than the amount of Gift Aid claimed on all my
-              donations in that tax year I may be asked to pay any difference. I
-              understand that Learning Souls: Books of Light will reclaim 25p of
-              tax on every £1 that I give.
+              By ticking the &quot;Yes&quot; box, I agree I would like Learning
+              Souls: Books of Light to reclaim the tax on all qualifying
+              donations I have made, as well as any future donations, until I
+              notify them otherwise. I understand that if I pay less Income Tax
+              and/or Capital Gains Tax than the amount of Gift Aid claimed on
+              all my donations in that tax year I may be asked to pay any
+              difference. I understand that Learning Souls: Books of Light will
+              reclaim 25p of tax on every £1 that I give.
             </p>
           </div>
         </label>
@@ -769,7 +769,7 @@ function Step4({ formData, updateFormData }) {
                       className="flex justify-between items-center bg-white rounded px-3 py-2"
                     >
                       <span className="text-gray-800">{project.name}</span>
-                      <span className="font-semibold text-green-700">
+                      <span className="font-semibold text-green-700  ">
                         {formData.currency === "GBP"
                           ? "£"
                           : formData.currency === "EUR"

@@ -13,7 +13,7 @@ import {
   LogOut,
   MailIcon,
   HandCoinsIcon,
-  LogInIcon,
+  LogIn,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -119,12 +119,6 @@ const Navbar = () => {
           description:
             "Get in touch with us for queries, suggestions, or to learn more about our organization.",
         },
-        {
-          href: "/login",
-          label: "Login",
-          description:
-            "Want to view your donation history and manage your account? Log in here.",
-        },
       ],
     },
   ];
@@ -187,11 +181,11 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link href="/contact-us">
+                <Link href="/login">
                   <SecondaryButton
-                    text="Contact Us"
+                    text="Login"
                     className="px-6 xl:px-8"
-                    icon={MailIcon}
+                    icon={LogIn}
                   />
                 </Link>
                 <Link href="/donate">
@@ -265,10 +259,10 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link href="/contact-us" onClick={closeMobileMenu}>
+                <Link href="/login" onClick={closeMobileMenu}>
                   <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-gray-700 bg-white border-2 border-gray-300 hover:bg-gray-50 rounded-full transition-colors font-semibold">
-                    <MailIcon size={20} />
-                    <span>Contact Us</span>
+                    <LogIn size={20} />
+                    <span>Login</span>
                   </button>
                 </Link>
                 <Link href="/donate" onClick={closeMobileMenu}>

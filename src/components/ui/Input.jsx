@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 /**
  * Reusable Input Component
@@ -25,8 +25,27 @@ const Input = ({
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const inputId =
     id || name || `input-${Math.random().toString(36).substr(2, 9)}`;
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   // Base input styles using CSS variables
   const baseInputStyles = `
@@ -102,32 +121,75 @@ const Input = ({
 
       case "select":
       case "dropdown":
+        const selectedOption = options.find(
+          (opt) => (opt.value || opt) === value,
+        );
+        const displayValue = selectedOption
+          ? selectedOption.label || selectedOption
+          : placeholder || "Select an option";
+
         return (
-          <div className="relative inline-block w-full">
-            <select
+          <div className="relative inline-block w-full" ref={dropdownRef}>
+            {/* Custom Select Button */}
+            <button
+              type="button"
               id={inputId}
+              onClick={() => !disabled && setIsDropdownOpen(!isDropdownOpen)}
+              disabled={disabled}
+              className={`${regularInputStyles} appearance-none pr-12 text-left ${!selectedOption && placeholder ? "text-gray-500" : ""}`}
+              aria-haspopup="listbox"
+              aria-expanded={isDropdownOpen}
+            >
+              {displayValue}
+            </button>
+
+            {/* Chevron Icon */}
+            <span
+              className="pointer-events-none absolute right-6 top-1/2 transition-transform duration-200"
+              style={{
+                transform: `translateY(-50%) ${isDropdownOpen ? "rotate(180deg)" : "rotate(0deg)"}`,
+              }}
+            >
+              <ChevronDown className="w-5 h-5" />
+            </span>
+
+            {/* Custom Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-300 rounded-3xl shadow-xl max-h-64 sm:max-h-72 md:max-h-80 overflow-y-auto custom-scrollbar py-2">
+                {options.map((option, index) => {
+                  const optionValue = option.value || option;
+                  const optionLabel = option.label || option;
+                  const isSelected = optionValue === value;
+
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        onChange({ target: { name, value: optionValue } });
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`px-4 sm:px-6 py-3 sm:py-4 mx-2 rounded-2xl cursor-pointer transition-all duration-200 font-semibold text-sm sm:text-base ${
+                        isSelected
+                          ? "bg-[#bd2387] text-white"
+                          : "text-gray-900 hover:bg-[#09b29d] hover:text-white"
+                      }`}
+                      role="option"
+                      aria-selected={isSelected}
+                    >
+                      {optionLabel}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Hidden input for form submission */}
+            <input
+              type="hidden"
               name={name}
               value={value}
-              onChange={onChange}
               required={required}
-              disabled={disabled}
-              className={`${regularInputStyles} appearance-none pr-12`}
-              {...rest}
-            >
-              {placeholder && (
-                <option value="" disabled>
-                  {placeholder}
-                </option>
-              )}
-              {options.map((option, index) => (
-                <option key={index} value={option.value || option}>
-                  {option.label || option}
-                </option>
-              ))}
-            </select>
-            <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
-              <ChevronDown />
-            </span>
+            />
           </div>
         );
 
