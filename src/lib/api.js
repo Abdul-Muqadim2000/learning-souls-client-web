@@ -67,29 +67,6 @@ export async function login(email, password) {
 }
 
 /**
- * Register new user - Returns challengeId for MFA
- */
-export async function register(userData) {
-  const response = await fetch(`${API_URL}/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Registration failed");
-  }
-
-  const data = await response.json();
-
-  // Return challengeId for OTP verification
-  return data;
-}
-
-/**
  * Verify OTP code - Returns JWT token
  */
 export async function verifyMFA(challengeId, code) {
@@ -120,46 +97,6 @@ export async function verifyMFA(challengeId, code) {
 }
 
 /**
- * Refresh access token using refresh token
- */
-export async function refreshAccessToken() {
-  const refreshToken = localStorage.getItem("refreshToken");
-
-  if (!refreshToken) {
-    return false;
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/auth/refresh`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
-
-    if (!response.ok) {
-      // Refresh token is invalid or expired
-      logout();
-      return false;
-    }
-
-    const data = await response.json();
-
-    if (data.accessToken) {
-      localStorage.setItem("accessToken", data.accessToken);
-      return true;
-    }
-
-    return false;
-  } catch (error) {
-    console.error("Token refresh failed:", error);
-    logout();
-    return false;
-  }
-}
-
-/**
  * Logout user
  */
 export function logout() {
@@ -172,7 +109,7 @@ export function logout() {
  * Get current user info
  */
 export async function getCurrentUser() {
-  const response = await fetchWithAuth(`${API_URL}/auth/get-me`);
+  const response = await fetchWithAuth(`${API_URL}/user/get-me`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch user");
@@ -337,3 +274,66 @@ export async function createDonation(donationData) {
     throw error;
   }
 }
+
+
+/**
+ * Register new user - Returns challengeId for MFA
+ * CURRENTLY NOT IN USE
+export async function register(userData) {
+  const response = await fetch(`${API_URL}/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Registration failed");
+  }
+
+  const data = await response.json();
+
+  // Return challengeId for OTP verification
+  return data;
+}*/
+/**
+ * Refresh access token using refresh token
+ * CURRENTLY NOT IN USE - handled inside fetchWithAuth
+export async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  if (!refreshToken) {
+    return false;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/auth/refresh`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    if (!response.ok) {
+      // Refresh token is invalid or expired
+      logout();
+      return false;
+    }
+
+    const data = await response.json();
+
+    if (data.accessToken) {
+      localStorage.setItem("accessToken", data.accessToken);
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.error("Token refresh failed:", error);
+    logout();
+    return false;
+  }
+}*/

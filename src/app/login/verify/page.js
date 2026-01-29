@@ -87,9 +87,8 @@ function VerifyPageContent() {
       const data = await response.json();
       console.log("Verification successful:", data);
       // Store the access token
-      if (data.data?.tokens.accessToken) {
-        localStorage.setItem("accessToken", data.data.tokens.accessToken);
-
+      if (data.data?.tokens) {
+        localStorage.setItem("accessToken", data.data.tokens);
         // Refresh user context to load user data
         await refreshUser();
 

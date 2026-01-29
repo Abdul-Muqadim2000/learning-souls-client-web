@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
   login as apiLogin,
-  register as apiRegister,
+  // register as apiRegister,
   verifyMFA as apiVerifyMFA,
   logout as apiLogout,
   getCurrentUser,
@@ -50,16 +50,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const register = async (userData) => {
-    try {
-      const data = await apiRegister(userData);
-      // Returns challengeId, not user data
-      return { success: true, data };
-    } catch (error) {
-      return { success: false, error: error.message };
-    }
-  };
-
   const verifyMFA = async (challengeId, code) => {
     try {
       // Verify OTP and get JWT token
@@ -86,7 +76,7 @@ export function AuthProvider({ children }) {
   const value = {
     user,
     login,
-    register,
+    // register,
     verifyMFA,
     logout,
     loading,
@@ -95,6 +85,18 @@ export function AuthProvider({ children }) {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+
+  /*
+  const register = async (userData) => {
+    try {
+      const data = await apiRegister(userData);
+      // Returns challengeId, not user data
+      return { success: true, data };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+  */
 }
 
 export function useAuth() {

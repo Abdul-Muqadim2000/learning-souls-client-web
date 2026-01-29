@@ -10,7 +10,7 @@ import Link from "next/link";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 function LoginPageContent() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, refreshUser } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState("");
@@ -45,10 +45,12 @@ function LoginPageContent() {
 
     try {
       // Prepare request body based on active tab
-      const body =
-        activeTab === "otp"
-          ? { email: loginData.email }
-          : { email: loginData.email, password: loginData.password };
+      const body = { email: loginData.email };
+
+      // Only include password if on password tab and password is provided
+      if (activeTab === "password" && loginData.password) {
+        body.password = loginData.password;
+      }
 
       const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
@@ -72,7 +74,24 @@ function LoginPageContent() {
         // Redirect to verify page with challengeId
         router.push(`/login/verify?challengeId=${challengeId}`);
       } else {
-        setError("Login succeeded but no challenge ID received");
+        const tokens = data.data?.tokens;
+        if (tokens) {
+          // Store tokens properly
+          if (tokens.accessToken) {
+            localStorage.setItem("accessToken", tokens.accessToken);
+          }
+          if (tokens.refreshToken) {
+            localStorage.setItem("refreshToken", tokens.refreshToken);
+          }
+
+          // Refresh user data in AuthContext
+          await refreshUser();
+
+          // Redirect to dashboard
+          router.push("/dashboard");
+        } else {
+          throw new Error("Login failed. Please try again.");
+        }
       }
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
