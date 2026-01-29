@@ -80,7 +80,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     apiLogout();
     setUser(null);
-    router.push("/register");
+    router.push("/login");
   };
 
   const value = {

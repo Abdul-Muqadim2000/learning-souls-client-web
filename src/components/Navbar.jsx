@@ -6,7 +6,15 @@ import NavItem from "./NavItem";
 import { DropdownMenu, MobileDropdownMenu } from "./DropdownMenu";
 import SecondaryButton, { PrimaryButton } from "./ui/Button";
 import Image from "next/image";
-import { Menu, X, User, LogOut, MailIcon, HandCoinsIcon } from "lucide-react";
+import {
+  Menu,
+  X,
+  User,
+  LogOut,
+  MailIcon,
+  HandCoinsIcon,
+  LogInIcon,
+} from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
@@ -111,6 +119,12 @@ const Navbar = () => {
           description:
             "Get in touch with us for queries, suggestions, or to learn more about our organization.",
         },
+        {
+          href: "/login",
+          label: "Login",
+          description:
+            "Want to view your donation history and manage your account? Log in here.",
+        },
       ],
     },
   ];
@@ -158,18 +172,18 @@ const Navbar = () => {
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard">
-                  <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 transition-colors">
-                    <User size={20} />
-                    <span>{user?.username || "Dashboard"}</span>
-                  </button>
+                  <PrimaryButton
+                    text="Dashboard"
+                    className="px-6 xl:px-8"
+                    icon={User}
+                  />
                 </Link>
-                <button
+                <PrimaryButton
+                  text="Logout"
+                  className="px-6 xl:px-8 bg-red-600 hover:bg-red-500"
                   onClick={logout}
-                  className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
-                >
-                  <LogOut size={20} />
-                  <span>Logout</span>
-                </button>
+                  icon={LogOut}
+                />
               </>
             ) : (
               <>
@@ -233,9 +247,9 @@ const Navbar = () => {
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard" onClick={closeMobileMenu}>
-                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-white bg-[#09b29d] hover:bg-[#09b29d]/90 rounded-full transition-colors font-semibold">
                     <User size={20} />
-                    <span>{user?.username || "Dashboard"}</span>
+                    <span>Dashboard</span>
                   </button>
                 </Link>
                 <button
@@ -243,19 +257,27 @@ const Navbar = () => {
                     logout();
                     closeMobileMenu();
                   }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-white bg-red-600 hover:bg-red-500 rounded-full transition-colors font-semibold"
                 >
                   <LogOut size={20} />
                   <span>Logout</span>
                 </button>
               </>
             ) : (
-              <Link href="/register" onClick={closeMobileMenu}>
-                <PrimaryButton
-                  text="Donate Now"
-                  className="w-full justify-center"
-                />
-              </Link>
+              <>
+                <Link href="/contact-us" onClick={closeMobileMenu}>
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-gray-700 bg-white border-2 border-gray-300 hover:bg-gray-50 rounded-full transition-colors font-semibold">
+                    <MailIcon size={20} />
+                    <span>Contact Us</span>
+                  </button>
+                </Link>
+                <Link href="/donate" onClick={closeMobileMenu}>
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-white bg-[#09b29d] hover:bg-[#09b29d]/90 rounded-full transition-colors font-semibold">
+                    <HandCoinsIcon size={20} />
+                    <span>Donate Now</span>
+                  </button>
+                </Link>
+              </>
             )}
           </div>
         </div>

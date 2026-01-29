@@ -2,22 +2,21 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Input, { EmailInput, PasswordInput } from "@/components/ui/Input";
-import OTPForm from "@/components/OTPForm";
+import { EmailInput, PasswordInput } from "@/components/ui/Input";
 import { useAuth } from "@/contexts/AuthContext";
-import { ArrowLeft, UserCircle } from "lucide-react";
+import { UserCircle } from "lucide-react";
 import Link from "next/link";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 function LoginPageContent() {
-  const { login, verifyMFA, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState("");
-  const [otpError, setOtpError] = useState("");
 
-  // State for OTP flow
-  const [showOTP, setShowOTP] = useState(false);
-  const [challengeId, setChallengeId] = useState(null);
+  // Tab state: 'otp' or 'password'
+  const [activeTab, setActiveTab] = useState("otp");
 
   // Login form state
   const [loginData, setLoginData] = useState({
@@ -45,68 +44,42 @@ function LoginPageContent() {
     setIsSubmitting(true);
 
     try {
-      const result = await login(loginData.email, loginData.password);
+      // Prepare request body based on active tab
+      const body =
+        activeTab === "otp"
+          ? { email: loginData.email }
+          : { email: loginData.email, password: loginData.password };
 
-      if (result.success) {
-        setChallengeId(result.data.data || result.data.challengeId);
-        setShowOTP(true);
-      } else {
-        setError(result.error || "Login failed. Please try again.");
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Login failed");
       }
+
+      const data = await response.json();
+
+      // Extract challengeId from response
+      const challengeId = data.data?.challenge || data.data?.challengeId;
+
+      if (challengeId) {
+        // Redirect to verify page with challengeId
+        router.push(`/login/verify?challengeId=${challengeId}`);
+      } else {
+        setError("Login succeeded but no challenge ID received");
+      }
+    } catch (err) {
+      setError(err.message || "Login failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  const handleOTPSubmit = async (otpData) => {
-    setOtpError("");
-
-    const result = await verifyMFA(otpData.challengeId, otpData.code);
-
-    if (result.success) {
-      const redirect = searchParams.get("redirect") || "/dashboard";
-      router.push(redirect);
-    } else {
-      setOtpError(result.error || "Verification failed. Please try again.");
-      throw new Error(result.error);
-    }
-  };
-
-  const handleResendOTP = () => {
-    console.log("Resend OTP requested");
-  };
-
-  // If OTP form should be shown
-  if (showOTP && challengeId) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full">
-          {otpError && (
-            <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
-              {otpError}
-            </div>
-          )}
-          <OTPForm
-            challengeId={challengeId}
-            onSubmit={handleOTPSubmit}
-            onResend={handleResendOTP}
-          />
-          <div className="mt-4 text-center">
-            <button
-              onClick={() => {
-                setShowOTP(false);
-                setChallengeId(null);
-              }}
-              className="text-sm text-gray-600 hover:text-gray-800 flex items-center justify-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Login
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className=" flex items-center justify-center bg-gray-100 py-22 px-4">
@@ -128,18 +101,31 @@ function LoginPageContent() {
                 <h2 className="text-xl font-semibold mb-2 opacity-90">
                   Learning Souls
                 </h2>
-                <h1 className="text-4xl font-bold mb-4">Welcome Back!</h1>
-                <p className="text-white/80 max-w-sm mx-auto">
-                  To stay connected with us please login with your personal info
+                <h1 className="text-4xl font-bold mb-4">Access Your Account</h1>
+                <p className="text-white/80 max-w-sm mx-auto mb-4">
+                  Login to view your donation history and manage your account
                 </p>
+                <ul className="text-white/70 text-sm space-y-2 max-w-xs mx-auto text-left">
+                  <li className="flex items-center gap-2">
+                    <span className="text-white">✓</span> Track your donations
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-white">✓</span> View contribution
+                    history
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-white">✓</span> Manage account
+                    settings
+                  </li>
+                </ul>
               </div>
 
-              {/* Register Button */}
+              {/* Make a Donation Button */}
               <Link
-                href="/register"
+                href="/donate"
                 className="inline-block mt-8 px-8 py-3 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-[#09b29d] transition-all duration-300"
               >
-                REGISTER
+                MAKE A DONATION
               </Link>
             </div>
           </div>
@@ -150,11 +136,37 @@ function LoginPageContent() {
               {/* Welcome Text */}
               <div className="mb-8">
                 <h1 className="text-5xl font-bold text-gray-800 mb-2 lowercase">
-                  welcome
+                  welcome back
                 </h1>
                 <p className="text-gray-500">
-                  Login in to your account to continue
+                  Access your donation history and account details
                 </p>
+              </div>
+
+              {/* Tab Switcher */}
+              <div className="flex gap-2 mb-6 bg-gray-100 rounded-full p-1">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("otp")}
+                  className={`flex-1 py-3 px-6 rounded-full font-semibold transition-all duration-300 ${
+                    activeTab === "otp"
+                      ? "bg-[#09b29d] text-white shadow-md"
+                      : "text-gray-600 hover:text-gray-800"
+                  }`}
+                >
+                  OTP Login
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("password")}
+                  className={`flex-1 py-3 px-6 rounded-full font-semibold transition-all duration-300 ${
+                    activeTab === "password"
+                      ? "bg-[#09b29d] text-white shadow-md"
+                      : "text-gray-600 hover:text-gray-800"
+                  }`}
+                >
+                  Password Login
+                </button>
               </div>
 
               {/* Error Message */}
@@ -174,22 +186,26 @@ function LoginPageContent() {
                   required
                 />
 
-                <PasswordInput
-                  name="password"
-                  placeholder="Password"
-                  value={loginData.password}
-                  onChange={handleLoginChange}
-                  required
-                />
+                {activeTab === "password" && (
+                  <>
+                    <PasswordInput
+                      name="password"
+                      placeholder="Password"
+                      value={loginData.password}
+                      onChange={handleLoginChange}
+                      required
+                    />
 
-                <div className="text-right">
-                  <Link
-                    href="/forgot-password"
-                    className="text-sm text-gray-500 hover:text-[#09b29d]"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
+                    <div className="text-right">
+                      <Link
+                        href="/forgot-password"
+                        className="text-sm text-gray-500 hover:text-[#09b29d]"
+                      >
+                        Forgot your password?
+                      </Link>
+                    </div>
+                  </>
+                )}
 
                 <button
                   type="submit"
@@ -200,12 +216,12 @@ function LoginPageContent() {
                 </button>
 
                 <p className="text-center text-gray-600 text-sm">
-                  Don't have an account?{" "}
+                  Want to support our cause?{" "}
                   <Link
-                    href="/register"
+                    href="/donate"
                     className="text-[#09b29d] font-semibold hover:underline"
                   >
-                    register
+                    Make a donation
                   </Link>
                 </p>
               </form>

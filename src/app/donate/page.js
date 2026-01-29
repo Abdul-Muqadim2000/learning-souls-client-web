@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import SecondaryButton, { PrimaryButton } from "@/components/ui/Button";
 import Input, { NumberInput, EmailInput, Select } from "@/components/ui/Input";
 import ToggleButtonGroup from "@/components/ui/ToggleButtonGroup";
@@ -13,6 +14,7 @@ import {
 } from "lucide-react";
 
 export default function DonatePage() {
+  const { user, isAuthenticated } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -35,6 +37,22 @@ export default function DonatePage() {
     // Step 4: Payment Method
     paymentMethod: "stripe", // 'paypal', 'stripe', 'bank-transfer'
   });
+
+  // Pre-fill user data when authenticated
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setFormData((prev) => ({
+        ...prev,
+        fullname: user.fullname || prev.fullname,
+        email: user.email || prev.email,
+        countryCode: user.countryCode || prev.countryCode,
+        phone: user.phone || prev.phone,
+        addressLine: user.addressLine || prev.addressLine,
+        city: user.city || prev.city,
+        country: user.country || prev.country,
+      }));
+    }
+  }, [isAuthenticated, user]);
 
   const updateFormData = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -108,6 +126,7 @@ export default function DonatePage() {
       // Handle other payment methods (bank transfer, etc.)
       alert(data.message || "Donation submitted successfully!");
       setIsLoading(false);
+      window.location.href = "/donate/success";
     } catch (error) {
       console.error("Error submitting donation:", error);
       alert(error.message || "Failed to process donation. Please try again.");
