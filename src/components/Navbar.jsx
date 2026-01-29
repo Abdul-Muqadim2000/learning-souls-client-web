@@ -173,7 +173,7 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link href="mailto:admin@learningsouls.org">
+                <Link href="/contact-us">
                   <SecondaryButton
                     text="Contact Us"
                     className="px-6 xl:px-8"
