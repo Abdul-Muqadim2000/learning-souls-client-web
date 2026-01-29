@@ -272,6 +272,21 @@ export async function setupPassword(token, password, passwordConfirm) {
 }
 
 /**
+ * Get user donations
+ */
+export async function getDonations() {
+  const response = await fetchWithAuth(`${API_URL}/user/get-donations`);
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to fetch donations");
+  }
+
+  const data = await response.json();
+  return data.data.donations;
+}
+
+/**
  * Update user profile
  */
 export async function updateProfile(profileData) {

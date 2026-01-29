@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { PrimaryButton } from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { updateProfile } from "@/lib/api";
+import { updateProfile, getDonations } from "@/lib/api";
 import Link from "next/link";
 import {
   LogOut,
@@ -18,6 +18,8 @@ import {
   Check,
   CheckIcon,
   XIcon,
+  Loader2,
+  DollarSign,
 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -26,6 +28,7 @@ export default function DashboardPage() {
 
   const tabs = [
     { id: "profile", label: "User Profile", icon: User },
+    { id: "donations", label: "Your Donations", icon: Heart },
     { id: "logout", label: "Logout", icon: LogOut },
   ];
 
@@ -112,6 +115,7 @@ export default function DashboardPage() {
             {activeTab === "profile" && (
               <ProfileContent user={user} refreshUser={refreshUser} />
             )}
+            {activeTab === "donations" && <DonationsContent />}
           </div>
         </div>
       </div>
@@ -520,6 +524,253 @@ function ProfileContent({ user, refreshUser }) {
           </div>
         )}
       </form>
+    </div>
+  );
+}
+
+// Donations Content Component
+function DonationsContent() {
+  const [donations, setDonations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchDonations = async () => {
+      setIsLoading(true);
+      setError("");
+      try {
+        const data = await getDonations();
+        setDonations(data || []);
+      } catch (err) {
+        setError(err.message || "Failed to load donations");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDonations();
+  }, []);
+
+  const getStatusBadge = (status) => {
+    const statusStyles = {
+      succeeded: "bg-green-100 text-green-800 border-green-200",
+      pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
+      processing: "bg-blue-100 text-blue-800 border-blue-200",
+      failed: "bg-red-100 text-red-800 border-red-200",
+      cancelled: "bg-gray-100 text-gray-800 border-gray-200",
+    };
+
+    return (
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusStyles[status] || statusStyles.pending}`}
+      >
+        {status.charAt(0).toUpperCase() + status.slice(1)}
+      </span>
+    );
+  };
+
+  const formatCurrency = (amount, currency) => {
+    const symbols = {
+      GBP: "£",
+      USD: "$",
+      EUR: "€",
+      AED: "AED ",
+      SAR: "SAR ",
+      PKR: "Rs ",
+      INR: "₹",
+    };
+    return `${symbols[currency] || currency} ${amount.toFixed(2)}`;
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20">
+        <Loader2 className="w-12 h-12 text-[#09b29d] animate-spin mb-4" />
+        <p className="text-gray-600">Loading your donations...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-4xl">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          Your Donations
+        </h2>
+        <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-6">
+          <p className="font-medium">Error loading donations</p>
+          <p className="text-sm mt-2">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (donations.length === 0) {
+    return (
+      <div className="max-w-4xl">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Your Donations</h2>
+          <Link href="/donate">
+            <PrimaryButton
+              text="Make a Donation"
+              icon={Heart}
+              className="bg-[#09b29d] hover:bg-[#09b29d]/90"
+            />
+          </Link>
+        </div>
+
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
+          <Heart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            No Donations Yet
+          </h3>
+          <p className="text-gray-600 mb-6">
+            You haven't made any donations yet. Start making a difference today!
+          </p>
+          <Link href="/donate">
+            <PrimaryButton
+              text="Make Your First Donation"
+              icon={Heart}
+              className="bg-[#09b29d] hover:bg-[#09b29d]/90"
+            />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-6xl">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800">Your Donations</h2>
+          <p className="text-gray-600 mt-1">
+            Total donations: {donations.length}
+          </p>
+        </div>
+        <Link href="/donate">
+          <PrimaryButton
+            text="Make Another Donation"
+            icon={Heart}
+            className="bg-[#09b29d] hover:bg-[#09b29d]/90"
+          />
+        </Link>
+      </div>
+
+      {/* Donations Table */}
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-[#09b29d] text-white">
+              <tr>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                  Projects
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                  Type
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                  Frequency
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                  Amount
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                  Payment Method
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {donations.map((donation, index) => (
+                <tr
+                  key={donation._id || index}
+                  className="hover:bg-gray-50 transition-colors"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center text-sm">
+                      <Calendar className="w-4 h-4 text-gray-400 mr-2" />
+                      <span className="text-gray-900 font-medium">
+                        {new Date(donation.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {new Date(donation.createdAt).toLocaleTimeString()}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm">
+                      {donation.projects.map((project, idx) => (
+                        <div key={idx} className="mb-1">
+                          <span className="font-medium text-gray-900">
+                            {project.name}
+                          </span>
+                          <span className="text-gray-500 ml-2">
+                            {formatCurrency(project.amount, donation.currency)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
+                      {donation.donationType}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
+                    {donation.donationFrequency}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center text-sm font-bold text-gray-900">
+                      <DollarSign className="w-4 h-4 text-[#09b29d] mr-1" />
+                      {formatCurrency(donation.amount, donation.currency)}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
+                    {donation.paymentMethod || "N/A"}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {getStatusBadge(donation.status)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Summary Card */}
+      <div className="mt-6 bg-gradient-to-r from-[#09b29d] to-[#07a088] rounded-lg p-6 text-white">
+        <h3 className="text-lg font-semibold mb-4">Donation Summary</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <p className="text-white/80 text-sm">Total Donations</p>
+            <p className="text-2xl font-bold">{donations.length}</p>
+          </div>
+          <div>
+            <p className="text-white/80 text-sm">Successful Donations</p>
+            <p className="text-2xl font-bold">
+              {donations.filter((d) => d.status === "succeeded").length}
+            </p>
+          </div>
+          <div>
+            <p className="text-white/80 text-sm">Total Contributed</p>
+            <p className="text-2xl font-bold">
+              {formatCurrency(
+                donations
+                  .filter((d) => d.status === "succeeded")
+                  .reduce((sum, d) => sum + d.amount, 0),
+                donations[0]?.currency || "GBP",
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

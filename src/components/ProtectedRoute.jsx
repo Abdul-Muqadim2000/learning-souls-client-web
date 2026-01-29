@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import { Loader2 } from "lucide-react";
 
 /**
  * Component to protect routes on the client side
@@ -22,7 +23,7 @@ export default function ProtectedRoute({ children }) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <Loader2 className="h-12 w-12 text-[#09b29d] animate-spin mx-auto" />
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
