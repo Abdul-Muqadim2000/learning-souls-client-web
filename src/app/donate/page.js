@@ -865,7 +865,7 @@ function Step4({ formData, updateFormData }) {
             description: "Pay with Debit/Credit Card",
             // badge: "Stripe",
             textColor: "#ffffff",
-            badgeImage: "/icons/stripe-logo.svg",
+            badgeImage: "/images/stripe-logo.svg",
             bgColor: "#635BFF",
           },
           {
@@ -874,7 +874,7 @@ function Step4({ formData, updateFormData }) {
             description: "Pay with PayPal",
             // badge: "PayPal",
             textColor: "#ffffff",
-            badgeImage: "/icons/paypal-logo.svg",
+            badgeImage: "/images/paypal-logo.svg",
             bgColor: "#2790C3",
           },
           {
