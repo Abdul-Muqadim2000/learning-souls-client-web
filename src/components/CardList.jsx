@@ -44,8 +44,11 @@ const CardList = ({ cards = [], showTitle = true }) => {
                   }}
                 />
 
+                {/* Dark Overlay for better text visibility */}
+                <div className="absolute inset-0 bg-black/50" />
+
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/70" />
 
                 {/* Content */}
                 <div className="relative z-10 h-full flex flex-col justify-between text-center text-(--color-primary) p-6 sm:p-8">

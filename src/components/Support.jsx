@@ -17,15 +17,15 @@ const Support = () => {
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 py-26">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16 lg:py-26">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
           {/* LEFT CARD */}
-          <div className="flex justify-center">
+          <div className="flex justify-center order-2 lg:order-1">
             <div
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 max-w-md w-full text-center relative mt-[-160] z-10 bottom-[40] min-h-[500px] flex flex-col justify-center items-center"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 max-w-xl w-full text-center relative lg:mt-[-160px] z-10 lg:bottom-[-20px] min-h-[500px] sm:min-h-[600px] md:min-h-[650px] lg:min-h-[700px] flex flex-col justify-center items-center"
               style={{
                 backgroundImage: "url(/images/mission-img1.webp)",
-                backgroundSize: "200%",
+                backgroundSize: "280%",
                 backgroundPosition: "center",
                 backgroundBlendMode: "overlay",
                 backgroundRepeat: "no-repeat",
@@ -34,55 +34,80 @@ const Support = () => {
               }}
             >
               <div className="max-w-xs mx-auto">
-                <h3 className="text-lg font-semibold text-[var(--color-secondary)] mb-4">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[var(--color-secondary)] mb-3 sm:mb-4">
                   Donate Online
                 </h3>
 
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-4 sm:mb-6 py-4 sm:py-6 md:py-8">
                   Partner with us by donating to one of our active campaigns.
                   Your generosity fuels our work.
                 </p>
-                <Link href="/register">
-                  <PrimaryButton className="px-14 py-4" text={"Donate Now"} />
+                <Link href="/donate">
+                  <PrimaryButton
+                    className="px-8 sm:px-12 md:px-14 py-3 sm:py-4 text-sm sm:text-base"
+                    text={"Donate Now"}
+                  />
                 </Link>
               </div>
             </div>
           </div>
 
           {/* RIGHT CONTENT */}
-          <div className="text-white">
-            <h3 className="text-3xl font-semibold mb-8">
+          <div className="text-white order-1 lg:order-2">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 text-center lg:text-left">
               For Bank Transfers and Standing Orders
             </h3>
-            <div className="space-y-5 text-sm md:text-base">
-              <div className="flex gap-4">
-                <span className="font-semibold w-40">ACCOUNT NAME</span>
-                <span>Learning Souls</span>
+            <div className="space-y-4 sm:space-y-5 text-xs sm:text-sm md:text-base">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
+                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
+                  ACCOUNT NAME
+                </span>
+                <span className="text-center sm:text-left break-all">
+                  Learning Souls
+                </span>
               </div>
 
-              <div className="flex gap-4">
-                <span className="font-semibold w-40">ACCOUNT NUMBER</span>
-                <span>55839336</span>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
+                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
+                  ACCOUNT NUMBER
+                </span>
+                <span className="text-center sm:text-left break-all">
+                  55839336
+                </span>
               </div>
 
-              <div className="flex gap-4">
-                <span className="font-semibold w-40">SORT CODE</span>
-                <span>23-05-80</span>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
+                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
+                  SORT CODE
+                </span>
+                <span className="text-center sm:text-left break-all">
+                  23-05-80
+                </span>
               </div>
 
-              <div className="flex gap-4">
-                <span className="font-semibold w-40">IBAN</span>
-                <span>GB92MYMB23058055839336</span>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
+                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
+                  IBAN
+                </span>
+                <span className="text-center sm:text-left break-all">
+                  GB92MYMB23058055839336
+                </span>
               </div>
 
-              <div className="flex gap-4">
-                <span className="font-semibold w-40">SWIFT</span>
-                <span>MYMBGB2L</span>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
+                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
+                  SWIFT
+                </span>
+                <span className="text-center sm:text-left break-all">
+                  MYMBGB2L
+                </span>
               </div>
 
-              <div className="flex gap-4">
-                <span className="font-semibold w-40">BANK ADDRESS</span>
-                <span>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
+                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
+                  BANK ADDRESS
+                </span>
+                <span className="text-center sm:text-left">
                   58–64 Fargate
                   <br />
                   Sheffield City Center
@@ -93,13 +118,13 @@ const Support = () => {
             </div>
             {/* Arabic Text Placeholder */}
 
-            <div className="mt-4     ">
+            <div className="mt-6 sm:mt-8 text-center lg:text-left">
               <Image
                 src="/images/jazakallah.webp"
                 alt="جزاكم الله خيرًا"
-                width={240}
+                width={400}
                 height={64}
-                className="inline-block"
+                className="inline-block w-48 sm:w-64 md:w-80 lg:w-96 h-auto"
                 priority={false}
               />
             </div>

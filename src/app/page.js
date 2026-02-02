@@ -51,6 +51,12 @@ export default function Home() {
     {
       image: "/images/gallery-img12.webp",
     },
+    {
+      image: "/images/gallery-img12.webp",
+    },
+    {
+      image: "/images/gallery-img12.webp",
+    },
   ];
 
   const upcomingBooksItems = [
@@ -97,7 +103,6 @@ export default function Home() {
         bgColor="var(--color-tertiary)"
         bgImage="/images/books-bg.webp"
         textColor="white"
-        scale={0.8}
       />
       <TeamCarousel
         teamMembers={[

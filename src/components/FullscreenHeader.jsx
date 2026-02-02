@@ -28,27 +28,30 @@ const FullscreenHeader = ({
   textColor = "var(--color-primary)",
   height = "100vh",
 }) => {
+  // Use larger padding for sections with only background image, smaller for sections with helper images
+  const sectionPadding = helperImage
+    ? "py-6 px-4 sm:py-8 md:py-10 lg:py-12 lg:px-24"
+    : "py-8 px-4 sm:py-12 md:py-14 lg:py-16 lg:px-24";
+
+  const minHeight = helperImage ? "min-h-auto" : "min-h-auto lg:min-h-screen";
+
   return (
     <section
-      className="w-full flex items-center justify-center py-16 lg:px-24"
+      className={`w-full flex items-center justify-center ${sectionPadding} overflow-x-hidden ${minHeight}`}
       style={{
-        height: height || "100vh",
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundColor: bgColor,
       }}
     >
-      <div
-        className="max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
-        style={{ minHeight: height || "100vh" }}
-      >
+      <div className="max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
         {/* Left Column - Content */}
-        <div className="flex flex-col justify-center space-y-6">
+        <div className="flex flex-col justify-center space-y-4 px-2 sm:space-y-6 sm:px-0">
           {/* Header Text */}
           {headerText && (
             <h1
-              className="uppercase tracking-[-0.02em] font-black leading-[1]"
+              className="uppercase tracking-[-0.02em] font-black leading-[1] break-words"
               style={{
                 fontSize: headerTextSize || "clamp(2.5rem, 5vw, 4.5rem)",
                 background:
@@ -69,7 +72,7 @@ const FullscreenHeader = ({
           {/* Subheader Text */}
           {subheaderText && (
             <p
-              className="text-lg sm:text-xl lg:text-4xl font-bold"
+              className="text-base sm:text-lg md:text-2xl lg:text-4xl font-bold leading-tight break-words"
               style={{ color: textColor }}
             >
               {subheaderText}
@@ -89,7 +92,7 @@ const FullscreenHeader = ({
           {/* List Items */}
           {listItems && listItems.length > 0 && (
             <ul
-              className={`space-y-2 text-sm sm:text-base lg:text-lg ${listItemsBold ? "font-bold" : ""}`}
+              className={`space-y-2 text-xs sm:text-sm md:text-base lg:text-lg ${listItemsBold ? "font-bold" : ""}`}
               style={{
                 color: listItemsColor || textColor,
                 fontSize: listItemsFontSize || undefined,
@@ -97,8 +100,8 @@ const FullscreenHeader = ({
             >
               {listItems.map((item, index) => (
                 <li key={index} className="flex items-start gap-2">
-                  <span className="mt-1">•</span>
-                  <span>{item}</span>
+                  <span className="mt-1 flex-shrink-0">•</span>
+                  <span className="break-words">{item}</span>
                 </li>
               ))}
             </ul>
@@ -106,12 +109,12 @@ const FullscreenHeader = ({
 
           {/* Buttons - Inline */}
           {(primaryButtonText || secondaryButtonText) && (
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-3 sm:gap-4 items-center">
               {primaryButtonText && primaryButtonLink && (
                 <PrimaryButton
                   as="a"
                   href={primaryButtonLink}
-                  className="px-6 xl:px-8"
+                  className="px-4 sm:px-6 xl:px-8 text-sm sm:text-base"
                   text={primaryButtonText}
                   icon={primaryButtonIcon}
                 />
@@ -120,7 +123,7 @@ const FullscreenHeader = ({
                 <SecondaryButton
                   as="a"
                   href={secondaryButtonLink}
-                  className="px-8 py-2 bg-white border-2 border-(--color-secondary) text-(--color-secondary) rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-gray-200 transition-colors"
+                  className="px-4 sm:px-8 py-2 bg-white border-2 border-(--color-secondary) text-(--color-secondary) rounded-full text-xs sm:text-sm font-semibold flex items-center gap-2 hover:bg-gray-200 transition-colors"
                   text={secondaryButtonText}
                   icon={secondaryButtonIcon}
                 />
@@ -132,8 +135,8 @@ const FullscreenHeader = ({
         {/* Right Column - Helper Image */}
         {/* Right Column - Helper Image with Abstract SVG Shapes */}
         {helperImage && (
-          <div className="flex items-center justify-center lg:justify-end">
-            <div className="relative w-full max-w-2xl aspect-square">
+          <div className="flex items-center justify-center lg:justify-end overflow-hidden px-4 sm:px-0">
+            <div className="relative w-full max-w-[200px] sm:max-w-[260px] md:max-w-xs lg:max-w-lg aspect-square overflow-hidden">
               {/* Abstract Shapes - Only render if showShapes is true */}
               {showShapes && (
                 <>
@@ -173,10 +176,10 @@ const FullscreenHeader = ({
               )}
 
               {/* Image Stack */}
-              <div className="relative w-full h-full flex items-center justify-center">
+              <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
                 {/* Back Left Image */}
                 {helperImage1 && (
-                  <div className="absolute -left-12 top-1/2 -translate-y-1/2 scale-50 z-10 opacity-80">
+                  <div className="absolute left-0 sm:-left-4 md:-left-8 lg:-left-12 top-1/2 -translate-y-1/2 scale-[0.25] sm:scale-[0.3] md:scale-[0.4] lg:scale-50 z-10 opacity-80">
                     <Image
                       src={helperImage1}
                       alt="Helper illustration left"
@@ -189,7 +192,7 @@ const FullscreenHeader = ({
 
                 {/* Back Right Image */}
                 {helperImage2 && (
-                  <div className="absolute -right-12 top-1/2 -translate-y-1/2 scale-50 z-10 opacity-80">
+                  <div className="absolute right-0 sm:-right-4 md:-right-8 lg:-right-12 top-1/2 -translate-y-1/2 scale-[0.25] sm:scale-[0.3] md:scale-[0.4] lg:scale-50 z-10 opacity-80">
                     <Image
                       src={helperImage2}
                       alt="Helper illustration right"
@@ -201,12 +204,14 @@ const FullscreenHeader = ({
                 )}
 
                 {/* Front Image */}
-                <div className={`relative ${imageSize} z-20`}>
+                <div
+                  className={`relative scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-75 z-20`}
+                >
                   <Image
                     src={helperImage}
                     alt="Helper illustration main"
-                    width={600}
-                    height={600}
+                    width={400}
+                    height={400}
                     className="object-contain"
                     priority
                   />

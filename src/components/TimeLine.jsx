@@ -42,14 +42,14 @@ export default function TimeLine() {
   ];
 
   return (
-    <section className="w-full bg-white py-16 px-4">
+    <section className="w-full bg-white py-8 px-4 sm:py-12 md:py-16 overflow-x-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-14">
-          <p className="text-sm tracking-widest text-gray-500 font-medium">
+        <div className="text-center mb-8 sm:mb-10 md:mb-14">
+          <p className="text-xs sm:text-sm tracking-widest text-gray-500 font-medium">
             THE STEPS
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mt-2">
             OUR COMMITMENT
           </h2>
         </div>
@@ -57,20 +57,52 @@ export default function TimeLine() {
         {/* Timeline */}
         <div className="relative">
           {/* Center Line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-2 bg-gray-500 -translate-x-1/2 hidden md:block rounded-lg" />
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 md:w-2 bg-gray-500 md:-translate-x-1/2 rounded-lg" />
 
-          <div className="space-y-30">
+          <div className="space-y-8 sm:space-y-12 md:space-y-30">
             {steps.map((step, index) => {
               const isLeft = index % 2 === 0;
               const delayClass = `timeline-delay-${index + 1}`;
 
               return (
                 <div key={step.id} className="relative flex items-start">
+                  {/* Mobile Layout - Vertical */}
+                  <div className="md:hidden flex items-start w-full pl-16">
+                    <div className="absolute left-8 top-2 -translate-x-1/2 flex z-10">
+                      <div className="w-4 h-4 rounded-full bg-[var(--color-secondary)]" />
+                    </div>
+                    <div className="flex-1">
+                      <span className="text-4xl sm:text-5xl text-[var(--color-secondary)] block mb-2">
+                        {step.id}
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-semibold text-gray-500 mb-2">
+                        {step.title}
+                      </h3>
+                      {step.paragraphs ? (
+                        <div className="space-y-2">
+                          {step.paragraphs.map((para, pIndex) => (
+                            <p
+                              key={pIndex}
+                              className="text-sm sm:text-base text-gray-600 text-justify leading-relaxed"
+                            >
+                              {para}
+                            </p>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-sm sm:text-base text-gray-600 text-justify leading-relaxed">
+                          {step.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Desktop Layout - Left/Right alternating */}
                   {/* LEFT ID */}
                   {isLeft && (
-                    <div className="w-full md:w-[calc(50%-2rem)] pr-8 text-right flex justify-end">
+                    <div className="hidden md:flex w-full md:w-[calc(50%-1rem)] pr-4 md:pr-8 lg:pr-12 text-right justify-end items-start">
                       <span
-                        className={`text-8xl text-[var(--color-secondary)]
+                        className={`text-6xl lg:text-8xl text-[var(--color-secondary)]
                         timeline-animate-left ${delayClass}`}
                       >
                         {step.id}
@@ -81,10 +113,10 @@ export default function TimeLine() {
                   {/* LEFT CONTENT */}
                   {!isLeft && (
                     <div
-                      className={`w-full md:w-[calc(50%-2rem)] pr-8 text-left
+                      className={`hidden md:block w-full md:w-[calc(50%-1rem)] pr-4 md:pr-8 lg:pr-12 text-left
                       timeline-animate-left ${delayClass}`}
                     >
-                      <h3 className="text-4xl font-semibold text-gray-500 mb-3">
+                      <h3 className="text-2xl lg:text-4xl font-semibold text-gray-500 mb-3">
                         {step.title}
                       </h3>
                       {step.paragraphs ? (
@@ -92,14 +124,14 @@ export default function TimeLine() {
                           {step.paragraphs.map((para, pIndex) => (
                             <p
                               key={pIndex}
-                              className="text-gray-600 text-justify leading-relaxed"
+                              className="text-sm lg:text-base text-gray-600 text-justify leading-relaxed"
                             >
                               {para}
                             </p>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-gray-600 text-justify leading-relaxed">
+                        <p className="text-sm lg:text-base text-gray-600 text-justify leading-relaxed">
                           {step.description}
                         </p>
                       )}
@@ -108,16 +140,16 @@ export default function TimeLine() {
 
                   {/* CENTER DOT */}
                   <div className="absolute left-1/2 top-8 -translate-x-1/2 hidden md:flex">
-                    <div className="w-8 h-8 rounded-full bg-[var(--color-secondary)] z-10" />
+                    <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[var(--color-secondary)] z-10" />
                   </div>
 
                   {/* RIGHT CONTENT */}
                   {isLeft && (
                     <div
-                      className={`w-full md:w-[calc(50%-2rem)] pl-8 text-left
+                      className={`hidden md:block w-full md:w-[calc(50%-1rem)] pl-4 md:pl-8 lg:pl-12 text-left
                       timeline-animate-right ${delayClass}`}
                     >
-                      <h3 className="text-4xl font-semibold text-gray-500 mb-3 ml-16">
+                      <h3 className="text-2xl lg:text-4xl font-semibold text-gray-500 mb-3">
                         {step.title}
                       </h3>
                       {step.paragraphs ? (
@@ -125,14 +157,14 @@ export default function TimeLine() {
                           {step.paragraphs.map((para, pIndex) => (
                             <p
                               key={pIndex}
-                              className="text-gray-600 text-justify leading-relaxed ml-16"
+                              className="text-sm lg:text-base text-gray-600 text-justify leading-relaxed"
                             >
                               {para}
                             </p>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-gray-600 text-justify leading-relaxed ml-16">
+                        <p className="text-sm lg:text-base text-gray-600 text-justify leading-relaxed">
                           {step.description}
                         </p>
                       )}
@@ -141,9 +173,9 @@ export default function TimeLine() {
 
                   {/* RIGHT ID */}
                   {!isLeft && (
-                    <div className="w-full md:w-[calc(50%-2rem)] pl-25 text-left flex justify-start">
+                    <div className="hidden md:flex w-full md:w-[calc(50%-1rem)] pl-4 md:pl-8 lg:pl-12 text-left justify-start items-start">
                       <span
-                        className={`text-8xl text-[var(--color-secondary)]
+                        className={`text-6xl lg:text-8xl text-[var(--color-secondary)]
                         timeline-animate-right ${delayClass}`}
                       >
                         {step.id}
@@ -151,7 +183,9 @@ export default function TimeLine() {
                     </div>
                   )}
 
-                  {index < steps.length - 1 && <div className="h-16" />}
+                  {index < steps.length - 1 && (
+                    <div className="h-8 sm:h-12 md:h-16" />
+                  )}
                 </div>
               );
             })}

@@ -10,7 +10,7 @@ export default function QuranHero({
     <div className="max-w-6xl mx-auto">
       {/* First Row - Hero with Background Image */}
       <div
-        className="relative py-36 px-8 overflow-hidden"
+        className="relative py-16 px-4 sm:py-24 md:py-36 md:px-8 overflow-hidden"
         style={{
           backgroundColor: heroImage ? "transparent" : "var(--color-secondary)",
         }}
@@ -55,7 +55,7 @@ export default function QuranHero({
       <div className="grid grid-cols-1 md:grid-cols-2 max-w-7xl mx-auto overflow-hidden shadow-lg">
         {/* First Column - Image Section with Dark Teal Background */}
         <div
-          className="p-12 md:p-16 flex items-center justify-center"
+          className="p-6 md:p-12 lg:p-16 flex items-center justify-center"
           style={{ backgroundColor: "#054A48" }}
         >
           <div className="relative w-full h-full flex items-center justify-center">
@@ -64,14 +64,14 @@ export default function QuranHero({
               alt="Al-Mustafa Translation"
               width={400}
               height={400}
-              className="object-contain"
+              className="object-contain w-[200px] sm:w-[280px] md:w-[350px] lg:w-[400px] h-auto"
             />
           </div>
         </div>
 
         {/* Second Column - Text Section with Tertiary Color */}
         <div
-          className="p-12 md:p-16 flex items-center justify-center"
+          className="p-6 md:p-12 lg:p-16 flex items-center justify-center"
           style={{ backgroundColor: "var(--color-tertiary)" }}
         >
           <div className="text-center text-white">

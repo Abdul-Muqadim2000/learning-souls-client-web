@@ -1,3 +1,4 @@
+import CarouselSlider from "@/components/CarouselSlider";
 import FullscreenHeader from "@/components/FullscreenHeader";
 import { FAQAccordion } from "@/components/ui/Accordion";
 
@@ -22,7 +23,28 @@ const faqData = [
     answer: "YES. YOU CAN DOWNLOAD, SHARE, PRINT — WITHOUT ASKING PERMISSION.",
   },
 ];
-
+const upcomingBooksItems = [
+  {
+    image: "/images/ucb1.webp",
+    heading: "Coming Soon",
+  },
+  {
+    image: "/images/ucb2.webp",
+    heading: "Coming Soon",
+  },
+  {
+    image: "/images/ucb3.webp",
+    heading: "Coming Soon",
+  },
+  {
+    image: "/images/ucb4.webp",
+    heading: "Coming Soon",
+  },
+  {
+    image: "/images/ucb5.webp",
+    heading: "Coming Soon",
+  },
+];
 export default function AlMustafaTranslation() {
   return (
     <>
@@ -108,8 +130,15 @@ export default function AlMustafaTranslation() {
         // backgroundImage={"/images/Asset-1.webp"}
       />
 
+      <CarouselSlider
+        items={upcomingBooksItems}
+        title="EACH EDITION BRINGS A DIFFERENT LENS (COMING SOON)"
+        bgColor="var(--color-tertiary)"
+        bgImage="/images/books-bg.webp"
+        textColor="white"
+      />
       {/* FAQ Section */}
-      <section className="w-full py-16 px-4 bg-gray-50">
+      <section className="w-full py-8 px-4 sm:py-12 md:py-16 bg-gray-50 overflow-x-hidden">
         <div className="max-w-6xl mx-auto">
           <FAQAccordion faqs={faqData} />
         </div>

@@ -6,7 +6,7 @@ export const cardListData = [
     description:
       "Distributing Quran Translations and Seerah Books to Multi-Faith Rooms in NHS Hospitals and HM Prisons Services.",
     buttonText: "More Info",
-    buttonLink: "/projects/quran-translation-for-all",
+    buttonLink: "/projects/distributing-quran-and-seerah",
     gradientValue: "from-[#bd2387] to-[#f15a24]",
   },
   {
@@ -26,7 +26,7 @@ export const cardListData = [
     description:
       "Developing a Free, Multi-Language Encyclopedia of Hadith of Prophet Muhammad (PBUH).",
     buttonText: "More Info",
-    buttonLink: "/projects/quran-translation-for-all",
+    buttonLink: "/projects/translation-of-hadith",
     gradientValue: "from-[#bd2387] to-[#f15a24]",
   },
 ];

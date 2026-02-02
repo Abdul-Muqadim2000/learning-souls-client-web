@@ -13,93 +13,64 @@ const CarouselSlider = ({
   bgColor,
   bgImage,
   textColor,
-  slideWidth = 275,
-  slideHeight = null,
-  scale = 1, // Overall scale of the carousel (0.5 = 50%, 1 = 100%, 1.5 = 150%)
 }) => {
-  const [currIndex, setCurrIndex] = useState(0);
-  const [dimensions, setDimensions] = useState({ width: 275, height: 300 });
-  const sliderRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const intervalRef = useRef(null);
+  const [itemsPerView, setItemsPerView] = useState(3);
 
-  // Initialize - start from middle item
-  useEffect(() => {
-    if (items.length > 0) {
-      setCurrIndex(Math.floor(items.length / 2));
-    }
-  }, [items.length]);
-
-  // Handle resize
   useEffect(() => {
     const handleResize = () => {
-      const width = Math.max(window.innerWidth * 0.25, slideWidth);
-      const height = slideHeight || width * 1.4; // Portrait aspect ratio (1:1.4) if not specified
-      setDimensions({ width, height });
+      if (window.innerWidth < 640) {
+        setItemsPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsPerView(2);
+      } else {
+        setItemsPerView(3);
+      }
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [slideWidth, slideHeight]);
+  }, []);
 
-  const startTimer = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      next();
-    }, intervalTime);
+  const maxIndex = Math.max(0, items.length - itemsPerView);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
   };
 
-  const move = (index) => {
-    let newIndex = index;
-    if (newIndex < 0) newIndex = items.length - 1;
-    if (newIndex >= items.length) newIndex = 0;
-    setCurrIndex(newIndex);
+  const handleNext = () => {
+    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
-  const prev = () => {
-    move(currIndex - 1);
-  };
-
-  const next = () => {
-    move(currIndex + 1);
-  };
-
-  // Auto play timer
   useEffect(() => {
-    if (autoPlay && items.length > 0) {
-      startTimer();
+    if (autoPlay && items.length > itemsPerView) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prev) => {
+          if (prev >= maxIndex) return 0;
+          return prev + 1;
+        });
+      }, intervalTime);
       return () => clearInterval(intervalRef.current);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currIndex, autoPlay, items.length]);
-
-  const getTransform = (index) => {
-    if (index === currIndex) {
-      return "perspective(1200px)";
-    }
-    const rotation = index < currIndex ? 40 : -40;
-    return `perspective(1200px) rotateY(${rotation}deg)`;
-  };
-
-  const getSliderTransform = () => {
-    if (!sliderRef.current) return "translate3d(0,0,0)";
-
-    const itemWidth = dimensions.width;
-
-    const container = sliderRef.current.parentElement;
-    const containerWidth = container.offsetWidth;
-
-    const containerCenter = containerWidth / 2;
-    const currentItemCenter = currIndex * itemWidth + itemWidth / 2;
-
-    return `translate3d(${containerCenter - currentItemCenter}px, 0, 0)`;
-  };
+  }, [
+    currentIndex,
+    autoPlay,
+    items.length,
+    itemsPerView,
+    maxIndex,
+    intervalTime,
+  ]);
 
   if (items.length === 0) return null;
 
+  const slideWidth = 100 / itemsPerView;
+
   return (
     <section
-      className="w-full py-20 overflow-hidden relative"
+      className="w-full py-12 sm:py-16 lg:py-20 relative"
       style={{
         backgroundColor: bgColor || "transparent",
         backgroundImage: bgImage ? `url(${bgImage})` : "none",
@@ -107,167 +78,132 @@ const CarouselSlider = ({
         backgroundPosition: "center",
       }}
     >
-      
-      {/* Title */}
       {title && (
         <GenericHeader title={title} height={"lg"} textColor={textColor} />
       )}
 
-      <div
-        className="relative max-w-7xl mx-auto"
-        style={{ transform: `scale(${scale})`, transformOrigin: "center" }}
-      >
-        {/* Carousel Body */}
-        <div className="py-8 overflow-hidden">
-          <div
-            ref={sliderRef}
-            className="relative transition-transform duration-1000 ease-in-out"
-            style={{
-              transform: getSliderTransform(),
-              width: `${dimensions.width * items.length}px`,
-            }}
-          >
-            {items.map((item, index) => {
-              const isActive = index === currIndex;
-              return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative">
+          {/* Navigation Buttons */}
+          {currentIndex > 0 && (
+            <button
+              onClick={handlePrev}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+              aria-label="Previous"
+            >
+              <ChevronLeft
+                className="w-5 h-5 sm:w-6 sm:h-6"
+                style={{ color: textColor || "var(--color-secondary)" }}
+              />
+            </button>
+          )}
+
+          {currentIndex < maxIndex && (
+            <button
+              onClick={handleNext}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-6 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+              aria-label="Next"
+            >
+              <ChevronRight
+                className="w-5 h-5 sm:w-6 sm:h-6"
+                style={{ color: textColor || "var(--color-secondary)" }}
+              />
+            </button>
+          )}
+
+          {/* Carousel Wrapper */}
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{
+                transform: `translateX(-${currentIndex * slideWidth}%)`,
+              }}
+            >
+              {items.map((item, index) => (
                 <div
                   key={index}
-                  className={`float-left ${isActive ? "carousel-item-active" : ""}`}
-                  style={{
-                    width: `${dimensions.width}px`,
-                    height: `${dimensions.height}px`,
-                    padding: "0 0",
-                  }}
+                  className="flex-shrink-0 px-2 sm:px-3"
+                  style={{ width: `${slideWidth}%` }}
                 >
-                  <div
-                    className="relative w-full h-full transition-transform duration-1000 ease-in-out"
-                    style={{
-                      transform: getTransform(index),
-                      transformStyle: "preserve-3d",
-                    }}
-                  >
-                    {/* Shadow */}
-                    <div
-                      className="absolute bottom-0 w-full h-10 bg-black/20"
-                      style={{
-                        transform: "rotateX(90deg) translate3d(0, -20px, 0)",
-                        boxShadow: "0 0 5px 5px rgba(0,0,0,0.2)",
-                      }}
-                    />
+                  <div className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full">
+                    {/* Image Only */}
+                    {item.image && !item.heading && !item.description && (
+                      <div className="relative w-full aspect-[4/3]">
+                        <Image
+                          src={item.image}
+                          alt={`Slide ${index + 1}`}
+                          fill
+                          className="object-cover"
+                          sizes={`(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw`}
+                        />
+                      </div>
+                    )}
 
-                    {/* Front Face */}
-                    <div
-                      className="absolute w-full h-full flex flex-col items-center justify-center text-center border-4 border-white bg-[var(--color-primary)] overflow-hidden"
-                      style={{ backfaceVisibility: "hidden" }}
-                    >
-                      {/* Image if provided */}
-                      {item.image && (
-                        <div className="relative w-full h-full">
+                    {/* Image with Content */}
+                    {item.image && (item.heading || item.description) && (
+                      <>
+                        <div className="relative w-full aspect-[4/3]">
                           <Image
                             src={item.image}
                             alt={item.heading || `Slide ${index + 1}`}
                             fill
-                            className="object-cover "
+                            className="object-cover"
+                            sizes={`(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw`}
                           />
-                          {/* Overlay for text readability */}
-                          {(item.heading || item.description) && (
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                        </div>
+                        <div className="p-3 sm:p-4 md:p-5 text-center">
+                          {item.heading && (
+                            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-1 sm:mb-2">
+                              {item.heading}
+                            </h3>
+                          )}
+                          {item.description && (
+                            <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
+                              {item.description}
+                            </p>
                           )}
                         </div>
-                      )}
+                      </>
+                    )}
 
-                      {/* Content Overlay */}
-                      <div
-                        className={`${item.image ? "absolute bottom-0 left-0 right-0" : ""} p-6 z-10`}
-                      >
-                        {item.heading && (
-                          <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white">
-                            {item.heading}
-                          </h3>
-                        )}
-                        {item.description && (
-                          <p
-                            className={`text-sm md:text-base ${item.image ? "text-gray-200" : "text-gray-300"}`}
-                          >
-                            {item.description}
-                          </p>
-                        )}
-                        {/* If no image, heading, or description - show number */}
-                        {!item.image && !item.heading && !item.description && (
-                          <h1 className="text-7xl md:text-9xl font-bold text-white">
-                            {index + 1}
-                          </h1>
-                        )}
+                    {/* Fallback */}
+                    {!item.image && (
+                      <div className="w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                        <span className="text-3xl sm:text-4xl font-bold text-gray-400">
+                          {index + 1}
+                        </span>
                       </div>
-                    </div>
-
-                    {/* Left Face */}
-                    <div
-                      className="absolute top-0 left-0 w-10 h-full border-l-4 border-white bg-[var(--color-secondary)]"
-                      style={{
-                        transform: "translate3d(1px, 0, -40px) rotateY(-90deg)",
-                        transformOrigin: "0",
-                        backfaceVisibility: "hidden",
-                      }}
-                    />
-
-                    {/* Right Face */}
-                    <div
-                      className="absolute top-0 right-0 w-10 h-full border-r-4 border-white bg-[var(--color-secondary)]"
-                      style={{
-                        transform: "translate3d(-1px, 0, -40px) rotateY(90deg)",
-                        transformOrigin: "100%",
-                        backfaceVisibility: "hidden",
-                      }}
-                    />
+                    )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Bottom Navigation Controls */}
-        <div className="flex items-center justify-center gap-8 mt-8 cursor-pointer">
-          <button
-            onClick={prev}
-            className="hover:scale-110 transition-transform duration-300 cursor-pointer"
-            style={{ color: textColor || "var(--color-secondary)" }}
-            aria-label="Previous"
-          >
-            <ChevronLeft size={48} />
-          </button>
-
-          {/* Pagination Dots */}
-          <div className="flex items-center gap-2">
-            {items.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => move(index)}
-                className={`rounded-full transition-all duration-300`}
-                style={{
-                  width: index === currIndex ? "12px" : "8px",
-                  height: index === currIndex ? "12px" : "8px",
-                  backgroundColor:
-                    index === currIndex
-                      ? textColor || "var(--color-secondary)"
-                      : textColor
-                        ? `${textColor}80`
-                        : "rgb(156, 163, 175)",
-                }}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+              ))}
+            </div>
           </div>
 
-          <button
-            onClick={next}
-            className="hover:scale-110 transition-transform duration-300 cursor-pointer"
-            style={{ color: textColor || "var(--color-secondary)" }}
-            aria-label="Next"
-          >
-            <ChevronRight size={48} />
-          </button>
+          {/* Dots Indicator */}
+          {items.length > itemsPerView && (
+            <div className="flex items-center justify-center gap-2 mt-6 sm:mt-8">
+              {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className="transition-all duration-300"
+                  style={{
+                    width: currentIndex === index ? "2rem" : "0.5rem",
+                    height: "0.5rem",
+                    borderRadius: "0.25rem",
+                    backgroundColor:
+                      currentIndex === index
+                        ? textColor || "var(--color-secondary)"
+                        : textColor
+                          ? `${textColor}40`
+                          : "rgba(156, 163, 175, 0.5)",
+                  }}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -27,7 +27,7 @@ export default function BooksDistributionProject() {
         textColor={"var(--color-tertiary)"}
         height="huge"
         buttonText="Donate Now"
-        buttonLink="/register"
+        buttonLink="/donate"
       />
     </>
   );

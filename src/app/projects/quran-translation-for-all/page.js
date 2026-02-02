@@ -1,28 +1,15 @@
+"use client";
+
 import QuranHero from "@/components/projects/QuranHero";
 import EditionsShowcase from "@/components/projects/EditionsShowcase";
 import ContentSection from "@/components/projects/ContentSection";
-
 import FeatureList from "@/components/projects/FeatureList";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
-// Metadata for SEO
-export const metadata = {
-  title: "Quran Translation for All - Learning Souls",
-  description:
-    "Making Quran translation accessible to everyone with easy-to-understand editions for all ages and learning levels.",
-  keywords: [
-    "Quran",
-    "Translation",
-    "Islamic Education",
-    "Holy Quran",
-    "Learning",
-  ],
-  openGraph: {
-    title: "Quran Translation for All - Learning Souls",
-    description: "Making Quran translation accessible to everyone",
-    type: "website",
-  },
-};
+// Dynamically import the donation page to reuse its form
+const DonatePage = dynamic(() => import("@/app/donate/page"), { ssr: false });
+
 
 // Project Data - Centralized for maintainability
 const projectData = {
@@ -173,7 +160,22 @@ export default function QuranTranslationPage() {
         </div>
       </ContentSection>
 
-      {/* Support Section - Donation Area */}
+      {/* Support Section - Donation Form */}
+      <section className="w-full py-12 sm:py-16 lg:py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-(--color-secondary) mb-4">
+              Support This Project
+            </h2>
+            <p className="text-(--color-secondary) text-base sm:text-lg max-w-2xl mx-auto">
+              Your generous donation helps us make the Quran accessible to
+              everyone.
+            </p>
+          </div>
+
+          <DonatePage />
+        </div>
+      </section>
     </div>
   );
 }

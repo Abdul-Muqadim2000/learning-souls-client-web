@@ -237,7 +237,7 @@ const Navbar = () => {
               </div>
             ),
           )}
-          <div className="pt-2 space-y-2">
+          <div className="pt-2 space-y-4 sm:space-y-5 md:space-y-6">
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard" onClick={closeMobileMenu}>

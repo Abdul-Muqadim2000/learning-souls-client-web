@@ -1,26 +1,13 @@
+"use client";
 import GenericHeader from "@/components/GenericHeader";
 
 import Image from "next/image";
 
 // Metadata for SEO
-export const metadata = {
-  title: "Distributing Quran and Seerah - Learning Souls",
-  description:
-    "Spreading knowledge through free distribution of Quran and Seerah materials to NHS Hospitals and HM prisons.",
-  keywords: [
-    "Quran Distribution",
-    "Seerah",
-    "Islamic Education",
-    "Free Quran",
-    "NHS Hospitals",
-    "HM Prisons",
-  ],
-  openGraph: {
-    title: "Distributing Quran and Seerah - Learning Souls",
-    description: "Spreading knowledge through Quran and Seerah distribution",
-    type: "website",
-  },
-};
+import dynamic from "next/dynamic";
+
+// Dynamically import the donation page to reuse its form
+const DonatePage = dynamic(() => import("@/app/donate/page"), { ssr: false });
 
 // Project Data
 const projectData = {
@@ -106,7 +93,6 @@ export default function DistributingQuranSeerahPage() {
 
           {/* Description Paragraphs */}
           <div className="space-y-6">
-            
             {projectData.content.paragraphs.map((paragraph, index) => (
               <p
                 key={index}
@@ -194,6 +180,21 @@ export default function DistributingQuranSeerahPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+      <section className="w-full py-12 sm:py-16 lg:py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-(--color-secondary) mb-4">
+              Support This Project
+            </h2>
+            <p className="text-(--color-secondary) text-base sm:text-lg max-w-2xl mx-auto">
+              Your generous donation helps us make the Quran accessible to
+              everyone.
+            </p>
+          </div>
+
+          <DonatePage />
         </div>
       </section>
     </div>
