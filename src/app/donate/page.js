@@ -11,12 +11,14 @@ import {
   ChevronRight,
   Loader2,
   Mail,
+  RefreshCcwIcon,
 } from "lucide-react";
 
 export default function DonatePage() {
   const { user, isAuthenticated } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [detectedLocation, setDetectedLocation] = useState(null);
   const [formData, setFormData] = useState({
     // Step 1: Donation Details
     donationFrequency: "one-time", // 'one-time' or 'monthly'
@@ -35,8 +37,97 @@ export default function DonatePage() {
     // Step 3: Gift Aid
     giftAid: false,
     // Step 4: Payment Method
-    paymentMethod: "stripe", // 'paypal', 'stripe', 'bank-transfer'
+    paymentMethod: "", // 'paypal', 'stripe', 'bank-transfer'
   });
+
+  // Load form data from localStorage on mount
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("donateFormData");
+    const savedStep = localStorage.getItem("donateCurrentStep");
+
+    if (savedFormData) {
+      try {
+        const parsed = JSON.parse(savedFormData);
+        setFormData(parsed);
+      } catch (error) {
+        console.error("Error loading saved form data:", error);
+      }
+    }
+
+    if (savedStep) {
+      setCurrentStep(parseInt(savedStep));
+    }
+  }, []);
+
+  // Save form data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("donateFormData", JSON.stringify(formData));
+  }, [formData]);
+
+  // Save current step to localStorage
+  useEffect(() => {
+    localStorage.setItem("donateCurrentStep", currentStep.toString());
+  }, [currentStep]);
+
+  // Auto-detect country code based on user location
+  useEffect(() => {
+    const detectCountryCode = async () => {
+      try {
+        // Use ipapi.co for geolocation (free tier available)
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+
+        // Map country codes to phone codes
+        const countryToPhoneCode = {
+          US: "+1",
+          CA: "+1",
+          GB: "+44",
+          IN: "+91",
+          PK: "+92",
+          AE: "+971",
+          SA: "+966",
+          EG: "+20",
+          BD: "+880",
+        };
+
+        const detectedCode = countryToPhoneCode[data.country_code] || "+1";
+
+        // Store detected location and ask for permission
+        setDetectedLocation({
+          countryCode: detectedCode,
+          country: data.country_name,
+        });
+      } catch (error) {
+        console.log("Could not detect country code:", error);
+        // Keep default +1 if detection fails
+      }
+    };
+
+    // Only detect if not authenticated (authenticated users have their saved country code)
+    if (!isAuthenticated && !formData.phone && !detectedLocation) {
+      detectCountryCode();
+    }
+  }, [isAuthenticated, detectedLocation]);
+
+  // Show prompt when location is detected
+  useEffect(() => {
+    if (detectedLocation && !formData.phone) {
+      const useDetectedLocation = window.confirm(
+        `We detected you're in ${detectedLocation.country}. Would you like to use ${detectedLocation.countryCode} as your country code?`,
+      );
+
+      if (useDetectedLocation) {
+        setFormData((prev) => ({
+          ...prev,
+          countryCode: detectedLocation.countryCode,
+          country: detectedLocation.country,
+        }));
+      }
+
+      // Clear detected location after handling
+      setDetectedLocation(null);
+    }
+  }, [detectedLocation]);
 
   // Pre-fill user data when authenticated
   useEffect(() => {
@@ -97,6 +188,39 @@ export default function DonatePage() {
     }
   };
 
+  const handleReset = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to reset the entire form? All your information will be cleared.",
+      )
+    ) {
+      // Clear localStorage
+      localStorage.removeItem("donateFormData");
+      localStorage.removeItem("donateCurrentStep");
+
+      // Reset form data to initial state
+      setFormData({
+        donationFrequency: "one-time",
+        projects: [],
+        donationType: "Lillah",
+        amount: 50,
+        currency: "GBP",
+        fullname: "",
+        email: "",
+        countryCode: "+1",
+        phone: "",
+        addressLine: "",
+        city: "",
+        country: "",
+        giftAid: false,
+        paymentMethod: "",
+      });
+
+      // Go back to step 1
+      setCurrentStep(1);
+    }
+  };
+
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
@@ -119,11 +243,18 @@ export default function DonatePage() {
 
       // Handle Stripe/PayPal redirect
       if (data.data?.redirectUrl) {
+        // Don't clear form data yet - only clear it after successful payment confirmation
+        // This allows users to return and retry if they cancel the payment
         window.location.href = data.data.redirectUrl;
         return;
       }
 
       // Handle other payment methods (bank transfer, etc.)
+      // Clear form data only for bank transfer since it's immediately complete
+      if (formData.paymentMethod === "bank-transfer") {
+        localStorage.removeItem("donateFormData");
+        localStorage.removeItem("donateCurrentStep");
+      }
       alert(data.message || "Donation submitted successfully!");
       setIsLoading(false);
       window.location.href = "/donate/success";
@@ -184,7 +315,11 @@ export default function DonatePage() {
             <Step1 formData={formData} updateFormData={updateFormData} />
           )}
           {currentStep === 2 && (
-            <Step2 formData={formData} updateFormData={updateFormData} />
+            <Step2
+              formData={formData}
+              updateFormData={updateFormData}
+              handleReset={handleReset}
+            />
           )}
           {currentStep === 3 && (
             <Step3 formData={formData} updateFormData={updateFormData} />
@@ -237,7 +372,7 @@ export default function DonatePage() {
                       : "!bg-green-600 hover:!bg-green-700"
                 }`}
                 iconClassName={isLoading ? "animate-spin" : ""}
-                disabled={isLoading}
+                disabled={isLoading || !formData.paymentMethod}
               />
             )}
           </div>
@@ -297,22 +432,28 @@ function Step1({ formData, updateFormData }) {
         currentProjects.filter((p) => p.name !== projectName),
       );
     } else {
-      // Add project to the list with default amount
+      // Add project to the list with current amount
       updateFormData("projects", [
         ...currentProjects,
-        { name: projectName, amount: 50 },
+        { name: projectName, amount: formData.amount || 50 },
       ]);
     }
   };
 
   const updateProjectAmount = (projectName, amount) => {
     const currentProjects = formData.projects || [];
+    const parsedAmount = parseFloat(amount) || 0;
     updateFormData(
       "projects",
       currentProjects.map((p) =>
-        p.name === projectName ? { ...p, amount: parseFloat(amount) || 0 } : p,
+        p.name === projectName ? { ...p, amount: parsedAmount } : p,
       ),
     );
+
+    // If only one project, sync the amount to formData.amount
+    if (currentProjects.length === 1) {
+      updateFormData("amount", parsedAmount);
+    }
   };
 
   // Get available projects (not selected)
@@ -402,9 +543,9 @@ function Step1({ formData, updateFormData }) {
                           updateProjectAmount(project.name, e.target.value)
                         }
                         min="1"
-                        step="0.01"
+                        step="1"
                         placeholder="Amount"
-                        className="pl-7 w-32"
+                        className="pl-7 w-32 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                     </div>
                   )}
@@ -547,13 +688,18 @@ function Step1({ formData, updateFormData }) {
               </span>
               <NumberInput
                 value={formData.amount}
-                onChange={(e) =>
-                  updateFormData("amount", parseFloat(e.target.value) || 0)
-                }
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Allow empty string or valid number
+                  updateFormData(
+                    "amount",
+                    value === "" ? "" : parseFloat(value) || "",
+                  );
+                }}
                 min="1"
-                step="0.01"
+                step="1"
                 placeholder="Enter custom amount"
-                className="pl-10"
+                className="pl-10 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
           </div>
@@ -564,7 +710,7 @@ function Step1({ formData, updateFormData }) {
 }
 
 // Step 2: User Details
-function Step2({ formData, updateFormData }) {
+function Step2({ formData, updateFormData, handleReset }) {
   const countryCodes = [
     { code: "+1", country: "US/Canada" },
     { code: "+44", country: "UK" },
@@ -578,13 +724,21 @@ function Step2({ formData, updateFormData }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Your Information
-        </h2>
-        <p className="text-gray-600">
-          We need these details to process your donation
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Your Information
+          </h2>
+          <p className="text-gray-600">
+            We need these details to process your donation
+          </p>
+        </div>
+        <PrimaryButton
+          text="Reset Form"
+          icon={RefreshCcwIcon}
+          onClick={handleReset}
+          className="!bg-red-600 hover:!bg-red-700 !border-red-600 hover:!border-red-700"
+        />
       </div>
 
       {/* Full Name */}
@@ -894,7 +1048,7 @@ function Step4({ formData, updateFormData }) {
         {formData.paymentMethod === "stripe" &&
           "You'll be redirected to Stripe's secure payment page"}
         {formData.paymentMethod === "paypal" &&
-          "You'll be redirected to PayPal's secure payment page"}
+          `PayPal invoice will be sent to ${formData.email}`}
         {formData.paymentMethod === "bank-transfer" &&
           "Bank transfer details will be sent to your email"}
       </p>

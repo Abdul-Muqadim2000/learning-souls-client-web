@@ -1,6 +1,12 @@
 "use client";
 
-import { AlertCircle, ArrowLeft, Home, HelpCircle } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowLeft,
+  Home,
+  HelpCircle,
+  CheckCircle,
+} from "lucide-react";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 
 export default function DonateCancel() {
@@ -95,6 +101,23 @@ export default function DonateCancel() {
                 <li>Contact our support team if you need assistance</li>
                 <li>Explore our projects to learn more about our work</li>
               </ul>
+            </div>
+
+            {/* Form Data Preserved Notice */}
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-start">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 mr-3 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-green-900">
+                    Your Information Is Safe
+                  </p>
+                  <p className="text-sm text-green-700 mt-1">
+                    Don't worry! Your donation form details have been saved.
+                    When you click "Try Again", all your information will be
+                    restored so you don't have to fill it out again.
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Action Buttons */}

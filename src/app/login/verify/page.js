@@ -86,16 +86,24 @@ function VerifyPageContent() {
 
       const data = await response.json();
       console.log("Verification successful:", data);
-      // Store the access token
-      if (data.data?.tokens) {
-        localStorage.setItem("accessToken", data.data.tokens);
+
+      // Store tokens properly
+      const tokens = data.data?.tokens;
+      if (tokens) {
+        if (tokens.accessToken) {
+          localStorage.setItem("accessToken", tokens.accessToken);
+        }
+        if (tokens.refreshToken) {
+          localStorage.setItem("refreshToken", tokens.refreshToken);
+        }
+
         // Refresh user context to load user data
         await refreshUser();
 
         // Redirect to dashboard
         router.push("/dashboard");
       } else {
-        setError("Verification succeeded but no access token received");
+        setError("Verification succeeded but no tokens received");
       }
     } catch (err) {
       setError(err.message || "Verification failed. Please try again.");
