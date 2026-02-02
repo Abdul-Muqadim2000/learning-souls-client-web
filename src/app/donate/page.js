@@ -299,10 +299,10 @@ export default function DonatePage() {
             <span className="text-xs font-medium text-gray-600">
               Donation Details
             </span>
-            <span className="text-xs font-medium text-gray-600 mr-14">
+            <span className="text-xs font-medium text-gray-600 lg:mr-14">
               Your Information
             </span>
-            <span className="text-xs font-medium text-gray-600 mr-18">
+            <span className="text-xs font-medium text-gray-600 lg:mr-18">
               Gift Aid
             </span>
             <span className="text-xs font-medium text-gray-600">Payment</span>
@@ -310,7 +310,7 @@ export default function DonatePage() {
         </div>
 
         {/* Step Content */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white rounded-lg shadow-lg lg:p-8 md:p-6 p-4">
           {currentStep === 1 && (
             <Step1 formData={formData} updateFormData={updateFormData} />
           )}
@@ -675,7 +675,7 @@ function Step1({ formData, updateFormData }) {
             value={formData.amount}
             onChange={(value) => {
               updateFormData("amount", value);
-              
+
               // If only one project is selected, also update that project's amount
               if (formData.projects && formData.projects.length === 1) {
                 const currentProjects = formData.projects;
@@ -684,7 +684,7 @@ function Step1({ formData, updateFormData }) {
                   currentProjects.map((p) => ({
                     ...p,
                     amount: value,
-                  }))
+                  })),
                 );
               }
             }}
@@ -704,11 +704,12 @@ function Step1({ formData, updateFormData }) {
                 value={formData.amount}
                 onChange={(e) => {
                   const value = e.target.value;
-                  const parsedAmount = value === "" ? "" : parseFloat(value) || "";
-                  
+                  const parsedAmount =
+                    value === "" ? "" : parseFloat(value) || "";
+
                   // Update the main amount
                   updateFormData("amount", parsedAmount);
-                  
+
                   // If only one project is selected, also update that project's amount
                   if (formData.projects && formData.projects.length === 1) {
                     const currentProjects = formData.projects;
@@ -717,7 +718,7 @@ function Step1({ formData, updateFormData }) {
                       currentProjects.map((p) => ({
                         ...p,
                         amount: parsedAmount,
-                      }))
+                      })),
                     );
                   }
                 }}
