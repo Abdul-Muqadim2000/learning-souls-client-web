@@ -113,6 +113,8 @@ export default function Apps() {
           textColor={app.textColor}
           backgroundImage={app.backgroundImage}
           helperImage={app.helperImage}
+          imageSize="scale-110 lg:scale-125"
+          customImageHeight={800}
         />
       ))}
 

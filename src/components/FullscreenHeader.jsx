@@ -23,6 +23,7 @@ const FullscreenHeader = ({
   helperImage1,
   helperImage2,
   imageSize = "scale-90 lg:scale-100",
+  customImageHeight = 400,
   showShapes = false,
   bgColor = "var(--color-tertiary)",
   textColor = "var(--color-primary)",
@@ -210,8 +211,8 @@ const FullscreenHeader = ({
                   <Image
                     src={helperImage}
                     alt="Helper illustration main"
-                    width={400}
-                    height={400}
+                    width={customImageHeight}
+                    height={customImageHeight}
                     className="object-contain"
                     priority
                   />
