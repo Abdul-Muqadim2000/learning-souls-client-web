@@ -673,7 +673,21 @@ function Step1({ formData, updateFormData }) {
               label: `${getCurrencySymbol(formData.currency)}${amount}`,
             }))}
             value={formData.amount}
-            onChange={(value) => updateFormData("amount", value)}
+            onChange={(value) => {
+              updateFormData("amount", value);
+              
+              // If only one project is selected, also update that project's amount
+              if (formData.projects && formData.projects.length === 1) {
+                const currentProjects = formData.projects;
+                updateFormData(
+                  "projects",
+                  currentProjects.map((p) => ({
+                    ...p,
+                    amount: value,
+                  }))
+                );
+              }
+            }}
             columns={3}
           />
 
@@ -690,11 +704,22 @@ function Step1({ formData, updateFormData }) {
                 value={formData.amount}
                 onChange={(e) => {
                   const value = e.target.value;
-                  // Allow empty string or valid number
-                  updateFormData(
-                    "amount",
-                    value === "" ? "" : parseFloat(value) || "",
-                  );
+                  const parsedAmount = value === "" ? "" : parseFloat(value) || "";
+                  
+                  // Update the main amount
+                  updateFormData("amount", parsedAmount);
+                  
+                  // If only one project is selected, also update that project's amount
+                  if (formData.projects && formData.projects.length === 1) {
+                    const currentProjects = formData.projects;
+                    updateFormData(
+                      "projects",
+                      currentProjects.map((p) => ({
+                        ...p,
+                        amount: parsedAmount,
+                      }))
+                    );
+                  }
                 }}
                 min="1"
                 step="1"
