@@ -10,7 +10,6 @@ import dynamic from "next/dynamic";
 // Dynamically import the donation page to reuse its form
 const DonatePage = dynamic(() => import("@/app/donate/page"), { ssr: false });
 
-
 // Project Data - Centralized for maintainability
 const projectData = {
   hero: {
@@ -90,25 +89,43 @@ const projectData = {
         title: "God Edition",
         description:
           "With out Arabic. Suitable for western non Muslim readers. Names and places are in English",
-        image: "/images/ucb1.webp",
+        image: "/images/ucb3.png",
       },
       {
         title: "Allah Edition",
         description:
           "Arabic and English in two columns Ayah by Ayah. Names and places are Arabic",
-        image: "/images/ucb2.webp",
+        image: "/images/ucb5.png",
       },
       {
         title: "Tajweed Edition",
         description:
           "Allah Edition with Arabic in Colour tajweed Best for Kids who are learning to recite Quran",
-        image: "/images/ucb4.webp",
+        image: "/images/ucb2.png",
       },
       {
         title: "Advanced Learners Edition",
         description:
           "Allah edition with word by word meaning in the Arabic section",
-        image: "/images/ucb5.webp",
+        image: "/images/ucb6.png",
+      },
+      {
+        // title: "Content to be given",
+        description:
+          "Allah edition with word by word meaning in the Arabic section",
+        image: "/images/ucb1.png",
+      },
+      {
+        // title: "content to be given",
+        description:
+          "Allah edition with word by word meaning in the Arabic section",
+        image: "/images/ucb7.png",
+      },
+      {
+        // title: "content to be given",
+        description:
+          "Allah edition with word by word meaning in the Arabic section",
+        image: "/images/ucb4.png",
       },
     ],
   },

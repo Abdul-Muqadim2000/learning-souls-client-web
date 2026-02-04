@@ -23,9 +23,9 @@ const CarouselSlider = ({
       if (window.innerWidth < 640) {
         setItemsPerView(1);
       } else if (window.innerWidth < 1024) {
-        setItemsPerView(2);
-      } else {
         setItemsPerView(3);
+      } else {
+        setItemsPerView(4);
       }
     };
 
@@ -128,7 +128,7 @@ const CarouselSlider = ({
                   <div className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full">
                     {/* Image Only */}
                     {item.image && !item.heading && !item.description && (
-                      <div className="relative w-full aspect-[4/3]">
+                      <div className="relative w-full aspect-[3/4]">
                         <Image
                           src={item.image}
                           alt={`Slide ${index + 1}`}
@@ -142,7 +142,7 @@ const CarouselSlider = ({
                     {/* Image with Content */}
                     {item.image && (item.heading || item.description) && (
                       <>
-                        <div className="relative w-full aspect-[4/3]">
+                        <div className="relative w-full aspect-[3/4]">
                           <Image
                             src={item.image}
                             alt={item.heading || `Slide ${index + 1}`}
@@ -168,7 +168,7 @@ const CarouselSlider = ({
 
                     {/* Fallback */}
                     {!item.image && (
-                      <div className="w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                      <div className="w-full aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
                         <span className="text-3xl sm:text-4xl font-bold text-gray-400">
                           {index + 1}
                         </span>

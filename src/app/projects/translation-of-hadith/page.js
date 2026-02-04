@@ -1,26 +1,30 @@
+"use client";
 import QuranHero from "@/components/projects/QuranHero";
 import ContentSection from "@/components/projects/ContentSection";
 import FeatureList from "@/components/projects/FeatureList";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
+// Dynamically import the donation page to reuse its form
+const DonatePage = dynamic(() => import("@/app/donate/page"), { ssr: false });
 // Metadata for SEO
-export const metadata = {
-  title: "Translation of Hadith - Learning Souls",
-  description:
-    "Authentic Hadith translations made accessible and easy to understand for Muslims worldwide.",
-  keywords: [
-    "Hadith",
-    "Translation",
-    "Islamic Education",
-    "Sunnah",
-    "Learning",
-  ],
-  openGraph: {
-    title: "Translation of Hadith - Learning Souls",
-    description: "Authentic Hadith translations for all",
-    type: "website",
-  },
-};
+// export const metadata = {
+//   title: "Translation of Hadith - Learning Souls",
+//   description:
+//     "Authentic Hadith translations made accessible and easy to understand for Muslims worldwide.",
+//   keywords: [
+//     "Hadith",
+//     "Translation",
+//     "Islamic Education",
+//     "Sunnah",
+//     "Learning",
+//   ],
+//   openGraph: {
+//     title: "Translation of Hadith - Learning Souls",
+//     description: "Authentic Hadith translations for all",
+//     type: "website",
+//   },
+// };
 
 // Project Data
 const projectData = {
@@ -128,6 +132,23 @@ export default function TranslationOfHadithPage() {
           </div>
         </div>
       </ContentSection>
+
+      {/* Support Section - Donation Form */}
+      <section className="w-full py-12 sm:py-16 lg:py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-(--color-secondary) mb-4">
+              Support This Project
+            </h2>
+            <p className="text-(--color-secondary) text-base sm:text-lg max-w-2xl mx-auto">
+              Your generous donation helps us make the Quran accessible to
+              everyone.
+            </p>
+          </div>
+
+          <DonatePage />
+        </div>
+      </section>
     </div>
   );
 }

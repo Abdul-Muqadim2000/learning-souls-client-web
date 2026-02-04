@@ -1,6 +1,7 @@
 "use client";
 import GenericHeader from "@/components/GenericHeader";
-
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 
 // Metadata for SEO
@@ -8,6 +9,80 @@ import dynamic from "next/dynamic";
 
 // Dynamically import the donation page to reuse its form
 const DonatePage = dynamic(() => import("@/app/donate/page"), { ssr: false });
+
+// QR Modal Component
+const QRModal = ({ isOpen, onClose, qrCodeImage }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!mounted || !isOpen) return null;
+
+  return createPortal(
+    <div
+      className="fixed top-0 left-0 right-0 bottom-0 bg-black/70 z-[9999] flex items-center justify-center p-4"
+      onClick={onClose}
+      style={{ position: "fixed", inset: 0 }}
+    >
+      <div
+        className="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Close"
+        >
+          <svg
+            className="w-6 h-6 text-gray-700"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+          Scan QR Code
+        </h3>
+
+        <div className="relative w-full aspect-square mb-4">
+          <Image
+            src={qrCodeImage}
+            alt="QR Code"
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        <p className="text-gray-600 text-center text-sm">
+          Scan this code with your mobile device to access the content
+        </p>
+      </div>
+    </div>,
+    document.body,
+  );
+};
 
 // Project Data
 const projectData = {
@@ -34,7 +109,7 @@ const projectData = {
       primaryButtonText: "Download",
       primaryButtonHref: "#",
       secondaryButtonText: "QR Code",
-      secondaryButtonHref: "#",
+      qrCodeImage: "/images/wise-quran-qr.jpg",
     },
     {
       imageUrl: "/images/product2.webp",
@@ -45,7 +120,7 @@ const projectData = {
       primaryButtonText: "Download",
       primaryButtonHref: "#",
       secondaryButtonText: "QR Code",
-      secondaryButtonHref: "#",
+      qrCodeImage: "/images/the-wise-quran-QR.jpg",
     },
     {
       imageUrl: "/images/product3.webp",
@@ -56,12 +131,14 @@ const projectData = {
       primaryButtonText: "Download",
       primaryButtonHref: "#",
       secondaryButtonText: "QR Code",
-      secondaryButtonHref: "#",
+      qrCodeImage: "/images/the-wise-quran-QR.jpg",
     },
   ],
 };
 
 export default function DistributingQuranSeerahPage() {
+  const [activeQRModal, setActiveQRModal] = useState(null);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section with Background Image */}
@@ -158,8 +235,8 @@ export default function DistributingQuranSeerahPage() {
                     </svg>
                     {book.primaryButtonText}
                   </a>
-                  <a
-                    href={book.secondaryButtonHref}
+                  <button
+                    onClick={() => setActiveQRModal(book.qrCodeImage)}
                     className="px-8 py-2 bg-white border-2 border-[#09b29d] text-[#09b29d] rounded-full text-sm font-semibold hover:bg-[#09b29d] hover:text-white transition-all duration-300 flex items-center gap-2"
                   >
                     <svg
@@ -175,13 +252,20 @@ export default function DistributingQuranSeerahPage() {
                       <path d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zM10 7a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1H8a1 1 0 110-2h1V8a1 1 0 011-1zM16 9a1 1 0 100 2 1 1 0 000-2zM9 13a1 1 0 011-1h1a1 1 0 110 2v1a1 1 0 11-2 0v-1a1 1 0 01-1-1zM7 16a1 1 0 100-2 1 1 0 000 2zM17 11a1 1 0 10-2 0v1a1 1 0 002 0v-1zM16 17a1 1 0 100-2 1 1 0 000 2zM13 15a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1z" />
                     </svg>
                     {book.secondaryButtonText}
-                  </a>
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* QR Code Modal */}
+      <QRModal
+        isOpen={activeQRModal !== null}
+        onClose={() => setActiveQRModal(null)}
+        qrCodeImage={activeQRModal || ""}
+      />
       <section className="w-full py-12 sm:py-16 lg:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8 text-center">
