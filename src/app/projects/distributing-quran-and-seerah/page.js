@@ -118,7 +118,7 @@ const projectData = {
       description:
         "An insightful biography exploring the life and teachings of Prophet Muhammad ﷺ.",
       primaryButtonText: "Download",
-      primaryButtonHref: "#",
+      primaryButtonHref: "##",
       secondaryButtonText: "QR Code",
       qrCodeImage: "/images/the-wise-quran-QR.jpg",
     },
