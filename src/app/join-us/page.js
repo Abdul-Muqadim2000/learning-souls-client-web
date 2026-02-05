@@ -112,7 +112,7 @@ export default function JoinUs() {
       <GenericHeader
         image="/images/join-us.webp"
         textColor="white"
-        height="xxl"
+        height="huge"
         // overlay={true}
       />
 

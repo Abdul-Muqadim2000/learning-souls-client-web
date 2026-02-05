@@ -56,6 +56,34 @@ const upcomingBooksItems = [
 export default function AlMustafaTranslation() {
   return (
     <>
+      {/* Hero Section */}
+      <section
+        className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage: "url(/images/al-mustafa-hero.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40"></div>
+
+        {/* Content */}
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 text-center">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-4 md:mb-6 leading-tight tracking-tight">
+            THE QURAN FOR EVERYONE
+          </h1>
+          <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-yellow-400 mb-6 md:mb-8 leading-relaxed">
+            Al-Mustafa Translation Series
+          </p>
+          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+            A groundbreaking translation designed for universal understanding.
+            Clear, accessible, and faithful to the original meaning—crafted for
+            both Muslims and seekers of truth.
+          </p>
+        </div>
+      </section>
       <FullscreenHeader
         headerText={"AL MUSTAFA QURAN TRANSLATION"}
         headerTextColor={"yellow"}
@@ -68,7 +96,8 @@ export default function AlMustafaTranslation() {
         textColor="var(--color-primary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        backgroundImage={"/images/al-mustafa1.webp"}
+        // backgroundImage={"/images/al-mustafa1.webp"}
+        helperImage={"/images/ucb3.png"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - ALLAH EDITION"}
@@ -86,7 +115,7 @@ export default function AlMustafaTranslation() {
         primaryButtonText={"Coming Soon"}
         primaryButtonLink={"#"}
         backgroundImage={"/images/Asset-1.webp"}
-        helperImage={"/images/ucb2.webp"}
+        helperImage={"/images/ucb4.png"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - TAJWEED EDITION"}
@@ -101,7 +130,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
-        helperImage={"/images/ucb4.webp"}
+        helperImage={"/images/ucb2.png"}
       />
       <FullscreenHeader
         subheaderText={
@@ -121,7 +150,7 @@ export default function AlMustafaTranslation() {
         primaryButtonText={"Coming Soon"}
         primaryButtonLink={"#"}
         backgroundImage={"/images/Asset-1.webp"}
-        helperImage={"/images/ucb5.webp"}
+        helperImage={"/images/ucb6.png"}
       />
       <FullscreenHeader
         subheaderText={"AL-MUSTAFA QURAN TRANSLATION - EASY URDU TRANSLATION"}
@@ -131,7 +160,7 @@ export default function AlMustafaTranslation() {
           "Word by word and full Ayah translations",
           "Easiest translation for Urdu readers",
         ]}
-        helperImage={"/images/ucb3.webp"}
+        helperImage={"/images/ucb1.png"}
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}

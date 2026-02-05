@@ -28,6 +28,9 @@ const FullscreenHeader = ({
   bgColor = "var(--color-tertiary)",
   textColor = "var(--color-primary)",
   height = "100vh",
+  customGap,
+  customImageMaxWidth,
+  customImageScale,
 }) => {
   // Use larger padding for sections with only background image, smaller for sections with helper images
   const sectionPadding = helperImage
@@ -46,7 +49,9 @@ const FullscreenHeader = ({
         backgroundColor: bgColor,
       }}
     >
-      <div className="max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
+      <div
+        className={`max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 ${customGap || "gap-6 md:gap-8"} items-center`}
+      >
         {/* Left Column - Content */}
         <div className="flex flex-col justify-center space-y-4 px-2 sm:space-y-6 sm:px-0">
           {/* Header Text */}
@@ -137,7 +142,9 @@ const FullscreenHeader = ({
         {/* Right Column - Helper Image with Abstract SVG Shapes */}
         {helperImage && (
           <div className="flex items-center justify-center lg:justify-end overflow-hidden px-4 sm:px-0">
-            <div className="relative w-full max-w-[200px] sm:max-w-[260px] md:max-w-xs lg:max-w-lg aspect-square overflow-hidden">
+            <div
+              className={`relative w-full ${customImageMaxWidth || "max-w-[200px] sm:max-w-[260px] md:max-w-xs lg:max-w-lg"} aspect-square overflow-hidden`}
+            >
               {/* Abstract Shapes - Only render if showShapes is true */}
               {showShapes && (
                 <>
@@ -206,7 +213,7 @@ const FullscreenHeader = ({
 
                 {/* Front Image */}
                 <div
-                  className={`relative scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-75 z-20`}
+                  className={`relative ${customImageScale || "scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-75"} z-20`}
                 >
                   <Image
                     src={helperImage}

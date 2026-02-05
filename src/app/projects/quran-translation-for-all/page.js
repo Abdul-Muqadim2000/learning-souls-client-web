@@ -95,7 +95,7 @@ const projectData = {
         title: "Allah Edition",
         description:
           "Arabic and English in two columns Ayah by Ayah. Names and places are Arabic",
-        image: "/images/ucb5.png",
+        image: "/images/ucb4.png",
       },
       {
         title: "Tajweed Edition",
@@ -110,22 +110,20 @@ const projectData = {
         image: "/images/ucb6.png",
       },
       {
-        // title: "Content to be given",
+        title: "Easy Urdu Translation",
         description:
-          "Allah edition with word by word meaning in the Arabic section",
+          "Word by word and full Ayah translations in easy to understand Urdu",
         image: "/images/ucb1.png",
       },
       {
-        // title: "content to be given",
-        description:
-          "Allah edition with word by word meaning in the Arabic section",
+        title: "Advanced Learners Edition",
+        description: "Indo Pak Style Arabic",
         image: "/images/ucb7.png",
       },
       {
-        // title: "content to be given",
-        description:
-          "Allah edition with word by word meaning in the Arabic section",
-        image: "/images/ucb4.png",
+        title: "Allah Edition",
+        description: "Indo Pak Style Arabic",
+        image: "/images/ucb5.png",
       },
     ],
   },

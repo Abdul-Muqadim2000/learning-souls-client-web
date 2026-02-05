@@ -88,12 +88,12 @@ const CarouselSlider = ({
           {currentIndex > 0 && (
             <button
               onClick={handlePrev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+              className="absolute left-[-30] top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
               aria-label="Previous"
             >
               <ChevronLeft
-                className="w-5 h-5 sm:w-6 sm:h-6"
-                style={{ color: textColor || "var(--color-secondary)" }}
+                className="w-8 h-8 sm:w-8 sm:h-8"
+                style={{ color: "var(--color-tertiary)" }}
               />
             </button>
           )}
@@ -101,12 +101,12 @@ const CarouselSlider = ({
           {currentIndex < maxIndex && (
             <button
               onClick={handleNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-6 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+              className="absolute right-[-30] top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-6 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
               aria-label="Next"
             >
               <ChevronRight
-                className="w-5 h-5 sm:w-6 sm:h-6"
-                style={{ color: textColor || "var(--color-secondary)" }}
+                className="w-8 h-8 sm:w-8 sm:h-8"
+                style={{ color: "var(--color-tertiary)" }}
               />
             </button>
           )}
@@ -168,7 +168,7 @@ const CarouselSlider = ({
 
                     {/* Fallback */}
                     {!item.image && (
-                      <div className="w-full aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                      <div className="w-full aspect-[3/4] flex ite ms-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
                         <span className="text-3xl sm:text-4xl font-bold text-gray-400">
                           {index + 1}
                         </span>
@@ -182,7 +182,7 @@ const CarouselSlider = ({
 
           {/* Dots Indicator */}
           {items.length > itemsPerView && (
-            <div className="flex items-center justify-center gap-2 mt-6 sm:mt-8">
+            <div className="flex items-center justify-center gap-2 mt-10 sm:mt-12">
               {Array.from({ length: maxIndex + 1 }).map((_, index) => (
                 <button
                   key={index}

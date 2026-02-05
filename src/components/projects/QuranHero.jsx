@@ -54,20 +54,20 @@ export default function QuranHero({
       {/* Second Row - Two Column Banner */}
       <div className="grid grid-cols-1 md:grid-cols-2 max-w-7xl mx-auto overflow-hidden shadow-lg">
         {/* First Column - Image Section with Dark Teal Background */}
-        <div
+        {/* <div
           className="p-6 md:p-12 lg:p-16 flex items-center justify-center"
           style={{ backgroundColor: "#054A48" }}
-        >
+        > */}
           <div className="relative w-full h-full flex items-center justify-center">
             <Image
-              src="/images/project2.webp"
+              src="/images/translation2.webp"
               alt="Al-Mustafa Translation"
-              width={400}
-              height={400}
-              className="object-contain w-[200px] sm:w-[280px] md:w-[350px] lg:w-[400px] h-auto"
+              width={800}
+              height={800}
+              className="object-cover w-full h-full"
             />
           </div>
-        </div>
+        {/* </div> */}
 
         {/* Second Column - Text Section with Tertiary Color */}
         <div

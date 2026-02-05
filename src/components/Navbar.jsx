@@ -78,7 +78,7 @@ const Navbar = () => {
       ],
     },
     {
-      href: "/downloads",
+      href: "#",
       label: "Downloads",
       isDropdown: true,
       items: [
@@ -103,7 +103,7 @@ const Navbar = () => {
       ],
     },
     {
-      href: "/about-us",
+      href: "#",
       label: "About",
       isDropdown: true,
       items: [
@@ -118,6 +118,12 @@ const Navbar = () => {
           label: "Contact Us",
           description:
             "Get in touch with us for queries, suggestions, or to learn more about our organization.",
+        },
+        {
+          href: "/about-us",
+          label: "About Us",
+          description:
+            "Learn more about our organization's mission, vision, and the team behind our Islamic projects.",
         },
       ],
     },
