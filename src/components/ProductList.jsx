@@ -96,6 +96,8 @@ const ProductListItem = ({
         <div className="flex gap-4">
           <Link
             href={primaryButtonHref}
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-8 py-2 bg-[#bd2387] text-white rounded-full text-sm font-semibold hover:bg-[#a01d72] transition-all duration-300 flex items-center gap-2"
           >
             <DownloadIcon size={16} />
@@ -125,14 +127,17 @@ const ProductList = ({ products = [] }) => {
     {
       imageUrl: "/images/product3.webp",
       imageAltText: "The Meaning of THE WISE QURAN",
+      primaryButtonHref: "https://www.mustaqim.co.uk/TheWiseQuran.pdf",
     },
     {
       imageUrl: "/images/product2.webp",
       imageAltText: "MUHAMMAD - A Prophet for Our Time",
+      primaryButtonHref: "https://archive.org/details/B-001-000-904",
     },
     {
       imageUrl: "/images/product1.webp",
       imageAltText: "MUHAMMAD - His Life Based on the Earliest Sources",
+      primaryButtonHref: "https://archive.org/details/B-001-000-904",
     },
   ];
 

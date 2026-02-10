@@ -102,12 +102,12 @@ const projectData = {
   books: [
     {
       imageUrl: "/images/product1.webp",
-      imageAltText: "The Meaning of THE WISE QURAN",
-      title: "The Meaning of THE WISE QURAN",
+      imageAltText: "MUHAMMAD - His Life Based on the Earliest Sources",
+      title: "MUHAMMAD - His Life Based on the Earliest Sources",
       description:
-        "A comprehensive translation of the Holy Quran with easy-to-understand language for all readers.",
+        "A detailed account of the Prophet's life based on authentic historical sources.",
       primaryButtonText: "Download",
-      primaryButtonHref: "#",
+      primaryButtonHref: "https://archive.org/details/B-001-000-904",
       secondaryButtonText: "QR Code",
       qrCodeImage: "/images/wise-quran-qr.jpg",
     },
@@ -118,20 +118,20 @@ const projectData = {
       description:
         "An insightful biography exploring the life and teachings of Prophet Muhammad ﷺ.",
       primaryButtonText: "Download",
-      primaryButtonHref: "##",
+      primaryButtonHref: "https://archive.org/details/B-001-000-904",
       secondaryButtonText: "QR Code",
-      qrCodeImage: "/images/the-wise-quran-QR.jpg",
+      qrCodeImage: "/images/wise-quran-qr.jpg",
     },
     {
       imageUrl: "/images/product3.webp",
-      imageAltText: "MUHAMMAD - His Life Based on the Earliest Sources",
-      title: "MUHAMMAD - His Life Based on the Earliest Sources",
+      imageAltText: "The Meaning of THE WISE QURAN",
+      title: "The Meaning of THE WISE QURAN",
       description:
-        "A detailed account of the Prophet's life based on authentic historical sources.",
+        "A comprehensive translation of the Holy Quran with easy-to-understand language for all readers.",
       primaryButtonText: "Download",
-      primaryButtonHref: "#",
+      primaryButtonHref: "https://www.mustaqim.co.uk/TheWiseQuran.pdf",
       secondaryButtonText: "QR Code",
-      qrCodeImage: "/images/the-wise-quran-QR.jpg",
+      qrCodeImage: "/images/wise-quran-qr.jpg",
     },
   ],
 };
@@ -220,6 +220,8 @@ export default function DistributingQuranSeerahPage() {
                 <div className="flex gap-4 justify-center">
                   <a
                     href={book.primaryButtonHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="px-8 py-2 bg-[#bd2387] text-white rounded-full text-sm font-semibold hover:bg-[#a01d72] transition-all duration-300 flex items-center gap-2"
                   >
                     <svg

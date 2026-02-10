@@ -116,13 +116,15 @@ const projectData = {
         image: "/images/ucb1.png",
       },
       {
-        title: "Advanced Learners Edition",
-        description: "Indo Pak Style Arabic",
+        title: "Advanced Learner Edition (Indo Pak Style Arabic)",
+        description:
+          "Allah edition with word by word meaning in the Arabic section",
         image: "/images/ucb7.png",
       },
       {
-        title: "Allah Edition",
-        description: "Indo Pak Style Arabic",
+        title: "Allah Edition (Indo Pak style Arabic)",
+        description:
+          "Arabic and English in two columns Ayah by Ayah. Names and places are Arabic",
         image: "/images/ucb5.png",
       },
     ],
@@ -138,6 +140,7 @@ export default function QuranTranslationPage() {
         bannerTitle={projectData.banner.title}
         bannerSubtitle={projectData.banner.subtitle}
         heroImage="/images/quran-translationn.webp"
+        bannerImage="/images/project2.webp"
       />
 
       {/* Editions Showcase Section */}

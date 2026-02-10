@@ -61,6 +61,7 @@ export default function TranslationOfHadithPage() {
       <QuranHero
         heroImage="/images/translation-hadith.webp"
         bannerTitle={projectData.hero.bannerTitle}
+        bannerImage="/images/translation2.webp"
       />
 
       {/* What We Are Doing Section - Content Left, Image Right */}

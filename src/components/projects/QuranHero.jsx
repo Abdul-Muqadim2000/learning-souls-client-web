@@ -5,6 +5,7 @@ export default function QuranHero({
   bannerTitle,
   bannerSubtitle,
   heroImage,
+  bannerImage,
 }) {
   return (
     <div className="max-w-6xl mx-auto">
@@ -60,7 +61,7 @@ export default function QuranHero({
         > */}
           <div className="relative w-full h-full flex items-center justify-center">
             <Image
-              src="/images/translation2.webp"
+              src={bannerImage}
               alt="Al-Mustafa Translation"
               width={800}
               height={800}

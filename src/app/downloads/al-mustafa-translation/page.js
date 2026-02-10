@@ -166,6 +166,41 @@ export default function AlMustafaTranslation() {
         secondaryButtonLink={"#"}
         // backgroundImage={"/images/Asset-1.webp"}
       />
+      <FullscreenHeader
+        subheaderText={"Advanced Learner Edition (Indo Pak Style Arabic)"}
+        listItems={[
+          "Indo-Pak style Arabic script",
+          "Word-by-word meanings in the Arabic section",
+          "Names and places are in Arabic",
+          "Designed for readers familiar with Indo-Pak Quranic script",
+          "Enhanced learning features for deeper understanding",
+        ]}
+        listItemsColor="var(--color-tertiary)"
+        listItemsFontSize="clamp(1rem, 2vw, 1.25rem)"
+        listItemsBold={true}
+        textColor="var(--color-secondary)"
+        helperImage="/images/ucb7.png"
+        bgColor="var(--color-primary)"
+        secondaryButtonText={"Coming Soon"}
+        secondaryButtonLink={"#"}
+        backgroundImage={"/images/Asset-1.webp"}
+      />
+      <FullscreenHeader
+        subheaderText={"Allah Edition (Indo Pak style Arabic)"}
+        listItems={[
+          "Indo-Pak style Arabic script",
+          "Arabic and English in two columns, Ayah by Ayah",
+          "Names and places are in Arabic",
+          "Familiar script style for South Asian readers",
+          "Clear and accessible translation",
+        ]}
+        textColor="var(--color-primary)"
+        helperImage="/images/ucb5.png"
+        bgColor="var(--color-secondary)"
+        secondaryButtonText={"Coming Soon"}
+        secondaryButtonLink={"#"}
+        // backgroundImage={"/images/Asset-1.webp"}
+      />
 
       <CarouselSlider
         items={upcomingBooksItems}
