@@ -57,57 +57,35 @@ const Support = () => {
             <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 text-center lg:text-left">
               For Bank Transfers and Standing Orders
             </h3>
-            <div className="space-y-4 sm:space-y-5 text-xs sm:text-sm md:text-base">
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
-                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
-                  ACCOUNT NAME
-                </span>
-                <span className="text-center sm:text-left break-all">
-                  Learning Souls
-                </span>
+            <div className="space-y-4 sm:space-y-5 text-xs sm:text-sm md:text-base text-center">
+              <div className="flex flex-col gap-2">
+                <span className="font-semibold">ACCOUNT NAME</span>
+                <span className="break-all">Learning Souls</span>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
-                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
-                  ACCOUNT NUMBER
-                </span>
-                <span className="text-center sm:text-left break-all">
-                  55839336
-                </span>
+              <div className="flex flex-col gap-2">
+                <span className="font-semibold">ACCOUNT NUMBER</span>
+                <span className="break-all">55839336</span>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
-                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
-                  SORT CODE
-                </span>
-                <span className="text-center sm:text-left break-all">
-                  23-05-80
-                </span>
+              <div className="flex flex-col gap-2">
+                <span className="font-semibold">SORT CODE</span>
+                <span className="break-all">23-05-80</span>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
-                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
-                  IBAN
-                </span>
-                <span className="text-center sm:text-left break-all">
-                  GB92MYMB23058055839336
-                </span>
+              <div className="flex flex-col gap-2">
+                <span className="font-semibold">IBAN</span>
+                <span className="break-all">GB92MYMB23058055839336</span>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
-                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
-                  SWIFT
-                </span>
-                <span className="text-center sm:text-left break-all">
-                  MYMBGB2L
-                </span>
+              <div className="flex flex-col gap-2">
+                <span className="font-semibold">SWIFT</span>
+                <span className="break-all">MYMBGB2L</span>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-8 md:gap-14">
-                <span className="font-semibold sm:w-32 md:w-40 text-center sm:text-left">
-                  BANK ADDRESS
-                </span>
-                <span className="text-center sm:text-left">
+              <div className="flex flex-col gap-2">
+                <span className="font-semibold">BANK ADDRESS</span>
+                <span>
                   58–64 Fargate
                   <br />
                   Sheffield City Center

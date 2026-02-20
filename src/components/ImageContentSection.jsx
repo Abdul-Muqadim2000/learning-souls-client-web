@@ -28,12 +28,12 @@ const ImageContentSection = ({
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Image (Left) */}
-          <div className="relative w-full h-[320px] sm:h-[400px] lg:h-[510px] rounded-xl overflow-hidden shadow-xl">
+          <div className="relative w-full h-[350px] sm:h-[450px] md:h-[500px] lg:h-[510px] rounded-xl overflow-hidden  ">
             <Image
               src={imageSrc}
               alt={imageAlt}
               fill
-              className="object-cover"
+              className="object-contain"
               priority
             />
           </div>
