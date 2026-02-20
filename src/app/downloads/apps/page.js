@@ -119,7 +119,7 @@ export default function Apps() {
           customGap="gap-2 md:gap-4 lg:gap-6"
           customImageMaxWidth="max-w-[280px] sm:max-w-[340px] md:max-w-md lg:max-w-2xl"
           customImageScale="scale-[0.75] sm:scale-[0.8] md:scale-[0.85] lg:scale-95"
-          textAlign="text-center"
+          textAlign="text-left"
         />
       ))}
 
