@@ -7,7 +7,7 @@ function NavItem({ href, label, onClick }) {
       onClick={onClick}
       className="
         flex items-center gap-2
-        text-lg font-medium text-(--color-secondary)
+        text-base lg:text-base xl:text-lg font-medium text-(--color-secondary)
         hover:text-(--color-tertiary)
         transition-colors duration-200
       "

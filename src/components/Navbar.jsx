@@ -149,7 +149,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation Links - Centered to viewport */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-14 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="hidden lg:flex items-center gap-3 xl:gap-14 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             {navLinks.map((link, index) =>
               link.isDropdown ? (
                 <DropdownMenu
@@ -168,19 +168,19 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA Button */}
-          <div className="hidden lg:flex items-center gap-4 z-10">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-4 z-10">
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard">
                   <PrimaryButton
                     text="Dashboard"
-                    className="px-6 xl:px-8"
+                    className="px-3 xl:px-8"
                     icon={User}
                   />
                 </Link>
                 <PrimaryButton
                   text="Logout"
-                  className="px-6 xl:px-8 bg-red-600 hover:bg-red-500"
+                  className="px-3 xl:px-8 bg-red-600 hover:bg-red-500"
                   onClick={logout}
                   icon={LogOut}
                 />
@@ -190,14 +190,14 @@ const Navbar = () => {
                 <Link href="/login">
                   <SecondaryButton
                     text="Login"
-                    className="px-6 xl:px-8"
+                    className="px-3 xl:px-8"
                     icon={LogIn}
                   />
                 </Link>
                 <Link href="/donate">
                   <PrimaryButton
                     text="Donate Now"
-                    className="px-6 xl:px-8"
+                    className="px-3 xl:px-8"
                     icon={HandCoinsIcon}
                   />
                 </Link>

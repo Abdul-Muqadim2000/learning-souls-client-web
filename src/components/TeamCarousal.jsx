@@ -224,8 +224,8 @@ const TeamCarousel = ({ teamMembers = [] }) => {
         >
           <span className="relative">
             {members[currentIndex].name}
-            <span className="absolute top-full left-[-120px] w-[100px] h-[2px] bg-[var(--color-secondary)]"></span>
-            <span className="absolute top-full right-[-120px] w-[100px] h-[2px] bg-[var(--color-secondary)]"></span>
+            <span className="hidden lg:block absolute top-full left-[-120px] w-[100px] h-[2px] bg-[var(--color-secondary)]"></span>
+            <span className="hidden lg:block absolute top-full right-[-120px] w-[100px] h-[2px] bg-[var(--color-secondary)]"></span>
           </span>
         </h2>
         <p

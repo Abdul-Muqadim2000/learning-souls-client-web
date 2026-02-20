@@ -15,10 +15,22 @@ body {
   font-family: var(--font-primary);
   color: #000000;
   overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
 }
 
 html {
   overflow-x: hidden;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Prevent any element from causing horizontal scroll */
+body > * {
+  max-width: 100%;
 }
 
 @keyframes pulse-hover {
@@ -33,6 +45,48 @@ html {
 
 .hover-pulse:hover {
   animation: pulse-hover 1s infinite;
+}
+
+/* ===============================
+   Hero Slide Responsive Background
+================================ */
+
+.hero-slide-bg {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+/* Mobile devices (320px - 640px) - Show full image without cropping */
+@media (max-width: 640px) {
+  .hero-slide-bg {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* Tablets (640px - 1024px) - Show full image without cropping */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .hero-slide-bg {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* Laptops and medium screens (1024px - 1600px) - Show full image */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  .hero-slide-bg {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* Large screens (1600px+) - Show full image */
+@media (min-width: 1600px) {
+  .hero-slide-bg {
+    background-size: contain;
+    background-position: center center;
+  }
 }
 
 /* ===============================

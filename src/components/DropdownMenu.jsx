@@ -31,7 +31,7 @@ function DropdownMenu({ label, items, href, isOpen, onOpen, onClose }) {
           href={href}
           className="
             flex items-center gap-1
-            text-lg font-medium text-[#09b29d]
+            text-base lg:text-base xl:text-lg font-medium text-[#09b29d]
             hover:text-[#bd2387]
             transition-colors duration-200
           "
@@ -57,11 +57,11 @@ function DropdownMenu({ label, items, href, isOpen, onOpen, onClose }) {
           shadow-lg
           z-50
           transition-all duration-200 ease-out
-          min-w-[900px]
+          w-[600px] xl:w-[750px]
           origin-top
+          left-1/2 -translate-x-1/2
           ${isOpen ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-4 scale-95 pointer-events-none"}
         `}
-        style={{ left: "-170px" }}
       >
         <div className="flex">
           {/* Left Column - Options List */}
