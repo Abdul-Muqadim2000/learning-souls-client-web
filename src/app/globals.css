@@ -90,6 +90,30 @@ body > * {
 }
 
 /* ===============================
+   Bank Details Responsive Centering
+================================ */
+
+.bank-details-centered {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (min-width: 320px) and (max-width: 1023px) {
+  .bank-details-centered {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bank-details-centered {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
+
+/* ===============================
    Custom Scrollbar Hiding
 ================================ */
 

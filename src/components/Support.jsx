@@ -53,39 +53,51 @@ const Support = () => {
           </div>
 
           {/* RIGHT CONTENT */}
-          <div className="text-white order-1 lg:order-2">
+          <div className="text-white order-1 lg:order-2 flex flex-col items-center lg:items-start">
             <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 text-center lg:text-left">
               For Bank Transfers and Standing Orders
             </h3>
-            <div className="space-y-4 sm:space-y-5 text-xs sm:text-sm md:text-base text-center">
-              <div className="flex flex-col gap-2">
-                <span className="font-semibold">ACCOUNT NAME</span>
-                <span className="break-all">Learning Souls</span>
+            <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm md:text-base max-w-2xl w-full lg:w-auto">
+              <div className="flex flex-wrap sm:flex-nowrap items-start gap-x-4 gap-y-1">
+                <span className="font-semibold min-w-[140px] sm:min-w-[160px] shrink-0">
+                  ACCOUNT NAME:
+                </span>
+                <span className="break-all flex-1">Learning Souls</span>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-semibold">ACCOUNT NUMBER</span>
-                <span className="break-all">55839336</span>
+              <div className="flex flex-wrap sm:flex-nowrap items-start gap-x-4 gap-y-1">
+                <span className="font-semibold min-w-[140px] sm:min-w-[160px] shrink-0">
+                  ACCOUNT NUMBER:
+                </span>
+                <span className="break-all flex-1">55839336</span>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-semibold">SORT CODE</span>
-                <span className="break-all">23-05-80</span>
+              <div className="flex flex-wrap sm:flex-nowrap items-start gap-x-4 gap-y-1">
+                <span className="font-semibold min-w-[140px] sm:min-w-[160px] shrink-0">
+                  SORT CODE:
+                </span>
+                <span className="break-all flex-1">23-05-80</span>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-semibold">IBAN</span>
-                <span className="break-all">GB92MYMB23058055839336</span>
+              <div className="flex flex-wrap sm:flex-nowrap items-start gap-x-4 gap-y-1">
+                <span className="font-semibold min-w-[140px] sm:min-w-[160px] shrink-0">
+                  IBAN:
+                </span>
+                <span className="break-all flex-1">GB92MYMB23058055839336</span>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-semibold">SWIFT</span>
-                <span className="break-all">MYMBGB2L</span>
+              <div className="flex flex-wrap sm:flex-nowrap items-start gap-x-4 gap-y-1">
+                <span className="font-semibold min-w-[140px] sm:min-w-[160px] shrink-0">
+                  SWIFT:
+                </span>
+                <span className="break-all flex-1">MYMBGB2L</span>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-semibold">BANK ADDRESS</span>
-                <span>
+              <div className="flex flex-wrap sm:flex-nowrap items-start gap-x-4 gap-y-1">
+                <span className="font-semibold min-w-[140px] sm:min-w-[160px] shrink-0">
+                  BANK ADDRESS:
+                </span>
+                <span className="flex-1">
                   58–64 Fargate
                   <br />
                   Sheffield City Center
@@ -96,7 +108,7 @@ const Support = () => {
             </div>
             {/* Arabic Text Placeholder */}
 
-            <div className="mt-6 sm:mt-8 text-center lg:text-left">
+            <div className="mt-6 sm:mt-8 text-center lg:text-left w-full lg:w-auto">
               <Image
                 src="/images/jazakallah.webp"
                 alt="جزاكم الله خيرًا"

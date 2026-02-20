@@ -93,19 +93,19 @@ const ProductListItem = ({
           </div>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-2 md:gap-3 xl:gap-4">
           <Link
             href={primaryButtonHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-2 bg-[#bd2387] text-white rounded-full text-sm font-semibold hover:bg-[#a01d72] transition-all duration-300 flex items-center gap-2"
+            className="px-4 md:px-5 lg:px-6 xl:px-8 py-2 bg-[#bd2387] text-white rounded-full text-sm font-semibold hover:bg-[#a01d72] transition-all duration-300 flex items-center gap-2"
           >
             <DownloadIcon size={16} />
             {primaryButtonText}
           </Link>
           <button
             onClick={() => setShowQRModal(true)}
-            className="px-8 py-2 bg-white border-2 border-gray-700 text-gray-700 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-gray-100 transition-colors"
+            className="px-4 md:px-5 lg:px-6 xl:px-8 py-2 bg-white border-2 border-gray-700 text-gray-700 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-gray-100 transition-colors"
           >
             <QrCode size={16} />
             {secondaryButtonText}
