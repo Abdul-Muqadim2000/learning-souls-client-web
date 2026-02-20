@@ -791,7 +791,7 @@ function Step2({ formData, updateFormData, handleReset }) {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Phone Number <span className="text-red-500">*</span>
         </label>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Select
             value={formData.countryCode}
             onChange={(e) => updateFormData("countryCode", e.target.value)}
@@ -799,7 +799,7 @@ function Step2({ formData, updateFormData, handleReset }) {
               value: item.code,
               label: `${item.code} (${item.country})`,
             }))}
-            className="w-40"
+            className="w-full sm:w-40"
           />
           <Input
             type="tel"

@@ -28,10 +28,10 @@ function DonateSuccessContent() {
   }, [countdown]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-200 via-white to-pink-200 flex items-center justify-center p-4 py-8">
-      <div className="max-w-6xl w-full" style={{ maxHeight: "80vh" }}>
+    <div className="min-h-screen bg-gradient-to-br from-green-200 via-white to-pink-200 flex items-start justify-center p-4 py-8">
+      <div className="max-w-6xl w-full my-4">
         {/* Success Card */}
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden h-full flex flex-col">
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header Section */}
           <div className="bg-(--color-secondary) p-6 text-center flex-shrink-0">
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg animate-bounce">
@@ -49,8 +49,8 @@ function DonateSuccessContent() {
           </div>
 
           {/* Content Section - Two Columns */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+          <div className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Left Column - Status Messages */}
               <div className="space-y-4">
                 {/* Account Created Message */}
