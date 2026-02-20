@@ -90,6 +90,80 @@ body > * {
 }
 
 /* ===============================
+   Generic Header Responsive Background
+================================ */
+
+.generic-header-bg {
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: contain !important;
+}
+
+/* Mobile devices (320px - 640px) */
+@media (max-width: 640px) {
+  .generic-header-bg {
+    background-size: contain !important;
+    background-position: center center !important;
+  }
+}
+
+/* Tablets (640px - 1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .generic-header-bg {
+    background-size: contain !important;
+    background-position: center center !important;
+  }
+}
+
+/* Laptops and medium screens (1024px - 1600px) */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  .generic-header-bg {
+    background-size: contain !important;
+    background-position: center center !important;
+  }
+}
+
+/* Large screens (1600px+) */
+@media (min-width: 1600px) {
+  .generic-header-bg {
+    background-size: contain !important;
+    background-position: center center !important;
+  }
+}
+
+/* Mobile devices (320px - 640px) */
+@media (max-width: 640px) {
+  .generic-header-bg {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* Tablets (640px - 1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .generic-header-bg {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* Laptops and medium screens (1024px - 1600px) */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  .generic-header-bg {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* Large screens (1600px+) */
+@media (min-width: 1600px) {
+  .generic-header-bg {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* ===============================
    Bank Details Responsive Centering
 ================================ */
 

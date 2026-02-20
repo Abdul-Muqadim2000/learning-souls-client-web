@@ -113,6 +113,7 @@ export default function JoinUs() {
         image="/images/join-us.webp"
         textColor="white"
         height="huge"
+        backgroundSize="contain"
         // overlay={true}
       />
 

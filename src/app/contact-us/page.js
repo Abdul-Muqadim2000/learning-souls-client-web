@@ -86,6 +86,7 @@ export default function ContactUs() {
         image="/images/contact-us.webp"
         textColor="white"
         height="xxl"
+        textSize="clamp(2rem, 4vw, 3.5rem)"
       />
 
       {/* Section 2: Form Section */}

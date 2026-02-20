@@ -24,16 +24,19 @@ const GenericHeader = ({
   buttonText,
   buttonLink,
   overlay = false,
+  backgroundSize = "cover", // New prop: 'cover' or 'contain'
 }) => {
   return (
     <section
       className={`w-full flex items-center justify-center relative ${
         heightClasses[height]
-      }`}
+      } ${backgroundSize === "contain" ? "generic-header-bg" : ""}`}
       style={{
         backgroundImage: image ? `url(${image})` : "none",
-        backgroundSize: "cover",
+        backgroundSize:
+          backgroundSize === "contain" ? "contain" : backgroundSize,
         backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         backgroundColor: image ? "transparent" : bgColor || "",
       }}
     >
