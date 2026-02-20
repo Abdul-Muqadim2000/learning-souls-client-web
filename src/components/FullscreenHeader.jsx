@@ -54,7 +54,9 @@ const FullscreenHeader = ({
         className={`max-w-8xl w-full grid grid-cols-1 lg:grid-cols-2 ${customGap || "gap-6 md:gap-8"} items-center`}
       >
         {/* Left Column - Content */}
-        <div className={`flex flex-col justify-center space-y-4 px-2 sm:space-y-6 sm:px-0 ${textAlign}`}>
+        <div
+          className={`flex flex-col justify-center space-y-4 px-2 sm:space-y-6 sm:px-0 ${textAlign}`}
+        >
           {/* Header Text */}
           {headerText && (
             <h1

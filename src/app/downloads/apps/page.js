@@ -24,7 +24,6 @@ const appsData = [
     headerTextColor: "var(--color-secondary)",
     textColor: "var(--color-tertiary)",
     backgroundImage: "/images/Asset-1.webp",
-    
 
     // helperImage: "/images/Khutbah-jumma.webp",
     helperImage: "/images/khutbah-jumma.webp",
