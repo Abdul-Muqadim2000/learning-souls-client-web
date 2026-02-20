@@ -243,11 +243,15 @@ const Navbar = () => {
               </div>
             ),
           )}
-          <div className="pt-2 space-y-4 sm:space-y-5 md:space-y-6">
+          <div className="pt-6 pb-2">
             {isAuthenticated ? (
               <>
-                <Link href="/dashboard" onClick={closeMobileMenu}>
-                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-white bg-[#09b29d] hover:bg-[#09b29d]/90 rounded-full transition-colors font-semibold">
+                <Link
+                  href="/dashboard"
+                  onClick={closeMobileMenu}
+                  className="block mb-4"
+                >
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-3 text-white bg-[#09b29d] hover:bg-[#09b29d]/90 rounded-full transition-colors font-semibold text-base">
                     <User size={20} />
                     <span>Dashboard</span>
                   </button>
@@ -257,7 +261,7 @@ const Navbar = () => {
                     logout();
                     closeMobileMenu();
                   }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-white bg-red-600 hover:bg-red-500 rounded-full transition-colors font-semibold"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 text-white bg-red-600 hover:bg-red-500 rounded-full transition-colors font-semibold text-base"
                 >
                   <LogOut size={20} />
                   <span>Logout</span>
@@ -265,14 +269,22 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link href="/login" onClick={closeMobileMenu}>
-                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-gray-700 bg-white border-2 border-gray-300 hover:bg-gray-50 rounded-full transition-colors font-semibold">
+                <Link
+                  href="/login"
+                  onClick={closeMobileMenu}
+                  className="block mb-4"
+                >
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-3 text-gray-700 bg-white border-2 border-gray-300 hover:bg-gray-50 rounded-full transition-colors font-semibold text-base">
                     <LogIn size={20} />
                     <span>Login</span>
                   </button>
                 </Link>
-                <Link href="/donate" onClick={closeMobileMenu}>
-                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-white bg-[#09b29d] hover:bg-[#09b29d]/90 rounded-full transition-colors font-semibold">
+                <Link
+                  href="/donate"
+                  onClick={closeMobileMenu}
+                  className="block"
+                >
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-3 text-white bg-[#09b29d] hover:bg-[#09b29d]/90 rounded-full transition-colors font-semibold text-base">
                     <HandCoinsIcon size={20} />
                     <span>Donate Now</span>
                   </button>
