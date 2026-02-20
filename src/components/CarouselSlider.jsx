@@ -88,7 +88,7 @@ const CarouselSlider = ({
           {currentIndex > 0 && (
             <button
               onClick={handlePrev}
-              className="hidden xl:block absolute -left-6 sm:-left-10 md:-left-14 lg:-left-16 xl:-left-20 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+              className="hidden xl:flex absolute -left-6 sm:-left-10 md:-left-14 lg:-left-16 xl:-left-20 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 items-center justify-center"
               aria-label="Previous"
             >
               <ChevronLeft
@@ -101,7 +101,7 @@ const CarouselSlider = ({
           {currentIndex < maxIndex && (
             <button
               onClick={handleNext}
-              className="hidden xl:block absolute -right-6 sm:-right-10 md:-right-14 lg:-right-16 xl:-right-20 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+              className="hidden xl:flex absolute -right-6 sm:-right-10 md:-right-14 lg:-right-16 xl:-right-20 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 items-center justify-center"
               aria-label="Next"
             >
               <ChevronRight

@@ -96,6 +96,7 @@ export default function AlMustafaTranslation() {
         textColor="var(--color-primary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
+        textAlign="text-left"
         // backgroundImage={"/images/al-mustafa1.webp"}
         helperImage={"/images/ucb3.png"}
       />
@@ -114,6 +115,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-primary)"
         primaryButtonText={"Coming Soon"}
         primaryButtonLink={"#"}
+        textAlign="text-left"
         backgroundImage={"/images/Asset-1.webp"}
         helperImage={"/images/ucb4.png"}
       />
@@ -130,6 +132,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
+        textAlign="text-left"
         helperImage={"/images/ucb2.png"}
       />
       <FullscreenHeader
@@ -149,6 +152,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-primary)"
         primaryButtonText={"Coming Soon"}
         primaryButtonLink={"#"}
+        textAlign="text-left"
         backgroundImage={"/images/Asset-1.webp"}
         helperImage={"/images/ucb6.png"}
       />
@@ -164,6 +168,7 @@ export default function AlMustafaTranslation() {
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
+        textAlign="text-left"
         // backgroundImage={"/images/Asset-1.webp"}
       />
       <FullscreenHeader
@@ -179,10 +184,11 @@ export default function AlMustafaTranslation() {
         listItemsFontSize="clamp(1rem, 2vw, 1.25rem)"
         listItemsBold={true}
         textColor="var(--color-secondary)"
-        helperImage="/images/ucb7.png"
+        helperImage={"/images/ucb7.png"}
         bgColor="var(--color-primary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
+        textAlign="text-left"
         backgroundImage={"/images/Asset-1.webp"}
       />
       <FullscreenHeader
@@ -195,10 +201,11 @@ export default function AlMustafaTranslation() {
           "Clear and accessible translation",
         ]}
         textColor="var(--color-primary)"
-        helperImage="/images/ucb5.png"
+        helperImage={"/images/ucb5.png"}
         bgColor="var(--color-secondary)"
         secondaryButtonText={"Coming Soon"}
         secondaryButtonLink={"#"}
+        textAlign="text-left"
         // backgroundImage={"/images/Asset-1.webp"}
       />
 

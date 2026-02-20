@@ -161,7 +161,7 @@ const TeamCarousel = ({ teamMembers = [] }) => {
         style={{ perspective: "1000px" }}
       >
         <button
-          className="absolute left-5 top-1/2 -translate-y-1/2 bg-[var(--color-secondary)] text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer z-20 transition-all duration-300 text-2xl border-none outline-none  pr-[3px]  hover:scale-110"
+          className="hidden xl:flex absolute left-5 top-1/2 -translate-y-1/2 bg-[var(--color-secondary)] text-white w-10 h-10 rounded-full items-center justify-center cursor-pointer z-20 transition-all duration-300 text-2xl border-none outline-none  pr-[3px]  hover:scale-110"
           onClick={() => updateCarousel(currentIndex - 1)}
           aria-label="Previous"
         >
@@ -209,7 +209,7 @@ const TeamCarousel = ({ teamMembers = [] }) => {
         </div>
 
         <button
-          className="absolute right-5 top-1/2 -translate-y-1/2 bg-[var(--color-secondary)] text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer z-20 transition-all duration-300 text-2xl border-none outline-none pl-[3px] hover:scale-110"
+          className="hidden xl:flex absolute right-5 top-1/2 -translate-y-1/2 bg-[var(--color-secondary)] text-white w-10 h-10 rounded-full items-center justify-center cursor-pointer z-20 transition-all duration-300 text-2xl border-none outline-none pl-[3px] hover:scale-110"
           onClick={() => updateCarousel(currentIndex + 1)}
           aria-label="Next"
         >

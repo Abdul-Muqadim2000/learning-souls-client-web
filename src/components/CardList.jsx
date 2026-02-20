@@ -18,11 +18,11 @@ const CardList = ({ cards = [], showTitle = true }) => {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {cards.map((card) => (
+          {cards.map((card, index) => (
             /* Shadow Wrapper */
             <div
               key={card.id}
-              className="transition-transform duration-300 hover:scale-105"
+              className={`transition-transform duration-300 hover:scale-105 ${index === 2 ? "mb-8 sm:mb-0" : ""}`}
             >
               {/* Card */}
               <div
