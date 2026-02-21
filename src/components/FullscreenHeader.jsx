@@ -152,7 +152,7 @@ const FullscreenHeader = ({
               {showShapes && (
                 <>
                   {/* Abstract Shape 1 */}
-                  <svg
+                  {/* <svg
                     className="absolute top-0 left-0 w-[100%] h-[100%] rotate-[18deg] z-0 blur-3xl"
                     viewBox="0 0 400 400"
                     xmlns="http://www.w3.org/2000/svg"
@@ -166,10 +166,10 @@ const FullscreenHeader = ({
                       fill="var(--color-tertiary)"
                       opacity="0.7"
                     />
-                  </svg>
+                  </svg> */}
 
                   {/* Abstract Shape 2 */}
-                  <svg
+                  {/* <svg
                     className="absolute bottom-0 right-0 w-[100%] h-[100%] rotate-[-12deg] z-0 blur-3xl"
                     viewBox="0 0 400 400"
                     xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +182,7 @@ const FullscreenHeader = ({
                       rx="110"
                       fill="var(--color-secondary)"
                     />
-                  </svg>
+                  </svg> */}
                 </>
               )}
 
