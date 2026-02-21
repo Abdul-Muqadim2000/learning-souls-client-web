@@ -799,7 +799,7 @@ function Step2({ formData, updateFormData, handleReset }) {
               value: item.code,
               label: `${item.code} (${item.country})`,
             }))}
-            className="w-full sm:w-40"
+            className="w-full sm:w-52 md:w-56 lg:w-60 xl:w-64"
           />
           <Input
             type="tel"

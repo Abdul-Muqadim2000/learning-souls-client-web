@@ -136,7 +136,7 @@ const Input = ({
               id={inputId}
               onClick={() => !disabled && setIsDropdownOpen(!isDropdownOpen)}
               disabled={disabled}
-              className={`${regularInputStyles} appearance-none pr-12 text-left ${!selectedOption && placeholder ? "text-gray-500" : ""}`}
+              className={`${regularInputStyles} appearance-none pr-8 text-left ${!selectedOption && placeholder ? "text-gray-500" : ""}`}
               aria-haspopup="listbox"
               aria-expanded={isDropdownOpen}
             >
@@ -145,12 +145,12 @@ const Input = ({
 
             {/* Chevron Icon */}
             <span
-              className="pointer-events-none absolute right-6 top-1/2 transition-transform duration-200"
+              className="pointer-events-none absolute right-1.5 top-1/2 transition-transform duration-200"
               style={{
                 transform: `translateY(-50%) ${isDropdownOpen ? "rotate(180deg)" : "rotate(0deg)"}`,
               }}
             >
-              <ChevronDown className="w-5 h-5" />
+              <ChevronDown className="w-4 h-4" />
             </span>
 
             {/* Custom Dropdown Menu */}
