@@ -31,6 +31,7 @@ const FullscreenHeader = ({
   customGap,
   customImageMaxWidth,
   customImageScale,
+  customImageClassName,
   textAlign = "sm:text-center lg:text-left", // New prop for custom text alignment
 }) => {
   // Use larger padding for sections with only background image, smaller for sections with helper images
@@ -223,7 +224,7 @@ const FullscreenHeader = ({
                     alt="Helper illustration main"
                     width={customImageHeight}
                     height={customImageHeight}
-                    className="object-contain"
+                    className={`object-contain ${customImageClassName || ""}`}
                     priority
                   />
                 </div>

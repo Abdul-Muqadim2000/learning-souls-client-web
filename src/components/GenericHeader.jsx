@@ -37,7 +37,7 @@ const GenericHeader = ({
           backgroundSize === "contain" ? "contain" : backgroundSize,
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundColor: image ? "transparent" : bgColor || "",
+        backgroundColor: bgColor || (image ? "transparent" : ""),
       }}
     >
       {/* Black overlay for images */}

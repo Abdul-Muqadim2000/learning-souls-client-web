@@ -114,6 +114,7 @@ export default function JoinUs() {
         textColor="white"
         height="huge"
         backgroundSize="contain"
+        bgColor="#09b29d"
         // overlay={true}
       />
 
