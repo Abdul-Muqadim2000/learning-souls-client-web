@@ -35,6 +35,7 @@ export default function DonatePage() {
     phone: "",
     addressLine: "",
     city: "",
+    postalCode: "",
     country: "",
     // Step 3: Gift Aid
     giftAid: false,
@@ -70,6 +71,42 @@ export default function DonatePage() {
   useEffect(() => {
     localStorage.setItem("donateCurrentStep", currentStep.toString());
   }, [currentStep]);
+
+  // Reset loading state when user returns to page (e.g., browser back from payment)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        setIsLoading(false);
+        // Clear any redirect flag when page becomes visible
+        const wasRedirecting = sessionStorage.getItem("donateRedirecting");
+        if (wasRedirecting) {
+          sessionStorage.removeItem("donateRedirecting");
+          // Optionally show a message that payment was cancelled
+          setErrorMessage(
+            "Payment was cancelled. You can modify your donation and try again."
+          );
+        }
+      }
+    };
+
+    // Reset loading state on mount (when user navigates back)
+    setIsLoading(false);
+    // Check if user came back from a redirect
+    const wasRedirecting = sessionStorage.getItem("donateRedirecting");
+    if (wasRedirecting) {
+      sessionStorage.removeItem("donateRedirecting");
+      setErrorMessage(
+        "Payment was cancelled. You can modify your donation and try again."
+      );
+    }
+
+    // Listen for page visibility changes
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   // Auto-detect country code based on user location
   useEffect(() => {
@@ -137,6 +174,7 @@ export default function DonatePage() {
         phone: user.phone || prev.phone,
         addressLine: user.addressLine || prev.addressLine,
         city: user.city || prev.city,
+        postalCode: user.postalCode || prev.postalCode,
         country: user.country || prev.country,
       }));
     }
@@ -210,6 +248,7 @@ export default function DonatePage() {
       phone: "",
       addressLine: "",
       city: "",
+      postalCode: "",
       country: "",
       giftAid: false,
       paymentMethod: "",
@@ -250,6 +289,8 @@ export default function DonatePage() {
       if (data.data?.redirectUrl) {
         // Don't clear form data yet - only clear it after successful payment confirmation
         // This allows users to return and retry if they cancel the payment
+        // Mark that we're redirecting so we can reset state if user comes back
+        sessionStorage.setItem("donateRedirecting", "true");
         window.location.href = data.data.redirectUrl;
         return;
       }
@@ -918,7 +959,7 @@ function Step2({ formData, updateFormData, handleReset }) {
         placeholder="Street address, P.O. box, etc."
       />
 
-      {/* City and Country */}
+      {/* City, Postal Code, and Country */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input
           type="text"
@@ -929,12 +970,21 @@ function Step2({ formData, updateFormData, handleReset }) {
         />
         <Input
           type="text"
-          label="Country"
-          value={formData.country}
-          onChange={(e) => updateFormData("country", e.target.value)}
-          placeholder="Country"
+          label="Postal Code"
+          value={formData.postalCode}
+          onChange={(e) => updateFormData("postalCode", e.target.value)}
+          placeholder="Postal code / ZIP code"
         />
       </div>
+
+      {/* Country */}
+      <Input
+        type="text"
+        label="Country"
+        value={formData.country}
+        onChange={(e) => updateFormData("country", e.target.value)}
+        placeholder="Country"
+      />
     </div>
   );
 }
@@ -1128,7 +1178,10 @@ function Step4({ formData, updateFormData }) {
           <div>
             <span className="text-gray-600">Address:</span>{" "}
             <span className="font-medium text-gray-900">
-              {formData.addressLine}, {formData.city}, {formData.country}
+              {formData.addressLine}
+              {formData.city && `, ${formData.city}`}
+              {formData.postalCode && `, ${formData.postalCode}`}
+              {formData.country && `, ${formData.country}`}
             </span>
           </div>
         </div>

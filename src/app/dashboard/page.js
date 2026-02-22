@@ -145,6 +145,7 @@ function ProfileContent({ user, refreshUser }) {
     phone: user?.phone || "",
     addressLine: user?.addressLine || "",
     city: user?.city || "",
+    postalCode: user?.postalCode || "",
     country: user?.country || "",
     giftAid: user?.giftAid || false,
   });
@@ -158,6 +159,7 @@ function ProfileContent({ user, refreshUser }) {
       phone: user?.phone || "",
       addressLine: user?.addressLine || "",
       city: user?.city || "",
+      postalCode: user?.postalCode || "",
       country: user?.country || "",
       giftAid: user?.giftAid || false,
     });
@@ -206,6 +208,7 @@ function ProfileContent({ user, refreshUser }) {
       phone: user?.phone || "",
       addressLine: user?.addressLine || "",
       city: user?.city || "",
+      postalCode: user?.postalCode || "",
       country: user?.country || "",
       giftAid: user?.giftAid || false,
     });
@@ -390,8 +393,31 @@ function ProfileContent({ user, refreshUser }) {
               )}
             </div>
 
-            {/* Country */}
+            {/* Postal Code */}
             <div>
+              {isEditing ? (
+                <Input
+                  type="text"
+                  name="postalCode"
+                  label="Postal Code"
+                  value={formData.postalCode}
+                  onChange={handleInputChange}
+                  placeholder="Postal code / ZIP code"
+                />
+              ) : (
+                <>
+                  <label className="text-sm font-medium text-gray-500 block mb-2">
+                    Postal Code
+                  </label>
+                  <p className="text-gray-900 font-medium">
+                    {user?.postalCode || "N/A"}
+                  </p>
+                </>
+              )}
+            </div>
+
+            {/* Country */}
+            <div className="md:col-span-2">
               {isEditing ? (
                 <Input
                   type="text"
