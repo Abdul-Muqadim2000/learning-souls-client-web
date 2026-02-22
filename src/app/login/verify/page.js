@@ -18,6 +18,7 @@ function VerifyPageContent() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [verificationSuccess, setVerificationSuccess] = useState(false);
 
   useEffect(() => {
     // Get challengeId from URL params
@@ -36,6 +37,14 @@ function VerifyPageContent() {
       router.push("/dashboard");
     }
   }, [isAuthenticated, router]);
+
+  useEffect(() => {
+    // Redirect after successful verification and auth state update
+    if (verificationSuccess && isAuthenticated) {
+      const redirect = searchParams.get("redirect") || "/dashboard";
+      router.push(redirect);
+    }
+  }, [verificationSuccess, isAuthenticated, router, searchParams]);
 
   const handleOtpChange = (e) => {
     const value = e.target.value;
@@ -100,8 +109,8 @@ function VerifyPageContent() {
         // Refresh user context to load user data
         await refreshUser();
 
-        // Redirect to dashboard
-        router.push("/dashboard");
+        // Set success flag to trigger redirect in useEffect
+        setVerificationSuccess(true);
       } else {
         setError("Verification succeeded but no tokens received");
       }
