@@ -42,25 +42,25 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gray-50 py-4 xs:py-6 sm:py-8 px-2 xs:px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Dashboard Header */}
-          <div className="bg-white rounded-t-lg shadow-sm p-6 mb-0">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+          <div className="bg-white rounded-t-lg shadow-sm p-3 xs:p-4 sm:p-6 mb-0">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 mb-1">
+                <h1 className="text-xl xs:text-2xl sm:text-3xl font-bold text-gray-800 mb-1">
                   Dashboard
                 </h1>
-                <p className="text-gray-600">
+                <p className="text-sm xs:text-base text-gray-600 truncate">
                   Welcome, {user?.username || user?.email || "User"}!
                 </p>
               </div>
               {/* Donate Now Button */}
-              <Link href="/donate">
+              <Link href="/donate" className="w-full sm:w-auto">
                 <PrimaryButton
                   text="Donate Now"
                   icon={Heart}
-                  className="bg-[#09b29d] hover:bg-[#09b29d]/90 text-white px-8 py-3 text-lg"
+                  className="bg-[#09b29d] hover:bg-[#09b29d]/90 text-white px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 text-sm xs:text-base sm:text-lg w-full sm:w-auto"
                 />
               </Link>
             </div>
@@ -68,7 +68,10 @@ export default function DashboardPage() {
 
           {/* Tabs Navigation */}
           <div className="bg-white border-b border-gray-200 shadow-sm">
-            <nav className="flex -mb-px space-x-2 px-6" aria-label="Tabs">
+            <nav
+              className="flex -mb-px space-x-1 xs:space-x-2 px-2 xs:px-4 sm:px-6"
+              aria-label="Tabs"
+            >
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -79,8 +82,8 @@ export default function DashboardPage() {
                     key={tab.id}
                     onClick={() => handleTabClick(tab.id)}
                     className={`
-                      group inline-flex items-center px-4 py-4 border-b-2 font-medium text-sm
-                      transition-all duration-200 ease-in-out
+                      group inline-flex items-center justify-center px-2 xs:px-3 sm:px-4 py-3 sm:py-4 border-b-2 font-medium text-xs sm:text-sm
+                      transition-all duration-200 ease-in-out flex-1 sm:flex-initial
                       ${
                         isLogout
                           ? "border-transparent text-red-600 hover:text-red-700 hover:border-red-300"
@@ -92,7 +95,7 @@ export default function DashboardPage() {
                   >
                     <Icon
                       className={`
-                        -ml-0.5 mr-2 h-5 w-5
+                        h-4 w-4 sm:h-5 sm:w-5 sm:-ml-0.5 sm:mr-2
                         ${
                           isLogout
                             ? "text-red-500 group-hover:text-red-600"
@@ -103,7 +106,14 @@ export default function DashboardPage() {
                       `}
                       aria-hidden="true"
                     />
-                    {tab.label}
+                    <span className="hidden sm:inline">{tab.label}</span>
+                    <span className="sm:hidden text-[10px] xs:text-xs ml-1">
+                      {tab.id === "profile"
+                        ? "Profile"
+                        : tab.id === "donations"
+                          ? "Donations"
+                          : "Logout"}
+                    </span>
                   </button>
                 );
               })}
@@ -111,7 +121,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Tab Content */}
-          <div className="bg-white rounded-b-lg shadow-md p-8 min-h-[500px]">
+          <div className="bg-white rounded-b-lg shadow-md p-3 xs:p-4 sm:p-6 md:p-8 min-h-[400px] sm:min-h-[500px]">
             {activeTab === "profile" && (
               <ProfileContent user={user} refreshUser={refreshUser} />
             )}
@@ -289,12 +299,12 @@ function ProfileContent({ user, refreshUser }) {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Phone Number
                   </label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col min-[500px]:flex-row gap-2">
                     <select
                       name="countryCode"
                       value={formData.countryCode}
                       onChange={handleInputChange}
-                      className="w-40 px-4 py-3 bg-[#c8e6df] text-gray-900 font-semibold border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#09b29d] focus:border-[#09b29d]"
+                      className="w-full min-[500px]:w-40 px-4 py-3 bg-[#c8e6df] text-gray-900 font-semibold border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#09b29d] focus:border-[#09b29d]"
                     >
                       {countryCodes.map((item) => (
                         <option key={item.code} value={item.code}>
@@ -562,7 +572,7 @@ function DonationsContent() {
 
     return (
       <span
-        className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusStyles[status] || statusStyles.pending}`}
+        className={`px-2 xs:px-3 py-1 rounded-full text-[10px] xs:text-xs font-semibold border ${statusStyles[status] || statusStyles.pending}`}
       >
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
@@ -608,30 +618,32 @@ function DonationsContent() {
   if (donations.length === 0) {
     return (
       <div className="max-w-4xl">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Your Donations</h2>
-          <Link href="/donate">
+        <div className="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-3 xs:gap-4 mb-6">
+          <h2 className="text-xl xs:text-2xl font-bold text-gray-800">
+            Your Donations
+          </h2>
+          <Link href="/donate" className="w-full xs:w-auto">
             <PrimaryButton
               text="Make a Donation"
               icon={Heart}
-              className="bg-[#09b29d] hover:bg-[#09b29d]/90"
+              className="bg-[#09b29d] hover:bg-[#09b29d]/90 text-sm xs:text-base px-4 xs:px-6 py-2 xs:py-3 w-full xs:w-auto"
             />
           </Link>
         </div>
 
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
-          <Heart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 xs:p-8 sm:p-12 text-center">
+          <Heart className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 xs:mb-4" />
+          <h3 className="text-lg xs:text-xl font-semibold text-gray-800 mb-2">
             No Donations Yet
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="text-sm xs:text-base text-gray-600 mb-4 xs:mb-6 px-2">
             You haven't made any donations yet. Start making a difference today!
           </p>
-          <Link href="/donate">
+          <Link href="/donate" className="inline-block w-full xs:w-auto">
             <PrimaryButton
               text="Make Your First Donation"
               icon={Heart}
-              className="bg-[#09b29d] hover:bg-[#09b29d]/90"
+              className="bg-[#09b29d] hover:bg-[#09b29d]/90 text-sm xs:text-base px-4 xs:px-6 py-2 xs:py-3 w-full xs:w-auto"
             />
           </Link>
         </div>
@@ -641,47 +653,49 @@ function DonationsContent() {
 
   return (
     <div className="max-w-6xl">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-3 xs:gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Your Donations</h2>
-          <p className="text-gray-600 mt-1">
+          <h2 className="text-xl xs:text-2xl font-bold text-gray-800">
+            Your Donations
+          </h2>
+          <p className="text-sm xs:text-base text-gray-600 mt-1">
             Total donations: {donations.length}
           </p>
         </div>
-        <Link href="/donate">
+        <Link href="/donate" className="w-full xs:w-auto">
           <PrimaryButton
             text="Make Another Donation"
             icon={Heart}
-            className="bg-[#09b29d] hover:bg-[#09b29d]/90"
+            className="bg-[#09b29d] hover:bg-[#09b29d]/90 text-sm xs:text-base px-4 xs:px-6 py-2 xs:py-3 w-full xs:w-auto whitespace-nowrap"
           />
         </Link>
       </div>
 
       {/* Donations Table */}
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden -mx-2 xs:mx-0">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-[#09b29d] text-white">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 text-left text-[10px] xs:text-xs font-semibold uppercase tracking-wider">
                   Date
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 text-left text-[10px] xs:text-xs font-semibold uppercase tracking-wider">
                   Projects
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 text-left text-[10px] xs:text-xs font-semibold uppercase tracking-wider hidden sm:table-cell">
                   Type
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 text-left text-[10px] xs:text-xs font-semibold uppercase tracking-wider hidden md:table-cell">
                   Frequency
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 text-left text-[10px] xs:text-xs font-semibold uppercase tracking-wider">
                   Amount
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 text-left text-[10px] xs:text-xs font-semibold uppercase tracking-wider hidden lg:table-cell">
                   Payment Method
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 text-left text-[10px] xs:text-xs font-semibold uppercase tracking-wider">
                   Status
                 </th>
               </tr>
@@ -692,49 +706,57 @@ function DonationsContent() {
                   key={donation._id || index}
                   className="hover:bg-gray-50 transition-colors"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm">
-                      <Calendar className="w-4 h-4 text-gray-400 mr-2" />
-                      <span className="text-gray-900 font-medium">
-                        {new Date(donation.createdAt).toLocaleDateString()}
+                  <td className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                    <div className="flex items-center text-xs sm:text-sm">
+                      <Calendar className="w-3 h-3 xs:w-4 xs:h-4 text-gray-400 mr-1 xs:mr-2" />
+                      <span className="text-gray-900 font-medium text-[10px] xs:text-xs sm:text-sm">
+                        {new Date(donation.createdAt).toLocaleDateString(
+                          "en-GB",
+                          { day: "2-digit", month: "2-digit", year: "2-digit" },
+                        )}
                       </span>
                     </div>
-                    <div className="text-xs text-gray-500">
-                      {new Date(donation.createdAt).toLocaleTimeString()}
+                    <div className="text-[9px] xs:text-xs text-gray-500 hidden xs:block">
+                      {new Date(donation.createdAt).toLocaleTimeString(
+                        "en-GB",
+                        { hour: "2-digit", minute: "2-digit" },
+                      )}
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm">
+                  <td className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4">
+                    <div className="text-xs sm:text-sm">
                       {donation.projects.map((project, idx) => (
                         <div key={idx} className="mb-1">
-                          <span className="font-medium text-gray-900">
+                          <span className="font-medium text-gray-900 text-[10px] xs:text-xs sm:text-sm block xs:inline">
                             {project.name}
                           </span>
-                          <span className="text-gray-500 ml-2">
+                          <span className="text-gray-500 ml-0 xs:ml-2 text-[10px] xs:text-xs sm:text-sm block xs:inline">
                             {formatCurrency(project.amount, donation.currency)}
                           </span>
                         </div>
                       ))}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
+                  <td className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap hidden sm:table-cell">
+                    <span className="inline-flex items-center px-2 xs:px-3 py-1 rounded-full text-[10px] xs:text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
                       {donation.donationType}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
+                  <td className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900 capitalize hidden md:table-cell">
                     {donation.donationFrequency}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm font-bold text-gray-900">
-                      <DollarSign className="w-4 h-4 text-[#09b29d] mr-1" />
-                      {formatCurrency(donation.amount, donation.currency)}
+                  <td className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                    <div className="flex items-center text-xs sm:text-sm font-bold text-gray-900">
+                      <DollarSign className="w-3 h-3 xs:w-4 xs:h-4 text-[#09b29d] mr-0.5 xs:mr-1" />
+                      <span className="text-[10px] xs:text-xs sm:text-sm">
+                        {formatCurrency(donation.amount, donation.currency)}
+                      </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
+                  <td className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900 capitalize hidden lg:table-cell">
                     {donation.paymentMethod || "N/A"}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 xs:px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                     {getStatusBadge(donation.status)}
                   </td>
                 </tr>
@@ -745,22 +767,28 @@ function DonationsContent() {
       </div>
 
       {/* Summary Card */}
-      <div className="mt-6 bg-gradient-to-r from-[#09b29d] to-[#07a088] rounded-lg p-6 text-white">
-        <h3 className="text-lg font-semibold mb-4">Donation Summary</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="mt-6 bg-gradient-to-r from-[#09b29d] to-[#07a088] rounded-lg p-4 xs:p-5 sm:p-6 text-white -mx-2 xs:mx-0">
+        <h3 className="text-base xs:text-lg font-semibold mb-3 xs:mb-4">
+          Donation Summary
+        </h3>
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 xs:gap-4">
           <div>
-            <p className="text-white/80 text-sm">Total Donations</p>
-            <p className="text-2xl font-bold">{donations.length}</p>
+            <p className="text-white/80 text-xs xs:text-sm">Total Donations</p>
+            <p className="text-xl xs:text-2xl font-bold">{donations.length}</p>
           </div>
           <div>
-            <p className="text-white/80 text-sm">Successful Donations</p>
-            <p className="text-2xl font-bold">
+            <p className="text-white/80 text-xs xs:text-sm">
+              Successful Donations
+            </p>
+            <p className="text-xl xs:text-2xl font-bold">
               {donations.filter((d) => d.status === "succeeded").length}
             </p>
           </div>
-          <div>
-            <p className="text-white/80 text-sm">Total Contributed</p>
-            <p className="text-2xl font-bold">
+          <div className="xs:col-span-2 md:col-span-1">
+            <p className="text-white/80 text-xs xs:text-sm">
+              Total Contributed
+            </p>
+            <p className="text-xl xs:text-2xl font-bold">
               {formatCurrency(
                 donations
                   .filter((d) => d.status === "succeeded")

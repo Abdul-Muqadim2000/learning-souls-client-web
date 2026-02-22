@@ -19,6 +19,8 @@ export default function DonatePage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [detectedLocation, setDetectedLocation] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState({
     // Step 1: Donation Details
     donationFrequency: "one-time", // 'one-time' or 'monthly'
@@ -109,20 +111,15 @@ export default function DonatePage() {
     }
   }, [isAuthenticated, detectedLocation]);
 
-  // Show prompt when location is detected
+  // Auto-apply detected location without popup
   useEffect(() => {
     if (detectedLocation && !formData.phone) {
-      const useDetectedLocation = window.confirm(
-        `We detected you're in ${detectedLocation.country}. Would you like to use ${detectedLocation.countryCode} as your country code?`,
-      );
-
-      if (useDetectedLocation) {
-        setFormData((prev) => ({
-          ...prev,
-          countryCode: detectedLocation.countryCode,
-          country: detectedLocation.country,
-        }));
-      }
+      // Automatically use detected location (no popup)
+      setFormData((prev) => ({
+        ...prev,
+        countryCode: detectedLocation.countryCode,
+        country: detectedLocation.country,
+      }));
 
       // Clear detected location after handling
       setDetectedLocation(null);
@@ -150,10 +147,14 @@ export default function DonatePage() {
   };
 
   const handleNext = () => {
+    // Clear previous error messages
+    setErrorMessage("");
+    setSuccessMessage("");
+
     // Validate step 1: At least one project must be selected
     if (currentStep === 1) {
       if (!formData.projects || formData.projects.length === 0) {
-        alert(
+        setErrorMessage(
           "Please select at least one project to donate to before proceeding.",
         );
         return;
@@ -163,7 +164,7 @@ export default function DonatePage() {
     // Validate step 2: Required fields must be filled
     if (currentStep === 2) {
       if (!formData.fullname || !formData.email || !formData.phone) {
-        alert(
+        setErrorMessage(
           "Please fill in all required fields (Full Name, Email, and Phone Number) before proceeding.",
         );
         return;
@@ -172,7 +173,7 @@ export default function DonatePage() {
       // Basic email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
-        alert("Please enter a valid email address.");
+        setErrorMessage("Please enter a valid email address.");
         return;
       }
     }
@@ -183,46 +184,50 @@ export default function DonatePage() {
   };
 
   const handleBack = () => {
+    // Clear error messages when going back
+    setErrorMessage("");
+    setSuccessMessage("");
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
   };
 
   const handleReset = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to reset the entire form? All your information will be cleared.",
-      )
-    ) {
-      // Clear localStorage
-      localStorage.removeItem("donateFormData");
-      localStorage.removeItem("donateCurrentStep");
+    // Clear localStorage
+    localStorage.removeItem("donateFormData");
+    localStorage.removeItem("donateCurrentStep");
 
-      // Reset form data to initial state
-      setFormData({
-        donationFrequency: "one-time",
-        projects: [],
-        donationType: "Lillah",
-        amount: 50,
-        currency: "GBP",
-        fullname: "",
-        email: "",
-        countryCode: "+1",
-        phone: "",
-        addressLine: "",
-        city: "",
-        country: "",
-        giftAid: false,
-        paymentMethod: "",
-      });
+    // Reset form data to initial state
+    setFormData({
+      donationFrequency: "one-time",
+      projects: [],
+      donationType: "Lillah",
+      amount: 50,
+      currency: "GBP",
+      fullname: "",
+      email: "",
+      countryCode: "+1",
+      phone: "",
+      addressLine: "",
+      city: "",
+      country: "",
+      giftAid: false,
+      paymentMethod: "",
+    });
 
-      // Go back to step 1
-      setCurrentStep(1);
-    }
+    // Clear messages
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    // Go back to step 1
+    setCurrentStep(1);
   };
 
   const handleSubmit = async () => {
     setIsLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/public/donate`,
@@ -255,27 +260,30 @@ export default function DonatePage() {
         localStorage.removeItem("donateFormData");
         localStorage.removeItem("donateCurrentStep");
       }
-      alert(data.message || "Donation submitted successfully!");
+
+      // Removed alert popup - success is shown on the success page
       setIsLoading(false);
       window.location.href = "/donate/success";
     } catch (error) {
       console.error("Error submitting donation:", error);
-      alert(error.message || "Failed to process donation. Please try again.");
+      setErrorMessage(
+        error.message || "Failed to process donation. Please try again.",
+      );
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-gray-50 py-6 xs:py-8 sm:py-12 px-2 xs:px-4">
       <div className="max-w-3xl mx-auto">
         {/* Progress Indicator */}
-        <div className="mb-8">
+        <div className="mb-6 xs:mb-8">
           <div className="flex items-center w-full">
             {[1, 2, 3, 4].map((step, index) => (
               <>
                 <div
                   key={step}
-                  className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition shrink-0 ${
+                  className={`flex items-center justify-center w-8 h-8 xs:w-10 xs:h-10 rounded-full border-2 transition shrink-0 text-sm xs:text-base ${
                     currentStep >= step
                       ? "border-(--color-secondary) bg-(--color-secondary) text-white"
                       : "border-gray-300 bg-white text-gray-400"
@@ -285,7 +293,7 @@ export default function DonatePage() {
                 </div>
                 {index < 3 && (
                   <div
-                    className={`flex-1 h-1 mx-2 transition ${
+                    className={`flex-1 h-0.5 xs:h-1 mx-1 xs:mx-2 transition ${
                       currentStep > step
                         ? "bg-(--color-secondary)"
                         : "bg-gray-300"
@@ -296,21 +304,103 @@ export default function DonatePage() {
             ))}
           </div>
           <div className="flex justify-between mt-2">
-            <span className="text-xs font-medium text-gray-600">
-              Donation Details
+            <span className="text-[10px] xs:text-xs font-medium text-gray-600">
+              Donation
             </span>
-            <span className="text-xs font-medium text-gray-600 lg:mr-14">
-              Your Information
+            <span className="text-[10px] xs:text-xs font-medium text-gray-600 -ml-2 xs:ml-0 lg:mr-14">
+              Information
             </span>
-            <span className="text-xs font-medium text-gray-600 lg:mr-18">
+            <span className="text-[10px] xs:text-xs font-medium text-gray-600 lg:mr-18">
               Gift Aid
             </span>
-            <span className="text-xs font-medium text-gray-600">Payment</span>
+            <span className="text-[10px] xs:text-xs font-medium text-gray-600">
+              Payment
+            </span>
           </div>
         </div>
 
         {/* Step Content */}
-        <div className="bg-white rounded-lg shadow-lg lg:p-8 md:p-6 p-4">
+        <div className="bg-white rounded-lg shadow-lg p-3 xs:p-4 sm:p-6 lg:p-8">
+          {/* Error Message */}
+          {errorMessage && (
+            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg">
+              <div className="flex items-start">
+                <svg
+                  className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <div className="flex-1">
+                  <p className="font-semibold text-sm">Error</p>
+                  <p className="text-sm mt-1">{errorMessage}</p>
+                </div>
+                <button
+                  onClick={() => setErrorMessage("")}
+                  className="ml-4 text-red-500 hover:text-red-700"
+                  aria-label="Close"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {successMessage && (
+            <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-lg">
+              <div className="flex items-start">
+                <svg
+                  className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <div className="flex-1">
+                  <p className="font-semibold text-sm">Success</p>
+                  <p className="text-sm mt-1">{successMessage}</p>
+                </div>
+                <button
+                  onClick={() => setSuccessMessage("")}
+                  className="ml-4 text-green-500 hover:text-green-700"
+                  aria-label="Close"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+
           {currentStep === 1 && (
             <Step1 formData={formData} updateFormData={updateFormData} />
           )}
@@ -463,12 +553,14 @@ function Step1({ formData, updateFormData }) {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 xs:space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-1 xs:mb-2">
           Support our Projects
         </h2>
-        <p className="text-gray-600">Choose your donation preferences</p>
+        <p className="text-sm xs:text-base text-gray-600">
+          Choose your donation preferences
+        </p>
       </div>
 
       {/* Donation Frequency Toggle */}
@@ -520,52 +612,57 @@ function Step1({ formData, updateFormData }) {
             {formData.projects.map((project) => (
               <div
                 key={project.name}
-                className="bg-[#c8e6df] border border-green-300 rounded-lg p-4 flex items-center gap-4"
+                className="bg-[#c8e6df] border border-green-300 rounded-lg p-3 xs:p-4"
               >
-                <div className="flex-1">
-                  <div className="font-semibold text-gray-900">
-                    {project.name}
-                  </div>
-                  <div className="text-sm text-gray-600 mt-1">
-                    {projects.find((p) => p.name === project.name)?.description}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {/* Show amount input only when more than 1 project is selected */}
-                  {formData.projects.length > 1 && (
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 font-medium">
-                        {getCurrencySymbol(formData.currency)}
-                      </span>
-                      <NumberInput
-                        value={project.amount}
-                        onChange={(e) =>
-                          updateProjectAmount(project.name, e.target.value)
-                        }
-                        min="1"
-                        step="1"
-                        placeholder="Amount"
-                        className="pl-7 w-32 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                      />
+                <div className="flex flex-col xs:flex-row xs:items-center gap-3 xs:gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-gray-900 text-sm xs:text-base">
+                      {project.name}
                     </div>
-                  )}
-                  <button
-                    onClick={() => toggleProject(project.name)}
-                    className="text-gray-600 hover:text-red-600 transition p-2 hover:bg-red-50 rounded"
-                    aria-label="Remove project"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
+                    <div className="text-xs xs:text-sm text-gray-600 mt-1 line-clamp-2 xs:line-clamp-none">
+                      {
+                        projects.find((p) => p.name === project.name)
+                          ?.description
+                      }
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 xs:gap-2 justify-between xs:justify-end">
+                    {/* Show amount input only when more than 1 project is selected */}
+                    {formData.projects.length > 1 && (
+                      <div className="relative flex-1 xs:flex-initial">
+                        <span className="absolute left-2 xs:left-3 top-1/2 -translate-y-1/2 text-gray-600 font-medium text-sm xs:text-base">
+                          {getCurrencySymbol(formData.currency)}
+                        </span>
+                        <NumberInput
+                          value={project.amount}
+                          onChange={(e) =>
+                            updateProjectAmount(project.name, e.target.value)
+                          }
+                          min="1"
+                          step="1"
+                          placeholder="Amount"
+                          className="pl-6 xs:pl-7 pr-2 w-full xs:w-28 sm:w-32 text-sm xs:text-base [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        />
+                      </div>
+                    )}
+                    <button
+                      onClick={() => toggleProject(project.name)}
+                      className="text-gray-600 hover:text-red-600 transition p-1.5 xs:p-2 hover:bg-red-50 rounded flex-shrink-0"
+                      aria-label="Remove project"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        className="w-4 h-4 xs:w-5 xs:h-5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

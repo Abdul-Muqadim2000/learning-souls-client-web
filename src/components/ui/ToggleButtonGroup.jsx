@@ -25,7 +25,7 @@ const ToggleButtonGroup = ({
   const getGridClasses = () => {
     if (responsiveColumns) {
       // Build responsive classes
-      let classes = "grid gap-3";
+      let classes = "grid gap-2 xs:gap-3";
       if (responsiveColumns.base)
         classes += ` grid-cols-${responsiveColumns.base}`;
       if (responsiveColumns.sm)
@@ -38,7 +38,7 @@ const ToggleButtonGroup = ({
         classes += ` xl:grid-cols-${responsiveColumns.xl}`;
       return classes;
     }
-    return "grid gap-3";
+    return "grid gap-2 xs:gap-3";
   };
 
   return (
@@ -80,7 +80,7 @@ const ToggleButtonGroup = ({
                 ...(optionTextColor ? { color: optionTextColor } : {}),
               }}
               className={`
-                relative px-6 py-4 rounded-full
+                relative px-3 py-3 xs:px-4 xs:py-3.5 sm:px-6 sm:py-4 rounded-full
                 transition-all duration-200
                 font-medium text-center
                 focus:outline-none
@@ -131,11 +131,13 @@ const ToggleButtonGroup = ({
                 </div>
               )}
 
-              <div className="text-base font-semibold relative z-10">
+              <div className="text-sm xs:text-base font-semibold relative z-10 leading-tight">
                 {optionLabel}
               </div>
               {optionDescription && (
-                <div className={`text-xs mt-1 relative z-10`}>
+                <div
+                  className={`text-[10px] xs:text-xs mt-0.5 xs:mt-1 relative z-10`}
+                >
                   {optionDescription}
                 </div>
               )}
