@@ -592,7 +592,8 @@ function Step1({ formData, updateFormData }) {
 
   const updateProjectAmount = (projectName, amount) => {
     const currentProjects = formData.projects || [];
-    const parsedAmount = parseFloat(amount) || 0;
+    // Allow empty string, otherwise parse to number
+    const parsedAmount = amount === "" ? "" : parseFloat(amount) || 0;
     updateFormData(
       "projects",
       currentProjects.map((p) =>
@@ -726,6 +727,25 @@ function Step1({ formData, updateFormData }) {
                 </div>
               </div>
             ))}
+            
+            {/* Show total when multiple projects selected */}
+            {formData.projects.length > 1 && (
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-lg p-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-base xs:text-lg font-semibold text-gray-900">
+                    Total Donation:
+                  </span>
+                  <span className="text-xl xs:text-2xl font-bold text-green-700">
+                    {getCurrencySymbol(formData.currency)}
+                    {formData.projects
+                      .reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0)
+                      .toFixed(2)}
+                    {" "}
+                    {formData.currency}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

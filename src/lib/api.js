@@ -321,6 +321,22 @@ export async function submitContactUs(contactData) {
 
   if (!response.ok) {
     const error = await response.json();
+    
+    // Handle validation errors (array of errors)
+    if (error.message && typeof error.message === 'string') {
+      try {
+        // Try to parse if message is a JSON string
+        const parsedErrors = JSON.parse(error.message);
+        if (Array.isArray(parsedErrors)) {
+          const errorMessages = parsedErrors.map(err => err.message).join('. ');
+          throw new Error(errorMessages);
+        }
+      } catch (parseError) {
+        // If parsing fails, use the original message
+        throw new Error(error.message || "Failed to submit contact form");
+      }
+    }
+    
     throw new Error(error.message || "Failed to submit contact form");
   }
 
@@ -342,6 +358,22 @@ export async function submitJoinUs(joinData) {
 
   if (!response.ok) {
     const error = await response.json();
+    
+    // Handle validation errors (array of errors)
+    if (error.message && typeof error.message === 'string') {
+      try {
+        // Try to parse if message is a JSON string
+        const parsedErrors = JSON.parse(error.message);
+        if (Array.isArray(parsedErrors)) {
+          const errorMessages = parsedErrors.map(err => err.message).join('. ');
+          throw new Error(errorMessages);
+        }
+      } catch (parseError) {
+        // If parsing fails, use the original message
+        throw new Error(error.message || "Failed to submit join us form");
+      }
+    }
+    
     throw new Error(error.message || "Failed to submit join us form");
   }
 
