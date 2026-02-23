@@ -156,6 +156,38 @@ export async function requestPasswordReset(email) {
 }
 
 /**
+ * Confirm password reset with token from email
+ */
+export async function confirmPasswordReset(token, password, passwordConfirm) {
+  const response = await fetch(`${API_URL}/auth/confirm-reset-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token, password, passwordConfirm }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Password reset failed");
+  }
+
+  const data = await response.json();
+
+  // Store the JWT tokens after successful reset
+  if (data.data?.tokens) {
+    if (data.data.tokens.accessToken) {
+      localStorage.setItem("accessToken", data.data.tokens.accessToken);
+    }
+    if (data.data.tokens.refreshToken) {
+      localStorage.setItem("refreshToken", data.data.tokens.refreshToken);
+    }
+  }
+
+  return data;
+}
+
+/**
  * Request password setup (for users created via donation)
  */
 export async function requestPasswordSetup(email) {
