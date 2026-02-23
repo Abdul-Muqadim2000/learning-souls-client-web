@@ -20,14 +20,13 @@ export default function BooksDistributionProject() {
           />
           {/* Modern Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#09b29d]/95 via-[#09b29d]/85 to-teal-600/90"></div>
-          
+
           {/* Decorative Pattern Overlay */}
           <div className="absolute inset-0 opacity-10">
             <div
               className="absolute inset-0"
               style={{
-                backgroundImage:
-                  `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20h8v8h-8zM40 40h8v8h-8zM60 20h8v8h-8z' fill='white' opacity='0.3'/%3E%3C/svg%3E")`,
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20h8v8h-8zM40 40h8v8h-8zM60 20h8v8h-8z' fill='white' opacity='0.3'/%3E%3C/svg%3E")`,
                 backgroundSize: "80px 80px",
               }}
             />
@@ -56,11 +55,12 @@ export default function BooksDistributionProject() {
 
             {/* Subtitle */}
             <p className="text-lg sm:text-xl md:text-2xl text-white/95 max-w-4xl mx-auto mb-10 leading-relaxed font-medium">
-              At Learning Soul, we aim to make authentic Islamic knowledge accessible to all. 
-              Explore, learn, and share these free resources to benefit yourself and others.
+              At Learning Soul, we aim to make authentic Islamic knowledge
+              accessible to all. Explore, learn, and share these free resources
+              to benefit yourself and others.
             </p>
 
-            {/* Call to Action Buttons */
+            {/* Call to Action Buttons */}
             <div className="flex flex-col xs:flex-row gap-4 justify-center items-center">
               <a
                 href="#downloads"
@@ -108,8 +108,7 @@ export default function BooksDistributionProject() {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage:
-                `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='3' fill='white'/%3E%3C/svg%3E")`,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='3' fill='white'/%3E%3C/svg%3E")`,
               backgroundSize: "50px 50px",
             }}
           />
@@ -133,35 +132,65 @@ export default function BooksDistributionProject() {
               </h2>
 
               <p className="text-lg md:text-xl text-white/95 mb-8 leading-relaxed">
-                Sharing Islamic knowledge is a noble act and a means of continuous reward. 
-                Support our efforts to distribute free Islamic books by donating, volunteering, 
-                or spreading the word.
+                Sharing Islamic knowledge is a noble act and a means of
+                continuous reward. Support our efforts to distribute free
+                Islamic books by donating, volunteering, or spreading the word.
               </p>
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-3">
                   <div className="bg-yellow-300 rounded-full p-1.5 mt-1">
-                    <svg className="w-4 h-4 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    <svg
+                      className="w-4 h-4 text-gray-900"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
-                  <p className="text-white/90 text-lg">Continuous rewards even after you pass away</p>
+                  <p className="text-white/90 text-lg">
+                    Continuous rewards even after you pass away
+                  </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="bg-yellow-300 rounded-full p-1.5 mt-1">
-                    <svg className="w-4 h-4 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    <svg
+                      className="w-4 h-4 text-gray-900"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
-                  <p className="text-white/90 text-lg">Reach more hearts with the message of Islam</p>
+                  <p className="text-white/90 text-lg">
+                    Reach more hearts with the message of Islam
+                  </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="bg-yellow-300 rounded-full p-1.5 mt-1">
-                    <svg className="w-4 h-4 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    <svg
+                      className="w-4 h-4 text-gray-900"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
-                  <p className="text-white/90 text-lg">Make knowledge accessible to everyone</p>
+                  <p className="text-white/90 text-lg">
+                    Make knowledge accessible to everyone
+                  </p>
                 </div>
               </div>
 
@@ -186,14 +215,17 @@ export default function BooksDistributionProject() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent"></div>
               </div>
-              
+
               {/* Floating Quote Card */}
               <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-6 shadow-2xl max-w-sm hidden md:block">
                 <p className="text-gray-800 font-semibold text-sm mb-2">
-                  &quot;When a person dies, all their deeds end except three: a continuing charity, 
-                  beneficial knowledge, and a child who prays for them.&quot;
+                  &quot;When a person dies, all their deeds end except three: a
+                  continuing charity, beneficial knowledge, and a child who
+                  prays for them.&quot;
                 </p>
-                <p className="text-[#09b29d] font-bold text-xs">- Prophet Muhammad ﷺ</p>
+                <p className="text-[#09b29d] font-bold text-xs">
+                  - Prophet Muhammad ﷺ
+                </p>
               </div>
             </div>
           </div>

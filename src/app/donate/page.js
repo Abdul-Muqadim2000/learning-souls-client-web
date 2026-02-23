@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import SecondaryButton, { PrimaryButton } from "@/components/ui/Button";
 import Input, { NumberInput, EmailInput, Select } from "@/components/ui/Input";
+import SearchableSelect from "@/components/ui/SearchableSelect";
 import ToggleButtonGroup from "@/components/ui/ToggleButtonGroup";
+import countries from "@/lib/countries";
+import countryCodes from "@/lib/countryCodes";
 import {
   CheckCircle,
   ChevronLeft,
@@ -20,6 +23,7 @@ export default function DonatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [detectedLocation, setDetectedLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const formContainerRef = useRef(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState({
     // Step 1: Donation Details
@@ -83,7 +87,7 @@ export default function DonatePage() {
           sessionStorage.removeItem("donateRedirecting");
           // Optionally show a message that payment was cancelled
           setErrorMessage(
-            "Payment was cancelled. You can modify your donation and try again."
+            "Payment was cancelled. You can modify your donation and try again.",
           );
         }
       }
@@ -96,7 +100,7 @@ export default function DonatePage() {
     if (wasRedirecting) {
       sessionStorage.removeItem("donateRedirecting");
       setErrorMessage(
-        "Payment was cancelled. You can modify your donation and try again."
+        "Payment was cancelled. You can modify your donation and try again.",
       );
     }
 
@@ -183,6 +187,16 @@ export default function DonatePage() {
   const updateFormData = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  // Scroll to top when step changes
+  useEffect(() => {
+    if (formContainerRef.current) {
+      formContainerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [currentStep]);
 
   const handleNext = () => {
     // Clear previous error messages
@@ -361,7 +375,10 @@ export default function DonatePage() {
         </div>
 
         {/* Step Content */}
-        <div className="bg-white rounded-lg shadow-lg p-3 xs:p-4 sm:p-6 lg:p-8">
+        <div
+          ref={formContainerRef}
+          className="bg-white rounded-lg shadow-lg p-3 xs:p-4 sm:p-6 lg:p-8"
+        >
           {/* Error Message */}
           {errorMessage && (
             <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg">
@@ -875,17 +892,6 @@ function Step1({ formData, updateFormData }) {
 
 // Step 2: User Details
 function Step2({ formData, updateFormData, handleReset }) {
-  const countryCodes = [
-    { code: "+1", country: "US/Canada" },
-    { code: "+44", country: "UK" },
-    { code: "+91", country: "India" },
-    { code: "+92", country: "Pakistan" },
-    { code: "+971", country: "UAE" },
-    { code: "+966", country: "Saudi Arabia" },
-    { code: "+20", country: "Egypt" },
-    { code: "+880", country: "Bangladesh" },
-  ];
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -930,9 +936,12 @@ function Step2({ formData, updateFormData, handleReset }) {
           Phone Number <span className="text-red-500">*</span>
         </label>
         <div className="flex flex-col sm:flex-row gap-2">
-          <Select
+          <SearchableSelect
             value={formData.countryCode}
             onChange={(e) => updateFormData("countryCode", e.target.value)}
+            placeholder="Select code"
+            searchPlaceholder="Search country or code..."
+            noResultsText="No country code found"
             options={countryCodes.map((item) => ({
               value: item.code,
               label: `${item.code} (${item.country})`,
@@ -947,8 +956,19 @@ function Step2({ formData, updateFormData, handleReset }) {
             required
             className="flex-1"
           />
+          
         </div>
       </div>
+      {/* Country */}
+      <SearchableSelect
+        label="Country"
+        value={formData.country}
+        onChange={(e) => updateFormData("country", e.target.value)}
+        placeholder="Select your country"
+        searchPlaceholder="Search for a country..."
+        noResultsText="No country found"
+        options={countries}
+      />
 
       {/* Address Line */}
       <Input
@@ -976,15 +996,6 @@ function Step2({ formData, updateFormData, handleReset }) {
           placeholder="Postal code / ZIP code"
         />
       </div>
-
-      {/* Country */}
-      <Input
-        type="text"
-        label="Country"
-        value={formData.country}
-        onChange={(e) => updateFormData("country", e.target.value)}
-        placeholder="Country"
-      />
     </div>
   );
 }

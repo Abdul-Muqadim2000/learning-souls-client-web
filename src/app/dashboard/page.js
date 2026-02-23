@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { PrimaryButton } from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import SearchableSelect from "@/components/ui/SearchableSelect";
+import countries from "@/lib/countries";
+import countryCodes from "@/lib/countryCodes";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { updateProfile, getDonations } from "@/lib/api";
 import Link from "next/link";
@@ -215,17 +218,6 @@ function ProfileContent({ user, refreshUser }) {
     setMessage({ type: "", text: "" });
   };
 
-  const countryCodes = [
-    { code: "+1", country: "US/Canada" },
-    { code: "+44", country: "UK" },
-    { code: "+91", country: "India" },
-    { code: "+92", country: "Pakistan" },
-    { code: "+971", country: "UAE" },
-    { code: "+966", country: "Saudi Arabia" },
-    { code: "+20", country: "Egypt" },
-    { code: "+880", country: "Bangladesh" },
-  ];
-
   return (
     <div className="max-w-4xl">
       <div className="flex justify-between items-center mb-6">
@@ -303,18 +295,19 @@ function ProfileContent({ user, refreshUser }) {
                     Phone Number
                   </label>
                   <div className="flex flex-col min-[500px]:flex-row gap-2">
-                    <select
+                    <SearchableSelect
                       name="countryCode"
                       value={formData.countryCode}
                       onChange={handleInputChange}
-                      className="w-full min-[500px]:w-40 px-4 py-3 bg-[#c8e6df] text-gray-900 font-semibold border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#09b29d] focus:border-[#09b29d]"
-                    >
-                      {countryCodes.map((item) => (
-                        <option key={item.code} value={item.code}>
-                          {item.code} ({item.country})
-                        </option>
-                      ))}
-                    </select>
+                      placeholder="Select code"
+                      searchPlaceholder="Search country or code..."
+                      noResultsText="No country code found"
+                      options={countryCodes.map((item) => ({
+                        value: item.code,
+                        label: `${item.code} (${item.country})`,
+                      }))}
+                      className="w-full min-[500px]:w-52 md:w-56 lg:w-60"
+                    />
                     <Input
                       type="tel"
                       name="phone"
@@ -419,13 +412,15 @@ function ProfileContent({ user, refreshUser }) {
             {/* Country */}
             <div className="md:col-span-2">
               {isEditing ? (
-                <Input
-                  type="text"
+                <SearchableSelect
                   name="country"
                   label="Country"
                   value={formData.country}
                   onChange={handleInputChange}
-                  placeholder="Country"
+                  placeholder="Select your country"
+                  searchPlaceholder="Search for a country..."
+                  noResultsText="No country found"
+                  options={countries}
                 />
               ) : (
                 <>
@@ -663,7 +658,8 @@ function DonationsContent() {
             No Donations Yet
           </h3>
           <p className="text-sm xs:text-base text-gray-600 mb-4 xs:mb-6 px-2">
-            You haven't made any donations yet. Start making a difference today!
+            You haven&apos;t made any donations yet. Start making a difference
+            today!
           </p>
           <Link href="/donate" className="inline-block w-full xs:w-auto">
             <PrimaryButton
