@@ -4,6 +4,7 @@ import { useState } from "react";
 import GenericHeader from "@/components/GenericHeader";
 import Input, { EmailInput, TextArea } from "@/components/ui/Input";
 import { MapPin, Phone, Mail, Send } from "lucide-react";
+import { submitContactUs } from "@/lib/api";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ export default function ContactUs() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,12 +63,11 @@ export default function ContactUs() {
     }
 
     setIsSubmitting(true);
+    setSubmitError("");
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Contact form submitted:", formData);
+    try {
+      await submitContactUs(formData);
       setSubmitSuccess(true);
-      setIsSubmitting(false);
       // Reset form
       setFormData({
         name: "",
@@ -75,7 +76,12 @@ export default function ContactUs() {
       });
       // Hide success message after 5 seconds
       setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1500);
+    } catch (error) {
+      console.error("Contact form submission error:", error);
+      setSubmitError(error.message || "Failed to submit form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -126,6 +132,13 @@ export default function ContactUs() {
                   {submitSuccess && (
                     <div className="mb-6 p-4 bg-green-100 border-2 border-green-400 rounded-lg text-green-700 text-center font-semibold">
                       ✓ Thank you! We&apos;ll get back to you soon.
+                    </div>
+                  )}
+
+                  {/* Error Message */}
+                  {submitError && (
+                    <div className="mb-6 p-4 bg-red-100 border-2 border-red-400 rounded-lg text-red-700 text-center font-semibold">
+                      ✗ {submitError}
                     </div>
                   )}
 

@@ -307,6 +307,48 @@ export async function createDonation(donationData) {
   }
 }
 
+/**
+ * Submit contact us form
+ */
+export async function submitContactUs(contactData) {
+  const response = await fetch(`${API_URL}/public/contact-us`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contactData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to submit contact form");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+/**
+ * Submit join us form
+ */
+export async function submitJoinUs(joinData) {
+  const response = await fetch(`${API_URL}/public/join-us`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(joinData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to submit join us form");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 
 /**
  * Register new user - Returns challengeId for MFA
