@@ -65,14 +65,17 @@ export default function TranslationOfHadithPage() {
       />
 
       {/* What We Are Doing Section - Content Left, Image Right */}
-      <section className="py-16 px-6 bg-white">
+      <section className="py-12 sm:py-14 md:py-16 px-4 sm:px-6 bg-white">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
             {/* Left - Content */}
             <div>
               <h2
-                className="text-3xl md:text-4xl font-bold mb-6"
-                style={{ color: "var(--color-secondary)" }}
+                className="font-bold mb-5 sm:mb-6 leading-tight"
+                style={{
+                  color: "var(--color-secondary)",
+                  fontSize: "clamp(1.75rem, 3vw + 0.5rem, 2.5rem)",
+                }}
               >
                 {projectData.whatWeDo.title}
               </h2>
@@ -80,7 +83,11 @@ export default function TranslationOfHadithPage() {
                 {projectData.whatWeDo.paragraphs.map((paragraph, index) => (
                   <p
                     key={index}
-                    className="text-gray-700 text-base md:text-lg leading-relaxed text-justify"
+                    className="text-gray-700 leading-relaxed text-justify"
+                    style={{
+                      fontSize: "clamp(0.9rem, 1.5vw + 0.25rem, 1.125rem)",
+                      lineHeight: "1.7",
+                    }}
                   >
                     {paragraph}
                   </p>
@@ -89,12 +96,13 @@ export default function TranslationOfHadithPage() {
             </div>
 
             {/* Right - Image */}
-            <div className="relative h-96 md:h-full min-h-100 rounded-lg overflow-hidden shadow-lg">
+            <div className="relative h-80 sm:h-96 md:h-full md:min-h-[400px] lg:min-h-[450px] rounded-xl overflow-hidden shadow-2xl">
               <Image
                 src="/images/translation2.webp"
                 alt="Hadith Books Collection"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </div>
@@ -115,17 +123,24 @@ export default function TranslationOfHadithPage() {
 
         <div className="relative max-w-6xl mx-auto">
           <h2
-            className="text-2xl md:text-3xl font-bold mb-8 text-center"
-            style={{ color: "var(--color-tertiary)" }}
+            className="font-bold mb-6 sm:mb-7 md:mb-8 text-center leading-tight"
+            style={{
+              color: "var(--color-tertiary)",
+              fontSize: "clamp(1.5rem, 2.5vw + 0.5rem, 2rem)",
+            }}
           >
             {projectData.translation.title}
           </h2>
 
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             {projectData.translation.paragraphs.map((paragraph, index) => (
               <p
                 key={index}
-                className="text-gray-500 text-sm md:text-sm leading-relaxed text-justify"
+                className="text-gray-500 leading-relaxed text-justify"
+                style={{
+                  fontSize: "clamp(0.85rem, 1.2vw + 0.2rem, 0.95rem)",
+                  lineHeight: "1.7",
+                }}
               >
                 {paragraph}
               </p>
@@ -135,13 +150,23 @@ export default function TranslationOfHadithPage() {
       </ContentSection>
 
       {/* Support Section - Donation Form */}
-      <section className="w-full py-12 sm:py-16 lg:py-20">
+      <section className="w-full py-10 sm:py-12 md:py-14 lg:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-(--color-secondary) mb-4">
+          <div className="mb-6 sm:mb-7 md:mb-8 text-center">
+            <h2
+              className="font-bold text-(--color-secondary) mb-3 sm:mb-4"
+              style={{
+                fontSize: "clamp(1.75rem, 3vw + 0.5rem, 2.5rem)",
+              }}
+            >
               Support This Project
             </h2>
-            <p className="text-(--color-secondary) text-base sm:text-lg max-w-2xl mx-auto">
+            <p
+              className="text-(--color-secondary) max-w-2xl mx-auto px-4"
+              style={{
+                fontSize: "clamp(0.9rem, 1.5vw + 0.25rem, 1.125rem)",
+              }}
+            >
               Your generous donation helps us make the Quran accessible to
               everyone.
             </p>

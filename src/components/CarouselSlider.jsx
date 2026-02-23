@@ -122,19 +122,19 @@ const CarouselSlider = ({
               {items.map((item, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 px-2 sm:px-3"
+                  className="flex-shrink-0 px-2 sm:px-3 flex justify-center"
                   style={{ width: `${slideWidth}%` }}
                 >
-                  <div className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full">
+                  <div className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full w-full max-w-[280px] sm:max-w-none">
                     {/* Image Only */}
                     {item.image && !item.heading && !item.description && (
-                      <div className="relative w-full aspect-[3/4]">
+                      <div className="relative w-full aspect-[2/3] sm:aspect-[3/4]">
                         <Image
                           src={item.image}
                           alt={`Slide ${index + 1}`}
                           fill
                           className="object-cover"
-                          sizes={`(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw`}
+                          sizes={`(max-width: 640px) 280px, (max-width: 1024px) 50vw, 33vw`}
                         />
                       </div>
                     )}
@@ -142,13 +142,13 @@ const CarouselSlider = ({
                     {/* Image with Content */}
                     {item.image && (item.heading || item.description) && (
                       <>
-                        <div className="relative w-full aspect-[3/4]">
+                        <div className="relative w-full aspect-[2/3] sm:aspect-[3/4]">
                           <Image
                             src={item.image}
                             alt={item.heading || `Slide ${index + 1}`}
                             fill
                             className="object-cover"
-                            sizes={`(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw`}
+                            sizes={`(max-width: 640px) 280px, (max-width: 1024px) 50vw, 33vw`}
                           />
                         </div>
                         <div className="p-3 sm:p-4 md:p-5 text-center">
@@ -168,7 +168,7 @@ const CarouselSlider = ({
 
                     {/* Fallback */}
                     {!item.image && (
-                      <div className="w-full aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                      <div className="w-full aspect-[2/3] sm:aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
                         <span className="text-3xl sm:text-4xl font-bold text-gray-400">
                           {index + 1}
                         </span>

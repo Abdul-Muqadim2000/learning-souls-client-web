@@ -36,7 +36,7 @@ const FullscreenHeader = ({
 }) => {
   // Use larger padding for sections with only background image, smaller for sections with helper images
   const sectionPadding = helperImage
-    ? "py-6 px-4 sm:py-8 md:py-10 lg:py-12 lg:px-24"
+    ? "py-8 px-4 sm:py-10 md:py-12 lg:py-16 lg:px-24"
     : "py-8 px-4 sm:py-12 md:py-14 lg:py-16 lg:px-24";
 
   const minHeight = helperImage ? "min-h-auto" : "min-h-auto lg:min-h-screen";
@@ -61,7 +61,7 @@ const FullscreenHeader = ({
           {/* Header Text */}
           {headerText && (
             <h1
-              className="uppercase tracking-[-0.02em] font-black leading-[1] break-words"
+              className="uppercase tracking-[-0.02em] font-black leading-[1] break-words text-center sm:mb-6 md:mb-0 lg:text-left"
               style={{
                 fontSize: headerTextSize || "clamp(2.5rem, 5vw, 4.5rem)",
                 background:
@@ -145,9 +145,9 @@ const FullscreenHeader = ({
         {/* Right Column - Helper Image */}
         {/* Right Column - Helper Image with Abstract SVG Shapes */}
         {helperImage && (
-          <div className="flex items-center justify-center lg:justify-end overflow-hidden px-4 sm:px-0">
+          <div className="flex items-center justify-center lg:justify-end overflow-visible px-2 sm:px-4 py-6 sm:py-8">
             <div
-              className={`relative w-full ${customImageMaxWidth || "max-w-[200px] sm:max-w-[260px] md:max-w-xs lg:max-w-lg"} aspect-square overflow-hidden`}
+              className={`relative w-full ${customImageMaxWidth || "max-w-[280px] sm:max-w-[340px] md:max-w-md lg:max-w-lg xl:max-w-xl"} aspect-square overflow-visible`}
             >
               {/* Abstract Shapes - Only render if showShapes is true */}
               {showShapes && (
@@ -188,36 +188,38 @@ const FullscreenHeader = ({
               )}
 
               {/* Image Stack */}
-              <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+              <div className="relative w-full h-full flex items-center justify-center overflow-visible">
                 {/* Back Left Image */}
                 {helperImage1 && (
-                  <div className="absolute left-0 sm:-left-4 md:-left-8 lg:-left-12 top-1/2 -translate-y-1/2 scale-[0.25] sm:scale-[0.3] md:scale-[0.4] lg:scale-50 z-10 opacity-80">
+                  <div className="absolute -left-2 sm:-left-4 md:-left-6 lg:-left-12 top-1/2 -translate-y-1/2 scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-75 z-10 opacity-80 drop-shadow-2xl">
                     <Image
                       src={helperImage1}
                       alt="Helper illustration left"
                       width={500}
                       height={500}
                       className="object-contain"
+                      priority
                     />
                   </div>
                 )}
 
                 {/* Back Right Image */}
                 {helperImage2 && (
-                  <div className="absolute right-0 sm:-right-4 md:-right-8 lg:-right-12 top-1/2 -translate-y-1/2 scale-[0.25] sm:scale-[0.3] md:scale-[0.4] lg:scale-50 z-10 opacity-80">
+                  <div className="absolute -right-2 sm:-right-4 md:-right-6 lg:-right-12 top-1/2 -translate-y-1/2 scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-75 z-10 opacity-80 drop-shadow-2xl">
                     <Image
                       src={helperImage2}
                       alt="Helper illustration right"
                       width={500}
                       height={500}
                       className="object-contain"
+                      priority
                     />
                   </div>
                 )}
 
                 {/* Front Image */}
                 <div
-                  className={`relative ${customImageScale || "scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-75"} z-20`}
+                  className={`relative ${customImageScale || "scale-[0.85] sm:scale-90 md:scale-95 lg:scale-100"} z-20 drop-shadow-2xl`}
                 >
                   <Image
                     src={helperImage}

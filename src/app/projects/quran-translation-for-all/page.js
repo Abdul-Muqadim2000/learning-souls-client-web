@@ -164,14 +164,25 @@ export default function QuranTranslationPage() {
 
         <div className="absolute inset-0 bg-white/50"></div>
         <div className="relative max-w-6xl mx-auto">
-          <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-8">
+          <p
+            className="text-gray-700 leading-relaxed mb-6 sm:mb-7 md:mb-8"
+            style={{
+              fontSize: "clamp(0.9rem, 1.5vw + 0.25rem, 1.125rem)",
+              lineHeight: "1.7",
+            }}
+          >
             {projectData.purchaseInfo.text}
           </p>
 
           {/* App Features List */}
           <FeatureList features={projectData.features} />
 
-          <p className="text-gray-700 text-base mt-8 italic">
+          <p
+            className="text-gray-700 mt-6 sm:mt-7 md:mt-8 italic"
+            style={{
+              fontSize: "clamp(0.85rem, 1.2vw + 0.2rem, 1rem)",
+            }}
+          >
             If you would like to know more, email us a message through our
             contact form.
           </p>
@@ -179,13 +190,23 @@ export default function QuranTranslationPage() {
       </ContentSection>
 
       {/* Support Section - Donation Form */}
-      <section className="w-full py-12 sm:py-16 lg:py-20">
+      <section className="w-full py-10 sm:py-12 md:py-14 lg:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-(--color-secondary) mb-4">
+          <div className="mb-6 sm:mb-7 md:mb-8 text-center">
+            <h2
+              className="font-bold text-(--color-secondary) mb-3 sm:mb-4"
+              style={{
+                fontSize: "clamp(1.75rem, 3vw + 0.5rem, 2.5rem)",
+              }}
+            >
               Support This Project
             </h2>
-            <p className="text-(--color-secondary) text-base sm:text-lg max-w-2xl mx-auto">
+            <p
+              className="text-(--color-secondary) max-w-2xl mx-auto px-4"
+              style={{
+                fontSize: "clamp(0.9rem, 1.5vw + 0.25rem, 1.125rem)",
+              }}
+            >
               Your generous donation helps us make the Quran accessible to
               everyone.
             </p>

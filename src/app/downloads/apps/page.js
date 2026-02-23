@@ -117,8 +117,8 @@ export default function Apps() {
           helperImage={app.helperImage}
           customImageHeight={900}
           customGap="gap-2 md:gap-4 lg:gap-6"
-          customImageMaxWidth="max-w-[280px] sm:max-w-[340px] md:max-w-md lg:max-w-2xl"
-          customImageScale="scale-[0.75] sm:scale-[0.8] md:scale-[0.85] lg:scale-95"
+          customImageMaxWidth="max-w-[360px] sm:max-w-[420px] md:max-w-lg lg:max-w-2xl"
+          customImageScale="scale-95 sm:scale-100 md:scale-100 lg:scale-95"
           customImageClassName="rounded-3xl"
           textAlign="text-left"
         />
@@ -126,7 +126,7 @@ export default function Apps() {
 
       {/* Our Sponsors Section */}
       <section
-        className="w-full py-16 px-4 relative"
+        className="w-full py-12 sm:py-14 md:py-16 lg:py-20 px-4 sm:px-6 relative"
         style={{
           backgroundImage: "url(/images/Asset-1.webp)",
           backgroundSize: "cover",
@@ -139,63 +139,102 @@ export default function Apps() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-center text-[#09b29d] mb-12 md:mb-16">
+          <h2
+            className="font-black text-center text-[#09b29d] mb-10 sm:mb-12 md:mb-14 lg:mb-16"
+            style={{
+              fontSize: "clamp(2rem, 5vw + 0.5rem, 4rem)",
+            }}
+          >
             OUR SPONSORS
           </h2>
 
           {/* Two Columns Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-22 xl:gap-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-14 md:gap-16 lg:gap-20 xl:gap-24">
             {/* Left Column */}
             <div className="flex flex-col items-center space-y-6">
               {/* Image */}
-              <div className="relative w-full max-w-md aspect-square">
+              <div className="relative w-full max-w-[360px] sm:max-w-[420px] md:max-w-lg aspect-square">
                 <Image
                   src="/images/khushii-quran-stories.webp"
                   alt="Khushii Quran Stories"
                   fill
-                  className="object-contain rounded-lg"
+                  className="object-contain rounded-3xl"
+                  priority
                 />
               </div>
 
               {/* Title */}
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
+              <h3
+                className="font-bold text-gray-800 text-center"
+                style={{
+                  fontSize: "clamp(1.5rem, 2.5vw + 0.5rem, 2rem)",
+                }}
+              >
                 Khushii Quran Stories
               </h3>
 
               {/* Unordered List */}
-              <ul className="space-y-3 w-full text-[#bd2387] text-lg font-bold text-justify">
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+              <ul className="space-y-2.5 sm:space-y-3 w-full text-[#bd2387] font-bold text-justify">
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Engaging stories from the Quran designed for children and
                     families
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Beautiful illustrations to bring Islamic teachings to life
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>Interactive learning experience for young minds</span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
+                    Interactive learning experience for young minds
+                  </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Available in multiple languages for global accessibility
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Audio narration to enhance storytelling experience
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>Educational content approved by Islamic scholars</span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
+                    Educational content approved by Islamic scholars
+                  </span>
                 </li>
               </ul>
 
@@ -213,70 +252,120 @@ export default function Apps() {
             {/* Right Column */}
             <div className="flex flex-col items-center space-y-6">
               {/* Image */}
-              <div className="relative w-full max-w-md aspect-square">
+              <div className="relative w-full max-w-[360px] sm:max-w-[420px] md:max-w-lg aspect-square">
                 <Image
                   src="/images/khushi.webp"
                   alt="Khushii Dua App"
                   fill
-                  className="object-contain rounded-lg"
+                  className="object-contain rounded-3xl"
+                  priority
                 />
               </div>
 
               {/* Title */}
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
+              <h3
+                className="font-bold text-gray-800 text-center"
+                style={{
+                  fontSize: "clamp(1.5rem, 2.5vw + 0.5rem, 2rem)",
+                }}
+              >
                 Khushii Dua App
               </h3>
 
               {/* Unordered List */}
-              <ul className="space-y-3 w-full text-[#bd2387] text-lg font-bold text-justify">
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+              <ul className="space-y-2.5 sm:space-y-3 w-full text-[#bd2387] font-bold text-justify">
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Comprehensive collection of daily Islamic prayers and
                     supplications
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Easy-to-read Arabic text with transliteration and
                     translation
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Audio recitations by renowned scholars for proper
                     pronunciation
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Categorized duas for different occasions and needs
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>Bookmark and favorite your most-used prayers</span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
+                    Bookmark and favorite your most-used prayers
+                  </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
                     Daily reminders to help maintain spiritual practices
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>Offline access to all content for convenience</span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
+                    Offline access to all content for convenience
+                  </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>Share duas with family and friends easily</span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
+                    Share duas with family and friends easily
+                  </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1">•</span>
-                  <span>Regular updates with new content and features</span>
+                <li className="flex items-start gap-2.5 sm:gap-3">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span
+                    style={{
+                      fontSize: "clamp(0.95rem, 1.5vw + 0.2rem, 1.125rem)",
+                    }}
+                  >
+                    Regular updates with new content and features
+                  </span>
                 </li>
               </ul>
 

@@ -152,28 +152,36 @@ export default function DistributingQuranSeerahPage() {
       />
 
       {/* Content Section */}
-      <section className="py-16 px-6 bg-white">
+      <section className="py-12 sm:py-14 md:py-16 px-4 sm:px-6 bg-white">
         <div className="max-w-5xl mx-auto">
           {/* Horizontal Rule in Tertiary Color */}
           <div
-            className="h-1 w-32 mx-auto mb-8"
+            className="h-1 w-24 sm:w-32 mx-auto mb-6 sm:mb-7 md:mb-8 rounded-full"
             style={{ backgroundColor: "var(--color-tertiary)" }}
           ></div>
 
           {/* Title */}
           <h2
-            className="text-2xl md:text-3xl font-bold mb-8 text-center leading-relaxed"
-            style={{ color: "var(--color-tertiary)" }}
+            className="font-bold mb-6 sm:mb-7 md:mb-8 text-center leading-relaxed px-2"
+            style={{
+              color: "var(--color-tertiary)",
+              fontSize: "clamp(1.5rem, 2.5vw + 0.5rem, 2rem)",
+              lineHeight: "1.4",
+            }}
           >
             {projectData.content.title}
           </h2>
 
           {/* Description Paragraphs */}
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             {projectData.content.paragraphs.map((paragraph, index) => (
               <p
                 key={index}
-                className="text-gray-700 text-base md:text-lg leading-relaxed text-justify"
+                className="text-gray-700 leading-relaxed text-justify"
+                style={{
+                  fontSize: "clamp(0.9rem, 1.5vw + 0.25rem, 1.125rem)",
+                  lineHeight: "1.7",
+                }}
               >
                 {paragraph}
               </p>
@@ -183,46 +191,66 @@ export default function DistributingQuranSeerahPage() {
       </section>
 
       {/* Books Section - Modified ProductList */}
-      <section className="py-16 px-6 bg-gray-100">
+      <section className="py-12 sm:py-14 md:py-16 px-4 sm:px-6 bg-gray-100">
         <div className="max-w-7xl mx-auto">
           {/* Custom Title for this page */}
           <GenericHeader title="Books we use" />
-          <p className="text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+          <p
+            className="text-gray-600 text-center mb-10 sm:mb-12 max-w-3xl mx-auto px-4"
+            style={{
+              fontSize: "clamp(0.9rem, 1.2vw + 0.2rem, 1rem)",
+            }}
+          >
             These carefully selected books are distributed free of charge at NHS
             hospitals and HM prisons to spread knowledge and understanding.
           </p>
 
           {/* Books Grid with Titles and Descriptions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 md:gap-8 justify-items-center">
             {projectData.books.map((book, index) => (
-              <div key={index} className="flex flex-col w-full max-w-sm">
+              <div
+                key={index}
+                className="flex flex-col w-full max-w-sm hover:scale-[1.02] transition-transform duration-300"
+              >
                 {/* Book Image */}
-                <div className="relative w-full aspect-[3/4] rounded-lg shadow-2xl overflow-hidden mb-6">
+                <div className="relative w-full aspect-[3/4] rounded-xl shadow-2xl overflow-hidden mb-5 sm:mb-6">
                   <Image
                     src={book.imageUrl}
                     alt={book.imageAltText}
                     fill
                     className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
 
                 {/* Book Title */}
-                <h3 className="text-xl font-bold text-gray-800 mb-3 text-center min-h-[3.5rem] flex items-center justify-center">
+                <h3
+                  className="font-bold text-gray-800 mb-2 sm:mb-3 text-center min-h-[3rem] sm:min-h-[3.5rem] flex items-center justify-center px-2"
+                  style={{
+                    fontSize: "clamp(1.1rem, 2vw + 0.2rem, 1.35rem)",
+                    lineHeight: "1.3",
+                  }}
+                >
                   {book.title}
                 </h3>
 
                 {/* Book Description */}
-                <p className="text-gray-600 text-sm leading-relaxed text-center mb-6 px-4 flex-grow">
+                <p
+                  className="text-gray-600 leading-relaxed text-center mb-5 sm:mb-6 px-3 sm:px-4 flex-grow"
+                  style={{
+                    fontSize: "clamp(0.85rem, 1.2vw + 0.1rem, 0.95rem)",
+                  }}
+                >
                   {book.description}
                 </p>
 
                 {/* Buttons */}
-                <div className="flex gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2">
                   <a
                     href={book.primaryButtonHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-8 py-2 bg-[#bd2387] text-white rounded-full text-sm font-semibold hover:bg-[#a01d72] transition-all duration-300 flex items-center gap-2"
+                    className="px-6 sm:px-8 py-2.5 sm:py-2 bg-[#bd2387] text-white rounded-full text-sm font-semibold hover:bg-[#a01d72] hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <svg
                       className="w-4 h-4"
@@ -239,7 +267,7 @@ export default function DistributingQuranSeerahPage() {
                   </a>
                   <button
                     onClick={() => setActiveQRModal(book.qrCodeImage)}
-                    className="px-8 py-2 bg-white border-2 border-[#09b29d] text-[#09b29d] rounded-full text-sm font-semibold hover:bg-[#09b29d] hover:text-white transition-all duration-300 flex items-center gap-2"
+                    className="px-6 sm:px-8 py-2.5 sm:py-2 bg-white border-2 border-[#09b29d] text-[#09b29d] rounded-full text-sm font-semibold hover:bg-[#09b29d] hover:text-white hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <svg
                       className="w-4 h-4"
@@ -268,13 +296,25 @@ export default function DistributingQuranSeerahPage() {
         onClose={() => setActiveQRModal(null)}
         qrCodeImage={activeQRModal || ""}
       />
-      <section className="w-full py-12 sm:py-16 lg:py-20">
+
+      {/* Support Section - Donation Form */}
+      <section className="w-full py-10 sm:py-12 md:py-14 lg:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-(--color-secondary) mb-4">
+          <div className="mb-6 sm:mb-7 md:mb-8 text-center">
+            <h2
+              className="font-bold text-(--color-secondary) mb-3 sm:mb-4"
+              style={{
+                fontSize: "clamp(1.75rem, 3vw + 0.5rem, 2.5rem)",
+              }}
+            >
               Support This Project
             </h2>
-            <p className="text-(--color-secondary) text-base sm:text-lg max-w-2xl mx-auto">
+            <p
+              className="text-(--color-secondary) max-w-2xl mx-auto px-4"
+              style={{
+                fontSize: "clamp(0.9rem, 1.5vw + 0.25rem, 1.125rem)",
+              }}
+            >
               Your generous donation helps us make the Quran accessible to
               everyone.
             </p>

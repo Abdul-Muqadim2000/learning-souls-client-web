@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import SecondaryButton, { PrimaryButton } from "@/components/ui/Button";
 import Input, { NumberInput, EmailInput, Select } from "@/components/ui/Input";
@@ -18,6 +19,7 @@ import {
 } from "lucide-react";
 
 export default function DonatePage() {
+  const pathname = usePathname();
   const { user, isAuthenticated } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -188,15 +190,15 @@ export default function DonatePage() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Scroll to top when step changes
+  // Scroll to top when step changes (only on /donate page)
   useEffect(() => {
-    if (formContainerRef.current) {
+    if (pathname === "/donate" && formContainerRef.current) {
       formContainerRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
-  }, [currentStep]);
+  }, [currentStep, pathname]);
 
   const handleNext = () => {
     // Clear previous error messages
@@ -894,8 +896,8 @@ function Step1({ formData, updateFormData }) {
 function Step2({ formData, updateFormData, handleReset }) {
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex-1">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Your Information
           </h2>
@@ -907,7 +909,7 @@ function Step2({ formData, updateFormData, handleReset }) {
           text="Reset Form"
           icon={RefreshCcwIcon}
           onClick={handleReset}
-          className="!bg-red-600 hover:!bg-red-700 !border-red-600 hover:!border-red-700"
+          className="!bg-red-600 hover:!bg-red-700 !border-red-600 hover:!border-red-700 !text-xs !px-2 !py-1.5 sm:!text-sm sm:!px-4 sm:!py-2 md:!text-base whitespace-nowrap shrink-0"
         />
       </div>
 
@@ -956,7 +958,6 @@ function Step2({ formData, updateFormData, handleReset }) {
             required
             className="flex-1"
           />
-          
         </div>
       </div>
       {/* Country */}

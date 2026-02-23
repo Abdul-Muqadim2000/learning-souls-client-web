@@ -23,17 +23,21 @@ const page = () => {
       {/* Title Section */}
       <FullscreenHeader
         headerText={"Our Projects"}
-        headerTextSize={"clamp(3rem, 8vw, 9rem)"}
+        headerTextSize={"clamp(2.5rem, 6vw + 0.5rem, 9rem)"}
         headerTextColor={"var(--color-secondary)"}
-        imageSize="scale-90 lg:scale-50"
         showShapes={true}
         bgColor="var(--color-primary)"
         backgroundImage="/images/Asset-1.webp"
-        height="60vh"
+        height="auto"
         helperImage="/images/ucb1.webp"
         helperImage1="/images/ucb2.webp"
         helperImage2="/images/ucb3.webp"
+        customImageMaxWidth="max-w-[300px] sm:max-w-[360px] md:max-w-md lg:max-w-lg xl:max-w-2xl"
       />
+
+      {/* Visual Separator */}
+      <div className="w-full bg-gradient-to-b from-white to-gray-50 py-4 sm:py-6"></div>
+
       {/* Cards Section */}
       <CardList cards={cardListData} showTitle={false} />
     </div>

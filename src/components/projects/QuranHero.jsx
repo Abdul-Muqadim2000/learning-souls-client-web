@@ -11,7 +11,7 @@ export default function QuranHero({
     <div className="max-w-6xl mx-auto">
       {/* First Row - Hero with Background Image */}
       <div
-        className="relative py-16 px-4 sm:py-24 md:py-36 md:px-8 overflow-hidden"
+        className="relative py-12 px-4 sm:py-16 md:py-20 lg:py-28 xl:py-36 md:px-6 lg:px-8 overflow-hidden"
         style={{
           backgroundColor: heroImage ? "transparent" : "var(--color-secondary)",
         }}
@@ -24,9 +24,10 @@ export default function QuranHero({
               alt="Background"
               fill
               className="object-cover"
+              priority
             />
-            {/* Dark overlay for better text readability */}
-            {/* <div className="absolute inset-0 bg-black opacity-40"></div> */}
+            {/* Subtle overlay for better text contrast on all screens */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10"></div>
           </div>
         )}
 
@@ -45,41 +46,58 @@ export default function QuranHero({
         )}
 
         {/* Title */}
-        <div className="relative z-10 text-center max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-lg">
+        <div className="relative z-10 text-center max-w-5xl mx-auto px-2">
+          <h1
+            className="font-bold text-white drop-shadow-2xl leading-tight animate-fadeIn"
+            style={{
+              fontSize: "clamp(2rem, 5vw + 0.5rem, 4rem)",
+              textShadow:
+                "0 4px 12px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)",
+            }}
+          >
             {title}
           </h1>
         </div>
       </div>
 
       {/* Second Row - Two Column Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-2 max-w-7xl mx-auto overflow-hidden shadow-lg">
-        {/* First Column - Image Section with Dark Teal Background */}
-        {/* <div
-          className="p-6 md:p-12 lg:p-16 flex items-center justify-center"
-          style={{ backgroundColor: "#054A48" }}
-        > */}
-          <div className="relative w-full h-full flex items-center justify-center">
-            <Image
-              src={bannerImage}
-              alt="Al-Mustafa Translation"
-              width={800}
-              height={800}
-              className="object-cover w-full h-full"
-            />
-          </div>
-        {/* </div> */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 max-w-7xl mx-auto overflow-hidden shadow-2xl">
+        {/* First Column - Image Section */}
+        <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-full min-h-[300px] lg:min-h-[400px] flex items-center justify-center">
+          <Image
+            src={bannerImage}
+            alt="Al-Mustafa Translation"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
 
         {/* Second Column - Text Section with Tertiary Color */}
         <div
-          className="p-6 md:p-12 lg:p-16 flex items-center justify-center"
+          className="p-8 sm:p-10 md:p-12 lg:p-14 xl:p-16 flex items-center justify-center"
           style={{ backgroundColor: "var(--color-tertiary)" }}
         >
-          <div className="text-center text-white">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+          <div className="text-center text-white max-w-md">
+            <h2
+              className="font-bold mb-3 sm:mb-4 leading-tight"
+              style={{
+                fontSize: "clamp(1.5rem, 3vw + 0.5rem, 2.25rem)",
+                lineHeight: "1.2",
+              }}
+            >
               {bannerTitle}
             </h2>
-            <p className="text-xl md:text-2xl font-light">{bannerSubtitle}</p>
+            {bannerSubtitle && (
+              <p
+                className="font-light mt-2"
+                style={{
+                  fontSize: "clamp(1rem, 2vw + 0.25rem, 1.5rem)",
+                }}
+              >
+                {bannerSubtitle}
+              </p>
+            )}
           </div>
         </div>
       </div>
