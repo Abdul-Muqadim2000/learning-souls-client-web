@@ -232,9 +232,9 @@ export default function DonatePage() {
 
     // Validate step 2: Required fields must be filled
     if (currentStep === 2) {
-      if (!formData.fullname || !formData.email || !formData.phone) {
+      if (!formData.fullname || !formData.email || !formData.phone || !formData.country || !formData.countryCode) {
         setErrorMessage(
-          "Please fill in all required fields (Full Name, Email, and Phone Number) before proceeding.",
+          "Please fill in all required fields (Full Name, Email, Phone Number, Country Code, and Country) before proceeding.",
         );
         return;
       }
@@ -297,6 +297,16 @@ export default function DonatePage() {
     setIsLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
+
+    // Validate PayPal currency support
+    const paypalSupportedCurrencies = ["USD", "EUR", "GBP", "AUD", "CAD", "JPY"];
+    if (formData.paymentMethod === "paypal" && !paypalSupportedCurrencies.includes(formData.currency)) {
+      setErrorMessage(
+        `PayPal does not support ${formData.currency}. Please select a different payment method or change your currency to USD, EUR, or GBP.`,
+      );
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -513,7 +523,7 @@ export default function DonatePage() {
                   (currentStep === 1 &&
                     (!formData.projects || formData.projects.length === 0)) ||
                   (currentStep === 2 &&
-                    (!formData.fullname || !formData.email || !formData.phone))
+                    (!formData.fullname || !formData.email || !formData.phone || !formData.country || !formData.countryCode))
                 }
               />
             ) : (
@@ -537,7 +547,11 @@ export default function DonatePage() {
                       : "!bg-green-600 hover:!bg-green-700"
                 }`}
                 iconClassName={isLoading ? "animate-spin" : ""}
-                disabled={isLoading || !formData.paymentMethod}
+                disabled={
+                  isLoading || 
+                  !formData.paymentMethod || 
+                  (formData.paymentMethod === "paypal" && !["USD", "EUR", "GBP", "AUD", "CAD", "JPY"].includes(formData.currency))
+                }
               />
             )}
           </div>
@@ -1267,6 +1281,32 @@ function Step4({ formData, updateFormData }) {
         columns={3}
         responsiveColumns={{ sm: 1, md: 3, lg: 3 }}
       />
+      
+      {/* PayPal Currency Warning */}
+      {formData.paymentMethod === "paypal" && !["USD", "EUR", "GBP", "AUD", "CAD", "JPY"].includes(formData.currency) && (
+        <div className="mb-4 p-4 bg-orange-50 border-l-4 border-orange-500 text-orange-800 rounded-lg">
+          <div className="flex items-start">
+            <svg
+              className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <div className="flex-1">
+              <p className="font-semibold text-sm">PayPal Currency Not Supported</p>
+              <p className="text-sm mt-1">
+                PayPal does not support {formData.currency}. Please change your currency to USD, EUR, or GBP, or select a different payment method (Stripe or Bank Transfer).
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <p className="text-xs mb-4 italic text-end">
         {formData.paymentMethod === "stripe" &&
           "You'll be redirected to Stripe's secure payment page"}
