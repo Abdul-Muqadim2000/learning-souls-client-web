@@ -307,6 +307,136 @@ export async function createDonation(donationData) {
   }
 }
 
+/**
+ * Submit contact us form
+ */
+export async function submitContactUs(contactData) {
+  const response = await fetch(`${API_URL}/public/contact-us`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contactData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    console.log('Contact Us API Error Response:', error);
+    console.log('Error message type:', typeof error.message);
+    console.log('Error message value:', error.message);
+    
+    // Handle validation errors (array of errors)
+    if (error.message) {
+      const msg = error.message;
+      
+      // Try to parse as JSON if it looks like JSON
+      if (typeof msg === 'string') {
+        const trimmed = msg.trim();
+        console.log('Trimmed message:', trimmed);
+        console.log('Starts with [?', trimmed.startsWith('['));
+        
+        if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+          try {
+            const parsedErrors = JSON.parse(trimmed);
+            console.log('Parsed errors:', parsedErrors);
+            // If it's an array of error objects
+            if (Array.isArray(parsedErrors) && parsedErrors.length > 0) {
+              const errorMessages = parsedErrors.map(err => err.message).join('. ');
+              console.log('Final error message:', errorMessages);
+              throw new Error(errorMessages);
+            }
+            // If it's a single error object
+            if (parsedErrors.message) {
+              throw new Error(parsedErrors.message);
+            }
+          } catch (parseError) {
+            console.error('Parse error:', parseError);
+            // If JSON parsing fails, use the original message
+            if (parseError instanceof SyntaxError) {
+              throw new Error(msg);
+            }
+            // Re-throw if it's our custom error
+            throw parseError;
+          }
+        }
+      }
+      
+      // Use the original message if not JSON
+      throw new Error(msg);
+    }
+    
+    throw new Error("Failed to submit contact form");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+/**
+ * Submit join us form
+ */
+export async function submitJoinUs(joinData) {
+  const response = await fetch(`${API_URL}/public/join-us`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(joinData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    console.log('Join Us API Error Response:', error);
+    console.log('Error message type:', typeof error.message);
+    console.log('Error message value:', error.message);
+    
+    // Handle validation errors (array of errors)
+    if (error.message) {
+      const msg = error.message;
+      
+      // Try to parse as JSON if it looks like JSON
+      if (typeof msg === 'string') {
+        const trimmed = msg.trim();
+        console.log('Trimmed message:', trimmed);
+        console.log('Starts with [?', trimmed.startsWith('['));
+        
+        if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+          try {
+            const parsedErrors = JSON.parse(trimmed);
+            console.log('Parsed errors:', parsedErrors);
+            // If it's an array of error objects
+            if (Array.isArray(parsedErrors) && parsedErrors.length > 0) {
+              const errorMessages = parsedErrors.map(err => err.message).join('. ');
+              console.log('Final error message:', errorMessages);
+              throw new Error(errorMessages);
+            }
+            // If it's a single error object
+            if (parsedErrors.message) {
+              throw new Error(parsedErrors.message);
+            }
+          } catch (parseError) {
+            console.error('Parse error:', parseError);
+            // If JSON parsing fails, use the original message
+            if (parseError instanceof SyntaxError) {
+              throw new Error(msg);
+            }
+            // Re-throw if it's our custom error
+            throw parseError;
+          }
+        }
+      }
+      
+      // Use the original message if not JSON
+      throw new Error(msg);
+    }
+    
+    throw new Error("Failed to submit join us form");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 
 /**
  * Register new user - Returns challengeId for MFA
