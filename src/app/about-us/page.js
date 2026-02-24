@@ -16,12 +16,13 @@ const page = () => {
         image="/images/about-us.webp"
         textColor={"var(--color-primary)"}
         height="xxl"
+        imageClassName="!w-[260%] sm:!w-[180%] md:!w-full"
       />
 
       <ImageContentSection
         imageSrc="/images/gallery-img7.webp"
         imageAlt="Our Mission"
-        title="Hour History"
+        title="Our History"
         subtitle="From the Start"
         description={[
           "Learning Souls was founded with a vision to promote education and understanding based on Islamic principles, aiming to foster community and interfaith harmony.",

@@ -25,48 +25,45 @@ const GenericHeader = ({
   buttonLink,
   overlay = false,
   backgroundSize = "cover", // New prop: 'cover' or 'contain'
+  imageClassName = "", // Custom className for image
 }) => {
   return (
     <section
-      className={`w-full flex items-center justify-center relative ${
-        heightClasses[height]
-      } ${backgroundSize === "contain" ? "generic-header-bg" : ""}`}
+      className={`w-full flex items-center justify-center relative overflow-hidden ${!image ? heightClasses[height] : ""}`}
       style={{
-        backgroundImage: image ? `url(${image})` : "none",
-        backgroundSize:
-          backgroundSize === "contain" ? "contain" : backgroundSize,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
         backgroundColor: bgColor || (image ? "transparent" : ""),
       }}
     >
+      {/* Image Element (replaces background-image for better control) */}
+      {image && (
+        <img
+          src={image}
+          alt="Header background"
+          className={`w-[120%] md:w-full h-auto max-w-none md:max-w-full block ${imageClassName}`}
+          style={{ display: "block", backgroundColor: bgColor }}
+        />
+      )}
+
       {/* Enhanced overlay for better text visibility */}
       {image && overlay && (
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/60"></div>
       )}
 
-      <div className="flex flex-col items-center justify-center relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <h1
-          className="uppercase tracking-[-0.02em] pointer-events-none text-center font-black px-2 drop-shadow-2xl"
-          style={{
-            fontSize: textSize ?? "clamp(2rem, 4vw + 0.5rem, 4rem)",
-            lineHeight: "1.1",
-            background:
-              "linear-gradient(to bottom, #bd2387 0%, #d946a1 50%, #bd2387 100%)",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
-            maskImage:
-              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
-            color: textColor || "var(--color-secondary)",
-            textShadow:
-              image && overlay ? "0 4px 12px rgba(0,0,0,0.4)" : "none",
-          }}
-        >
-          {title}
-        </h1>
+      <div className="flex flex-col items-center justify-center absolute inset-0 z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        {title && (
+          <h1
+            className="uppercase tracking-[-0.02em] pointer-events-none text-center font-black px-2 drop-shadow-2xl"
+            style={{
+              fontSize: textSize ?? "clamp(2rem, 4vw + 0.5rem, 4rem)",
+              lineHeight: "1.1",
+              color: textColor || "var(--color-secondary)",
+              textShadow:
+                image && overlay ? "0 4px 12px rgba(0,0,0,0.4)" : "none",
+            }}
+          >
+            {title}
+          </h1>
+        )}
         {subtitle && (
           <p
             className="mt-3 sm:mt-4 md:mt-5 text-center max-w-4xl px-4 leading-relaxed"

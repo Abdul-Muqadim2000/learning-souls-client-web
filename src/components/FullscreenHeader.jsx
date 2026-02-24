@@ -147,7 +147,7 @@ const FullscreenHeader = ({
         {helperImage && (
           <div className="flex items-center justify-center lg:justify-end overflow-visible px-2 sm:px-4 py-6 sm:py-8">
             <div
-              className={`relative w-full ${customImageMaxWidth || "max-w-[280px] sm:max-w-[340px] md:max-w-md lg:max-w-lg xl:max-w-xl"} aspect-square overflow-visible`}
+              className={`relative w-full ${customImageMaxWidth || "max-w-[280px] sm:max-w-[340px] md:max-w-md lg:max-w-[480px] xl:max-w-xl"} aspect-square overflow-visible`}
             >
               {/* Abstract Shapes - Only render if showShapes is true */}
               {showShapes && (
@@ -191,7 +191,7 @@ const FullscreenHeader = ({
               <div className="relative w-full h-full flex items-center justify-center overflow-visible">
                 {/* Back Left Image */}
                 {helperImage1 && (
-                  <div className="absolute -left-2 sm:-left-4 md:-left-6 lg:-left-12 top-1/2 -translate-y-1/2 scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-75 z-10 opacity-80 drop-shadow-2xl">
+                  <div className="absolute -left-2 sm:-left-4 md:-left-6 lg:-left-10 xl:-left-12 top-1/2 -translate-y-1/2 scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-[0.7] xl:scale-75 z-10 opacity-80 drop-shadow-2xl">
                     <Image
                       src={helperImage1}
                       alt="Helper illustration left"
@@ -205,7 +205,7 @@ const FullscreenHeader = ({
 
                 {/* Back Right Image */}
                 {helperImage2 && (
-                  <div className="absolute -right-2 sm:-right-4 md:-right-6 lg:-right-12 top-1/2 -translate-y-1/2 scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-75 z-10 opacity-80 drop-shadow-2xl">
+                  <div className="absolute -right-2 sm:-right-4 md:-right-6 lg:-right-10 xl:-right-12 top-1/2 -translate-y-1/2 scale-[0.55] sm:scale-[0.6] md:scale-[0.65] lg:scale-[0.7] xl:scale-75 z-10 opacity-80 drop-shadow-2xl">
                     <Image
                       src={helperImage2}
                       alt="Helper illustration right"
@@ -219,7 +219,7 @@ const FullscreenHeader = ({
 
                 {/* Front Image */}
                 <div
-                  className={`relative ${customImageScale || "scale-[0.85] sm:scale-90 md:scale-95 lg:scale-100"} z-20 drop-shadow-2xl`}
+                  className={`relative ${customImageScale || "scale-[0.85] sm:scale-90 md:scale-95 lg:scale-[0.97] xl:scale-100"} z-20 drop-shadow-2xl`}
                 >
                   <Image
                     src={helperImage}

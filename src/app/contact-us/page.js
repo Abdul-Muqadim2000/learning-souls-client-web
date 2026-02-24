@@ -78,7 +78,9 @@ export default function ContactUs() {
       setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
       console.error("Contact form submission error:", error);
-      setSubmitError(error.message || "Failed to submit form. Please try again.");
+      setSubmitError(
+        error.message || "Failed to submit form. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -93,6 +95,7 @@ export default function ContactUs() {
         textColor="white"
         height="xxl"
         textSize="clamp(2rem, 4vw, 3.5rem)"
+        imageClassName="!w-[260%] sm:!w-[180%] md:!w-full"
       />
 
       {/* Section 2: Form Section */}
