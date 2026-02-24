@@ -26,6 +26,7 @@ export default function DonatePage() {
   const [detectedLocation, setDetectedLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const formContainerRef = useRef(null);
+  const progressBarRef = useRef(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState({
     // Step 1: Donation Details
@@ -190,15 +191,29 @@ export default function DonatePage() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Scroll to top when step changes (only on /donate page)
+  // Scroll to top of form (progress bar) when page loads or step changes
   useEffect(() => {
-    if (pathname === "/donate" && formContainerRef.current) {
-      formContainerRef.current.scrollIntoView({
+    if (
+      (pathname === "/donate" || pathname?.startsWith("/projects/")) &&
+      progressBarRef.current
+    ) {
+      progressBarRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
   }, [currentStep, pathname]);
+
+  // Scroll to top on initial page load
+  useEffect(() => {
+    if (
+      (pathname === "/donate" || pathname?.startsWith("/projects/")) &&
+      progressBarRef.current
+    ) {
+      // Scroll to top immediately when component mounts
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [pathname]);
 
   const handleNext = () => {
     // Clear previous error messages
@@ -334,7 +349,7 @@ export default function DonatePage() {
     <div className="min-h-screen bg-gray-50 py-6 xs:py-8 sm:py-12 px-2 xs:px-4">
       <div className="max-w-3xl mx-auto">
         {/* Progress Indicator */}
-        <div className="mb-6 xs:mb-8">
+        <div ref={progressBarRef} className="mb-6 xs:mb-8">
           <div className="flex items-center w-full">
             {[1, 2, 3, 4].map((step, index) => (
               <>
