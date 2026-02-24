@@ -494,14 +494,14 @@ export default function DonatePage() {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between mt-6">
+          <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4 mt-6">
             {currentStep > 0 && (
               <SecondaryButton
                 onClick={handleBack}
                 text="Back"
                 icon={ChevronLeft}
                 disabled={currentStep === 1}
-                className="hover:text-white"
+                className="hover:text-white text-sm sm:text-base w-full sm:w-auto"
               />
             )}
             {currentStep < 4 ? (
@@ -515,6 +515,7 @@ export default function DonatePage() {
                   (currentStep === 2 &&
                     (!formData.fullname || !formData.email || !formData.phone))
                 }
+                className="text-sm sm:text-base w-full sm:w-auto"
               />
             ) : (
               <PrimaryButton
@@ -523,13 +524,13 @@ export default function DonatePage() {
                   isLoading
                     ? "Processing..."
                     : formData.paymentMethod === "stripe"
-                      ? "Proceed to Stripe Payment"
+                      ? "Proceed to Payment"
                       : formData.paymentMethod === "paypal"
-                        ? "Proceed to PayPal Payment"
-                        : "Submit & Get Bank Details"
+                        ? "Proceed to Payment"
+                        : "Get Bank Details"
                 }
                 icon={isLoading ? Loader2 : CheckCircle}
-                className={`ml-auto ${
+                className={`ml-auto text-xs sm:text-sm md:text-base w-full sm:w-auto ${
                   formData.paymentMethod === "stripe"
                     ? "!bg-[#635BFF] hover:!bg-[#5349e6]"
                     : formData.paymentMethod === "paypal"
@@ -742,7 +743,7 @@ function Step1({ formData, updateFormData }) {
                 </div>
               </div>
             ))}
-            
+
             {/* Show total when multiple projects selected */}
             {formData.projects.length > 1 && (
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-lg p-4">
@@ -754,8 +755,7 @@ function Step1({ formData, updateFormData }) {
                     {getCurrencySymbol(formData.currency)}
                     {formData.projects
                       .reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0)
-                      .toFixed(2)}
-                    {" "}
+                      .toFixed(2)}{" "}
                     {formData.currency}
                   </span>
                 </div>
