@@ -7,7 +7,7 @@ const CardList = ({ cards = [], showTitle = true }) => {
   if (!cards || cards.length === 0) return null;
 
   return (
-    <section className="bg-(--color-primary) py-8 sm:py-12 md:py-16 lg:py-20">
+    <section className="bg-(--color-primary) sm:py-12 md:py-16 lg:py-20">
       {showTitle && (
         <GenericHeader
           title="OUR PROJECTS"

@@ -14,7 +14,7 @@ const ImageContentSection = ({
   signatureImage = "/images/signature.webp",
 }) => {
   return (
-    <section className="relative py-24 sm:py-28 lg:py-12">
+    <section className="relative py-12 sm:py-28 lg:py-12">
       <Image
         src="/images/white-bg1.webp"
         alt="Background"
