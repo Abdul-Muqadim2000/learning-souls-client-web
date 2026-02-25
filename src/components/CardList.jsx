@@ -29,7 +29,7 @@ const CardList = ({ cards = [], showTitle = true }) => {
                 className={`relative rounded-2xl overflow-hidden
                     border-2 border-transparent
                     hover:border-[var(--color-secondary)]
-                    h-[380px] sm:h-[400px] md:h-[420px] lg:h-[440px]
+                    h-[320px] min-[375px]:h-[300px] sm:h-[400px] md:h-[420px] lg:h-[440px]
                     shadow-xl hover:shadow-2xl bg-gradient-to-b
                     ${card.gradientValue || ""}
                 `}
@@ -53,7 +53,7 @@ const CardList = ({ cards = [], showTitle = true }) => {
                 {/* Content */}
                 <div className="relative z-10 h-full flex flex-col justify-between text-center text-(--color-primary) p-6 sm:p-7 md:p-8">
                   {/* Title (Top) */}
-                  <h3 className="text-xl sm:text-xl md:text-2xl font-bold pt-6 sm:pt-7 leading-tight">
+                  <h3 className="text-xl min-[375px]:text-2xl md:text-2xl font-bold pt-6 sm:pt-7 leading-tight">
                     {card.title}
                   </h3>
 

@@ -12,7 +12,7 @@ const Support = () => {
         <GenericHeader
           title="Support our Mission"
           textColor={"var(--color-secondary)"}
-          height="xl"
+          height="sm"
         />
       </div>
 
@@ -22,10 +22,9 @@ const Support = () => {
           {/* LEFT CARD */}
           <div className="flex justify-center order-2 lg:order-1">
             <div
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 max-w-xl w-full text-center relative lg:mt-[-160px] z-10 lg:bottom-[-20px] min-h-[500px] sm:min-h-[600px] md:min-h-[650px] lg:min-h-[700px] flex flex-col justify-center items-center"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 max-w-xl w-full text-center relative lg:mt-[-160px] z-10 lg:bottom-[-20px] min-h-[500px] sm:min-h-[600px] md:min-h-[650px] lg:min-h-[700px] flex flex-col justify-center items-center bg-cover sm:bg-[length:280%]"
               style={{
                 backgroundImage: "url(/images/mission-img1.webp)",
-                backgroundSize: "280%",
                 backgroundPosition: "center",
                 backgroundBlendMode: "overlay",
                 backgroundRepeat: "no-repeat",

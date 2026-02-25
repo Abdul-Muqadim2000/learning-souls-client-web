@@ -49,9 +49,10 @@ const Input = ({
 
   // Base input styles using CSS variables
   const baseInputStyles = `
-    w-full px-6 py-4 
+    w-full px-4 sm:px-6 py-3 sm:py-4 
     bg-[#c8e6df] 
     text-gray-900
+    text-sm sm:text-base
     font-semibold
     placeholder-gray-500
     border-2
@@ -69,9 +70,10 @@ const Input = ({
 
   // Specific styles for textarea (rounded corners instead of full)
   const textareaStyles = `
-    w-full px-6 py-4 rounded-lg
+    w-full px-4 sm:px-6 py-3 sm:py-4 rounded-lg
     bg-[#c8e6df] 
     text-gray-900
+    text-sm sm:text-base
     placeholder-gray-500
     border-2
     focus:outline-none 

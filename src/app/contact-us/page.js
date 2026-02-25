@@ -104,14 +104,16 @@ export default function ContactUs() {
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Left Side - Content with Leaf Shape */}
-              <div className="bg-[#09b29d] text-white p-12 flex flex-col justify-center relative overflow-hidden rounded-bl-[120px] lg:rounded-bl-[150px] rounded-tr-[120px] lg:rounded-tr-[150px]">
+              <div className="bg-[#09b29d] text-white p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center relative overflow-hidden rounded-bl-[80px] sm:rounded-bl-[120px] lg:rounded-bl-[150px] rounded-tr-[80px] sm:rounded-tr-[120px] lg:rounded-tr-[150px]">
                 {/* Decorative curved shapes */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-80 h-80 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
 
                 <div className="space-y-6 relative z-10">
-                  <h2 className="text-4xl md:text-5xl font-bold">Contact Us</h2>
-                  <h3 className="text-2xl md:text-3xl font-semibold text-white/90">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+                    Contact Us
+                  </h2>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white/90">
                     Get in touch
                   </h3>
                   <div className="space-y-4 text-white/80 leading-relaxed">
@@ -129,7 +131,7 @@ export default function ContactUs() {
               </div>
 
               {/* Right Side - Form */}
-              <div className="bg-white p-12">
+              <div className="bg-white p-6 sm:p-8 md:p-10 lg:p-12">
                 <div className="max-w-md mx-auto">
                   {/* Success Message */}
                   {submitSuccess && (
@@ -145,7 +147,10 @@ export default function ContactUs() {
                     </div>
                   )}
 
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4 sm:space-y-6"
+                  >
                     {/* Name Input */}
                     <Input
                       type="text"
@@ -182,7 +187,7 @@ export default function ContactUs() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 bg-[#09b29d] text-white rounded-full font-semibold hover:bg-[#09b29d]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="w-full py-3 sm:py-4 bg-[#09b29d] text-white rounded-full font-semibold hover:bg-[#09b29d]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
                       {isSubmitting ? (
                         <>
