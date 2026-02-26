@@ -5,7 +5,7 @@ import HeroCarousel from "./HeroCarousel";
 const heroSlides = [
   {
     backgroundImage: "/images/hero-img.webp",
-    mobileBackgroundImage: "/images/learning-soul-Homepage-mobile-banner.PNG",
+    mobileBackgroundImage: "/images/learning-soul-Homepage-mobile-banner.png",
     // title: "Nourish Your Soul with Knowledge of The Quran",
 
     // primaryButton: {
