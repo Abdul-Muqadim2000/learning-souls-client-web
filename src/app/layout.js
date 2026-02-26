@@ -47,7 +47,9 @@ export const metadata = {
     ],
   },
   manifest: "/favicon/site.webmanifest",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://learningsouls.org"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://learningsouls.org",
+  ),
 };
 
 export default function RootLayout({ children }) {
