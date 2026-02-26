@@ -62,7 +62,7 @@ export default function HeroCarousel({
       aria-roledescription="carousel"
     >
       {/* Slides Container */}
-      <div className="relative overflow-hidden max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative overflow-hidden md:max-w-8xl mx-auto md:px-6 xl:px-8">
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -75,6 +75,7 @@ export default function HeroCarousel({
           >
             <HeroSlide
               backgroundImage={slide.backgroundImage}
+              mobileBackgroundImage={slide.mobileBackgroundImage}
               title={slide.title}
               primaryButton={slide.primaryButton}
               secondaryButton={slide.secondaryButton}

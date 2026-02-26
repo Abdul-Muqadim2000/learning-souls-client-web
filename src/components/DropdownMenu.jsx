@@ -124,51 +124,36 @@ function DropdownMenu({ label, items, href, isOpen, onOpen, onClose }) {
 }
 
 // Mobile Dropdown Menu Component
-function MobileDropdownMenu({ label, items, onItemClick, href }) {
-  const [isOpen, setIsOpen] = useState(false);
-
+function MobileDropdownMenu({ label, items, onItemClick, href, isOpen, onToggle }) {
   const handleItemClick = () => {
-    setIsOpen(false);
-    if (onItemClick) onItemClick();
-  };
-
-  const handleParentClick = () => {
     if (onItemClick) onItemClick();
   };
 
   return (
     <div className="w-full">
-      <div className="flex items-center">
-        <Link
-          href={href}
-          onClick={handleParentClick}
-          className="
-            flex-1 px-4 py-3
-            text-lg font-medium text-[#09b29d]
-            hover:text-[#bd2387]
-            transition-colors duration-200
-          "
-        >
-          {label}
-        </Link>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="
-            px-4 py-3
-            text-lg font-medium text-[#09b29d]
-            hover:text-[#bd2387]
-            transition-colors duration-200
-          "
-        >
-          <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
-              isOpen ? "rotate-180" : ""
-            }`}
-          />
-        </button>
-      </div>
+      <button
+        onClick={onToggle}
+        className="
+          w-full flex items-center justify-between
+          px-4 py-3
+          text-lg font-medium text-[#09b29d]
+          hover:text-[#bd2387]
+          transition-colors duration-200
+        "
+      >
+        <span>{label}</span>
+        <ChevronDown
+          className={`w-4 h-4 transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
 
-      {isOpen && (
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
         <div className="bg-[#09b29d]/5">
           {items.map((item, index) => (
             <Link
@@ -179,7 +164,7 @@ function MobileDropdownMenu({ label, items, onItemClick, href }) {
                 block px-8 py-3
                 text-base font-medium text-[#09b29d]
                 hover:text-[#bd2387]
-                hover:bg-[#09b29d]/5
+                hover:bg-[#09b29d]/10
                 transition-colors duration-200
               "
             >
@@ -187,7 +172,7 @@ function MobileDropdownMenu({ label, items, onItemClick, href }) {
             </Link>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { TertiaryButton } from "./ui/Button";
  * HeroSlide - A reusable slide component for the hero carousel
  *
  * @param {string} backgroundImage - URL/path to the background image
+ * @param {string} mobileBackgroundImage - URL/path to the mobile background image (optional)
  * @param {string} title - Main heading text for the slide
  * @param {string} description - Description text for the slide
  * @param {Object} primaryButton - Primary button config {text, href}
@@ -12,6 +13,7 @@ import { TertiaryButton } from "./ui/Button";
  */
 export default function HeroSlide({
   backgroundImage,
+  mobileBackgroundImage,
   title,
   description,
   primaryButton,
@@ -20,13 +22,20 @@ export default function HeroSlide({
   return (
     <div className="relative w-full bg-[#14b8a6]">
       <div className="relative w-full flex items-center justify-center">
-        {/* Background Image */}
+        {/* Background Image - Desktop (md and above) */}
         <img
           src={backgroundImage}
           alt="Hero background"
-          className="w-full h-auto max-w-full block"
-          style={{ display: "block" }}
+          className={`w-full h-auto max-w-full ${mobileBackgroundImage ? 'hidden md:block' : 'block'}`}
         />
+        {/* Background Image - Mobile (sm and below) */}
+        {mobileBackgroundImage && (
+          <img
+            src={mobileBackgroundImage}
+            alt="Hero background mobile"
+            className="w-full h-auto block md:hidden object-cover"
+          />
+        )}
         {/* Only show title and buttons if they exist */}
         {(title || primaryButton || secondaryButton) && (
           <div className="absolute inset-0 z-10 flex items-center">

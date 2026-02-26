@@ -279,7 +279,7 @@ export default function BooksDistributionProject() {
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900/80 via-purple-900/40 to-transparent group-hover:from-purple-900/70 transition-all duration-500"></div>
 
                 {/* Enhanced Overlay Card with Hadith - Centered */}
-                <div className="absolute inset-0 flex items-center justify-center p-6 md:p-8 text-white">
+                <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6 md:p-8 text-white">
                   {/* Decorative Pattern Overlay */}
                   <div className="absolute inset-0 opacity-10">
                     <div
@@ -291,31 +291,31 @@ export default function BooksDistributionProject() {
                     />
                   </div>
 
-                  <div className="relative bg-white/20 backdrop-blur-xl rounded-2xl p-5 md:p-6 border-2 border-white/40 shadow-2xl space-y-4 max-w-xl w-full">
+                  <div className="relative bg-white/20 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border-2 border-white/40 shadow-2xl space-y-3 sm:space-y-4 max-w-xl w-full">
                     {/* Header with Icon */}
-                    <div className="flex items-center gap-3">
-                      <div className="bg-gradient-to-br from-yellow-300 to-yellow-400 p-2.5 rounded-xl shadow-lg">
-                        <Sparkles className="w-5 h-5 text-gray-900" />
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="bg-gradient-to-br from-yellow-300 to-yellow-400 p-2 sm:p-2.5 rounded-lg sm:rounded-xl shadow-lg flex-shrink-0">
+                        <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-gray-900" />
                       </div>
-                      <div>
-                        <p className="text-lg md:text-xl font-black text-white">
+                      <div className="min-w-0">
+                        <p className="text-base sm:text-lg md:text-xl font-black text-white truncate">
                           Join Our Mission
                         </p>
-                        <p className="text-xs text-white/80">
+                        <p className="text-[11px] sm:text-xs text-white/80 truncate">
                           Together, illuminating the world
                         </p>
                       </div>
                     </div>
 
                     {/* Hadith Quote */}
-                    <div className="space-y-2 pl-3 border-l-4 border-yellow-300/50">
+                    <div className="space-y-2 sm:space-y-2 pl-2 sm:pl-3 border-l-2 sm:border-l-4 border-yellow-300/50">
                       {/* Quote Mark */}
-                      <div className="text-yellow-300 text-3xl font-serif leading-none opacity-60">
+                      <div className="text-yellow-300 text-2xl sm:text-3xl font-serif leading-none opacity-60">
                         &ldquo;
                       </div>
 
                       {/* Hadith Text */}
-                      <p className="text-white/95 text-sm md:text-base font-semibold leading-relaxed -mt-4 italic">
+                      <p className="text-white/95 text-xs sm:text-sm md:text-base font-semibold leading-relaxed -mt-2 sm:-mt-4 italic">
                         When a person dies, all their deeds end except three: a
                         continuing charity, beneficial knowledge, and a
                         righteous child who prays for them.
@@ -323,14 +323,14 @@ export default function BooksDistributionProject() {
 
                       {/* Attribution */}
                       <div className="flex items-center gap-2 pt-1">
-                        <div className="w-10 h-0.5 bg-gradient-to-r from-yellow-300 to-transparent"></div>
-                        <p className="text-yellow-300 font-black text-xs tracking-wide">
+                        <div className="w-8 sm:w-10 h-0.5 bg-gradient-to-r from-yellow-300 to-transparent flex-shrink-0"></div>
+                        <p className="text-yellow-300 font-black text-[11px] sm:text-xs tracking-wide">
                           Prophet Muhammad ﷺ
                         </p>
                       </div>
 
                       {/* Source */}
-                      <p className="text-white/50 text-[10px] italic">
+                      <p className="text-white/50 text-[11px] sm:text-xs italic">
                         Sahih Muslim
                       </p>
                     </div>

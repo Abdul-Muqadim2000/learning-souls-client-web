@@ -20,11 +20,19 @@ import { useAuth } from "@/contexts/AuthContext";
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
   const { user, logout, isAuthenticated } = useAuth();
   const closeTimeoutRef = useRef(null);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setOpenMobileDropdown(null);
+  };
+
+  const toggleMobileDropdown = (label) => {
+    setOpenMobileDropdown(openMobileDropdown === label ? null : label);
+  };
 
   const handleDropdownOpen = (label) => {
     // Clear any pending close timeout
@@ -138,14 +146,16 @@ const Navbar = () => {
         <div className="relative flex items-center justify-between h-16 sm:h-20 lg:h-24">
           {/* Logo */}
           <div className="flex-shrink-0 z-10">
-            <Image
-              src="/images/logo.webp"
-              alt="Learning Souls Logo"
-              width={80}
-              height={80}
-              className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
-              priority
-            />
+            <Link href="/">
+              <Image
+                src="/images/logo.webp"
+                alt="Learning Souls Logo"
+                width={80}
+                height={80}
+                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
+                priority
+              />
+            </Link>
           </div>
 
           {/* Desktop Navigation Links - Centered to viewport */}
@@ -224,10 +234,10 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          isMobileMenuOpen ? "max-h-full opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="px-8 pt-2 pb-4 space-y-3 bg-white border-t">
+        <div className="p-8 space-y-3">
           {navLinks.map((link, index) =>
             link.isDropdown ? (
               <MobileDropdownMenu
@@ -235,6 +245,8 @@ const Navbar = () => {
                 label={link.label}
                 href={link.href}
                 items={link.items}
+                isOpen={openMobileDropdown === link.label}
+                onToggle={() => toggleMobileDropdown(link.label)}
                 onItemClick={closeMobileMenu}
               />
             ) : (

@@ -17,6 +17,8 @@ const CarouselSlider = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const intervalRef = useRef(null);
   const [itemsPerView, setItemsPerView] = useState(3);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,6 +44,25 @@ const CarouselSlider = ({
 
   const handleNext = () => {
     setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 50) {
+      // Swiped left
+      handleNext();
+    }
+    if (touchStartX.current - touchEndX.current < -50) {
+      // Swiped right
+      handlePrev();
+    }
   };
 
   useEffect(() => {
@@ -112,7 +133,12 @@ const CarouselSlider = ({
           )}
 
           {/* Carousel Wrapper */}
-          <div className="overflow-hidden">
+          <div 
+            className="overflow-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <div
               className="flex transition-transform duration-500 ease-out"
               style={{
