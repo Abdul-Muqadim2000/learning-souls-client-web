@@ -117,7 +117,9 @@ export default function JoinUs() {
       setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
       console.error("Join us form submission error:", error);
-      setSubmitError(error.message || "Failed to submit form. Please try again.");
+      setSubmitError(
+        error.message || "Failed to submit form. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -132,6 +134,9 @@ export default function JoinUs() {
         height="huge"
         backgroundSize="contain"
         bgColor="#09b29d"
+        fullImageHeight={true}
+        imageClassName="object-contain"
+        mobileImageClassName="object-contain"
         // overlay={true}
       />
 
