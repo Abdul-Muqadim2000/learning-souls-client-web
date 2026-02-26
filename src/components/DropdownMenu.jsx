@@ -129,25 +129,45 @@ function MobileDropdownMenu({ label, items, onItemClick, href, isOpen, onToggle 
     if (onItemClick) onItemClick();
   };
 
+  const handleParentClick = () => {
+    if (onItemClick) onItemClick();
+  };
+
   return (
     <div className="w-full">
-      <button
-        onClick={onToggle}
-        className="
-          w-full flex items-center justify-between
-          px-4 py-3
-          text-lg font-medium text-[#09b29d]
-          hover:text-[#bd2387]
-          transition-colors duration-200
-        "
-      >
-        <span>{label}</span>
-        <ChevronDown
-          className={`w-4 h-4 transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
-      </button>
+      <div className="flex items-center justify-between">
+        {/* Left side - Navigate to parent page */}
+        <Link
+          href={href}
+          onClick={handleParentClick}
+          className="
+            flex-1 px-4 py-3
+            text-lg font-medium text-[#09b29d]
+            hover:text-[#bd2387]
+            transition-colors duration-200
+          "
+        >
+          {label}
+        </Link>
+        
+        {/* Right side - Toggle dropdown */}
+        <button
+          onClick={onToggle}
+          className="
+            px-4 py-3
+            text-[#09b29d]
+            hover:text-[#bd2387]
+            transition-colors duration-200
+          "
+          aria-label={`Toggle ${label} menu`}
+        >
+          <ChevronDown
+            className={`w-4 h-4 transition-transform duration-300 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+      </div>
 
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${

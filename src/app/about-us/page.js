@@ -14,9 +14,11 @@ const page = () => {
       <GenericHeader
         title="About Us"
         image="/images/about-us.webp"
+        mobileImage="/images/about-us-mobile-banner.png"
         textColor={"var(--color-primary)"}
         height="xxl"
         imageClassName="!w-[260%] sm:!w-[180%] md:!w-full"
+        fullImageHeight={true}
       />
 
       <ImageContentSection

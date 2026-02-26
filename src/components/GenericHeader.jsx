@@ -18,6 +18,7 @@ const GenericHeader = ({
   subtitle,
   textSize,
   image,
+  mobileImage, // Mobile version of the header image
   bgColor,
   textColor,
   height = "md",
@@ -26,10 +27,12 @@ const GenericHeader = ({
   overlay = false,
   backgroundSize = "cover", // New prop: 'cover' or 'contain'
   imageClassName = "", // Custom className for image
+  mobileImageClassName = "", // Custom className for mobile image
+  fullImageHeight = false, // When true, image determines height
 }) => {
   return (
     <section
-      className={`w-full flex items-center justify-center relative overflow-hidden ${!image ? heightClasses[height] : ""}`}
+      className={`w-full flex items-center justify-center relative overflow-hidden ${!fullImageHeight ? heightClasses[height] : ''}`}
       style={{
         backgroundColor: bgColor || (image ? "transparent" : ""),
       }}
@@ -39,8 +42,18 @@ const GenericHeader = ({
         <img
           src={image}
           alt="Header background"
-          className={`w-[120%] md:w-full h-auto max-w-none md:max-w-full block ${imageClassName}`}
-          style={{ display: "block", backgroundColor: bgColor }}
+          className={`w-[120%] md:w-full ${fullImageHeight ? 'h-auto' : 'h-full object-cover'} max-w-none md:max-w-full ${mobileImage ? 'hidden md:block' : 'block'} ${imageClassName}`}
+          style={{ backgroundColor: bgColor }}
+        />
+      )}
+      
+      {/* Mobile Image */}
+      {mobileImage && (
+        <img
+          src={mobileImage}
+          alt="Header background mobile"
+          className={`w-full ${fullImageHeight ? 'h-auto' : 'h-full object-cover'} block md:hidden ${mobileImageClassName}`}
+          style={{ backgroundColor: bgColor }}
         />
       )}
 
