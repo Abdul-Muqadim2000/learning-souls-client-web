@@ -41,6 +41,9 @@ const ToggleButtonGroup = ({
     return "grid gap-2 xs:gap-3";
   };
 
+  // Check if any value is selected
+  const hasSelection = value !== "" && value !== null && value !== undefined;
+
   return (
     <div className={`w-full ${className}`}>
       {label && <label className={labelStyles}>{label}</label>}
@@ -75,7 +78,7 @@ const ToggleButtonGroup = ({
                 ...(optionBgColor && isSelected
                   ? { backgroundColor: optionBgColor }
                   : optionBgColor && !isSelected
-                    ? { backgroundColor: optionBgColor, opacity: 0.7 }
+                    ? { backgroundColor: optionBgColor, opacity: hasSelection ? 0.5 : 0.7 }
                     : {}),
                 ...(optionTextColor ? { color: optionTextColor } : {}),
               }}
@@ -98,7 +101,7 @@ const ToggleButtonGroup = ({
                     : !optionDisabled && isSelected
                       ? `bg-[#c8e6df] ${!optionTextColor ? "text-gray-900" : ""} border-2 border-[#09b29d] focus:ring-2 focus:ring-[#09b29d]`
                       : !optionDisabled
-                        ? `bg-white border-2 border-gray-300 ${!optionTextColor ? "text-gray-700" : ""} hover:border-[#09b29d] hover:bg-gray-50 focus:ring-2 focus:ring-[#09b29d]`
+                        ? `bg-white border-2 border-gray-300 ${!optionTextColor ? "text-gray-700" : ""} hover:border-[#09b29d] hover:bg-gray-50 focus:ring-2 focus:ring-[#09b29d] ${hasSelection && !isSelected ? "opacity-50" : ""}`
                         : ""
                 }
               `}

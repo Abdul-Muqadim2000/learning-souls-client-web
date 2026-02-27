@@ -250,10 +250,13 @@ export default function DonatePage() {
         !formData.email ||
         !formData.phone ||
         !formData.country ||
-        !formData.countryCode
+        !formData.countryCode ||
+        !formData.addressLine ||
+        !formData.city ||
+        !formData.postalCode
       ) {
         setErrorMessage(
-          "Please fill in all required fields (Full Name, Email, Phone Number, Country Code, and Country) before proceeding.",
+          "Please fill in all required fields before proceeding.",
         );
         // Scroll to top to show error
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -947,7 +950,7 @@ function Step1({ formData, updateFormData }) {
               OR Enter Custom Amount ({formData.currency})
             </label>
             <div className="relative">
-              <span className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 text-lg z-10">
+              <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-700 font-semibold text-base sm:text-lg pointer-events-none z-10">
                 {getCurrencySymbol(formData.currency)}
               </span>
               <NumberInput
@@ -974,8 +977,8 @@ function Step1({ formData, updateFormData }) {
                 }}
                 min="1"
                 step="1"
-                placeholder="Enter custom amount"
-                className="pl-10 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                placeholder={formData.amount ? "" : "Enter custom amount"}
+                className="pl-12 sm:pl-10 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
           </div>
@@ -1062,6 +1065,7 @@ function Step2({ formData, updateFormData, handleReset }) {
         searchPlaceholder="Search for a country..."
         noResultsText="No country found"
         options={countries}
+        required
       />
 
       {/* Address Line */}
@@ -1071,6 +1075,7 @@ function Step2({ formData, updateFormData, handleReset }) {
         value={formData.addressLine}
         onChange={(e) => updateFormData("addressLine", e.target.value)}
         placeholder="Street address, P.O. box, etc."
+        required
       />
 
       {/* City, Postal Code, and Country */}
@@ -1081,6 +1086,7 @@ function Step2({ formData, updateFormData, handleReset }) {
           value={formData.city}
           onChange={(e) => updateFormData("city", e.target.value)}
           placeholder="City"
+          required
         />
         <Input
           type="text"
@@ -1088,6 +1094,7 @@ function Step2({ formData, updateFormData, handleReset }) {
           value={formData.postalCode}
           onChange={(e) => updateFormData("postalCode", e.target.value)}
           placeholder="Postal code / ZIP code"
+          required
         />
       </div>
     </div>
