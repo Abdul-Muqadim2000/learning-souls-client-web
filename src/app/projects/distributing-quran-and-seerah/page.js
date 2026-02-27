@@ -88,12 +88,12 @@ const QRModal = ({ isOpen, onClose, qrCodeImage }) => {
 const projectData = {
   hero: {
     title: "Distributing Quran And Seerah",
-    subtitle: "At NHS Hospitals and HM prisons",
+    subtitle: "At Hospitals, Prisons and Universities",
     image: "/images/project1.webp",
   },
   content: {
     title:
-      "This project was rolled out in 2023 from one NHS hospital. A colourful book shelf was placed in the common area of the Faith centre to distribute Quraan & Seerah Books as free gift for visitors of every faith.",
+      "This project was rolled out in 2023 from one Hospital. A colourful book shelf was placed in the common area of the Faith centre to distribute Quraan & Seerah Books as free gift for visitors of every faith.",
     paragraphs: [
       "Alhamdulillah, we have now extended our project to 8 more hospitals and two of HM prisons. Average 30 copies of the Quran translation are taken away by people of all ages and faiths. Seerah books are taken away within a day.",
       "As the word is going out more and more chaplaincies are joining in. The hospitals where Muslim chaplains are appointed, they will then engage the Muslim worshippers to buy the Quran translations and Seerah books at discounted rates from our website and be delivered into their hospital. This process is already working successfully in the hospitals where we are working at the moment. By engaging local Muslim worshippers, we can make this process long term and sustainable.",

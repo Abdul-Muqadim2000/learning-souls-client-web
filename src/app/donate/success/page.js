@@ -8,12 +8,15 @@ import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 function DonateSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
+  const provider = searchParams.get("provider");
+  const donationId = searchParams.get("donationId");
   const [countdown, setCountdown] = useState(120);
 
   useEffect(() => {
     // Clear the donation form data from localStorage on successful payment
     localStorage.removeItem("donateFormData");
     localStorage.removeItem("donateCurrentStep");
+    sessionStorage.removeItem("donateRedirecting");
   }, []);
 
   useEffect(() => {
@@ -88,14 +91,19 @@ function DonateSuccessContent() {
                 </div>
 
                 {/* Session Info (if available) */}
-                {sessionId && (
+                {(sessionId || donationId) && (
                   <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                     <p className="text-sm font-medium text-gray-700 mb-1">
                       Transaction Reference
                     </p>
                     <p className="text-xs text-gray-600 font-mono break-all">
-                      {sessionId}
+                      {sessionId || donationId}
                     </p>
+                    {provider && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        Payment Method: {provider === "paypal" ? "PayPal" : "Stripe"}
+                      </p>
+                    )}
                   </div>
                 )}
 

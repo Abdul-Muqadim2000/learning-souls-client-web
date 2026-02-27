@@ -9,6 +9,7 @@ import SearchableSelect from "@/components/ui/SearchableSelect";
 import ToggleButtonGroup from "@/components/ui/ToggleButtonGroup";
 import countries from "@/lib/countries";
 import countryCodes from "@/lib/countryCodes";
+import Script from "next/script";
 import {
   CheckCircle,
   ChevronLeft,
@@ -29,6 +30,10 @@ export default function DonatePage() {
   const progressBarRef = useRef(null);
   const errorMessageRef = useRef(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [paypalLoaded, setPaypalLoaded] = useState(false);
+  const [donationId, setDonationId] = useState(null);
+  const paypalButtonRef = useRef(null);
+  const [submittingPayPal, setSubmittingPayPal] = useState(false);
   const [formData, setFormData] = useState({
     // Step 1: Donation Details
     donationFrequency: "one-time", // 'one-time' or 'monthly'
@@ -319,8 +324,11 @@ export default function DonatePage() {
     setCurrentStep(1);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (isAutoSubmit = false) => {
     setIsLoading(true);
+    if (isAutoSubmit) {
+      setSubmittingPayPal(true);
+    }
     setErrorMessage("");
     setSuccessMessage("");
 
@@ -341,6 +349,7 @@ export default function DonatePage() {
         `PayPal does not support ${formData.currency}. Please select a different payment method or change your currency to USD, EUR, or GBP.`,
       );
       setIsLoading(false);
+      setSubmittingPayPal(false);
       // Scroll to top to show error
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
@@ -364,25 +373,30 @@ export default function DonatePage() {
 
       console.log("Response data:", data);
 
-      // Handle Stripe/PayPal redirect
-      if (data.data?.redirectUrl) {
-        // Don't clear form data yet - only clear it after successful payment confirmation
-        // This allows users to return and retry if they cancel the payment
-        // Mark that we're redirecting so we can reset state if user comes back
+      // Handle Stripe redirect
+      if (formData.paymentMethod === "stripe" && data.data?.redirectUrl) {
         sessionStorage.setItem("donateRedirecting", "true");
         window.location.href = data.data.redirectUrl;
         return;
       }
 
+      // Handle PayPal - store donation ID and render button
+      if (formData.paymentMethod === "paypal") {
+        setDonationId(data.data.donationId);
+        setIsLoading(false);
+        setSubmittingPayPal(false);
+        // PayPal button will be rendered automatically via useEffect
+        return;
+      }
+
       // Handle other payment methods (bank transfer, etc.)
-      // Clear form data only for bank transfer since it's immediately complete
       if (formData.paymentMethod === "bank-transfer") {
         localStorage.removeItem("donateFormData");
         localStorage.removeItem("donateCurrentStep");
       }
 
-      // Removed alert popup - success is shown on the success page
       setIsLoading(false);
+      setSubmittingPayPal(false);
       window.location.href = "/donate/success";
     } catch (error) {
       console.error("Error submitting donation:", error);
@@ -390,13 +404,144 @@ export default function DonatePage() {
         error.message || "Failed to process donation. Please try again.",
       );
       setIsLoading(false);
+      setSubmittingPayPal(false);
       // Scroll to top to show error
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
+  // Auto-submit when PayPal is selected on Step 4
+  useEffect(() => {
+    if (
+      currentStep === 4 &&
+      formData.paymentMethod === "paypal" &&
+      !donationId &&
+      !submittingPayPal &&
+      !isLoading &&
+      formData.projects?.length > 0 &&
+      formData.fullname &&
+      formData.email
+    ) {
+      console.log("Auto-submitting PayPal donation...");
+      handleSubmit(true);
+    }
+  }, [formData.paymentMethod, currentStep, donationId, submittingPayPal, isLoading, formData.projects, formData.fullname, formData.email]);
+
+  // Render PayPal button when donation record is created
+  useEffect(() => {
+    console.log("PayPal button useEffect triggered:", { donationId, paypalLoaded, hasPaypal: !!window.paypal, paymentMethod: formData.paymentMethod });
+    
+    if (donationId && paypalLoaded && window.paypal && formData.paymentMethod === "paypal") {
+      console.log("Rendering PayPal button...");
+      
+      // Clear any existing buttons
+      if (paypalButtonRef.current) {
+        paypalButtonRef.current.innerHTML = "";
+      }
+
+      try {
+        window.paypal
+          .Buttons({
+          style: {
+            layout: "vertical",
+            color: "blue",
+            shape: "rect",
+            label: "paypal",
+          },
+          createOrder: async () => {
+            try {
+              const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/public/paypal/create-order`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ donationId }),
+                }
+              );
+
+              const data = await response.json();
+
+              if (!response.ok) {
+                throw new Error(data.message || "Failed to create PayPal order");
+              }
+
+              return data.data.orderId;
+            } catch (error) {
+              console.error("Error creating PayPal order:", error);
+              setErrorMessage(error.message);
+              throw error;
+            }
+          },
+          onApprove: async (data) => {
+            try {
+              setIsLoading(true);
+
+              const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/public/paypal/capture-order`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ orderId: data.orderID }),
+                }
+              );
+
+              const result = await response.json();
+
+              if (!response.ok) {
+                throw new Error(result.message || "Failed to capture payment");
+              }
+
+              // Clear form data on success
+              localStorage.removeItem("donateFormData");
+              localStorage.removeItem("donateCurrentStep");
+
+              // Redirect to success page
+              window.location.href = "/donate/success?provider=paypal&donationId=" + donationId;
+            } catch (error) {
+              console.error("Error capturing PayPal payment:", error);
+              setErrorMessage(error.message);
+              setIsLoading(false);
+            }
+          },
+          onCancel: () => {
+            setErrorMessage("Payment was cancelled. You can try again.");
+            setDonationId(null);
+            setIsLoading(false);
+          },
+          onError: (err) => {
+            console.error("PayPal error:", err);
+            setErrorMessage("An error occurred with PayPal. Please try again or use a different payment method.");
+            setDonationId(null);
+            setIsLoading(false);
+          },
+        })
+          .render(paypalButtonRef.current)
+          .then(() => console.log("PayPal button rendered successfully"))
+          .catch((err) => console.error("Error rendering PayPal button:", err));
+      } catch (error) {
+        console.error("Error creating PayPal button:", error);
+      }
+    } else {
+      console.log("PayPal button conditions not met");
+    }
+  }, [donationId, paypalLoaded, formData.paymentMethod]);
+
   return (
-    <div className="min-h-screen bg-gray-50 py-6 xs:py-8 sm:py-12 px-2 xs:px-4">
+    <>
+      {/* PayPal SDK Script */}
+      {formData.currency && (
+        <Script
+          src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=${formData.currency}`}
+          onLoad={() => {
+            console.log("PayPal SDK loaded");
+            setPaypalLoaded(true);
+          }}
+          strategy="lazyOnload"
+          async
+        />
+      )}
+      
+      <div className="min-h-screen bg-gray-50 py-6 xs:py-8 sm:py-12 px-2 xs:px-4">
       <div className="max-w-3xl mx-auto">
         {/* Progress Indicator */}
         <div ref={progressBarRef} className="mb-6 xs:mb-8">
@@ -540,7 +685,15 @@ export default function DonatePage() {
             <Step3 formData={formData} updateFormData={updateFormData} />
           )}
           {currentStep === 4 && (
-            <Step4 formData={formData} updateFormData={updateFormData} />
+            <Step4 
+              formData={formData} 
+              updateFormData={updateFormData}
+              donationId={donationId}
+              paypalButtonRef={paypalButtonRef}
+              isLoading={isLoading}
+              submittingPayPal={submittingPayPal}
+              paypalLoaded={paypalLoaded}
+            />
           )}
 
           {/* Navigation Buttons */}
@@ -571,6 +724,18 @@ export default function DonatePage() {
                 }
                 className="text-sm sm:text-base w-full sm:w-auto"
               />
+            ) : formData.paymentMethod === "paypal" && (!donationId || submittingPayPal) ? (
+              // Show loading state while PayPal is being submitted/loaded
+              <PrimaryButton
+                text={submittingPayPal ? "Creating Payment..." : "Loading PayPal..."}
+                icon={isLoading || submittingPayPal ? Loader2 : ChevronRight}
+                disabled={true}
+                className={`text-sm sm:text-base w-full sm:w-auto !bg-[#2790C3]`}
+                iconClassName={isLoading || submittingPayPal ? "animate-spin" : ""}
+              />
+            ) : donationId && formData.paymentMethod === "paypal" ? (
+              // PayPal button will be rendered in Step4, no button needed here
+              null
             ) : (
               <PrimaryButton
                 onClick={handleSubmit}
@@ -606,6 +771,7 @@ export default function DonatePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
@@ -629,20 +795,20 @@ function Step1({ formData, updateFormData }) {
     {
       name: "Distributing Quran Seerah",
       description:
-        "Distributing Quran Translations and Seerah Books to Multi-Faith Rooms in NHS Hospitals and HM Prisons Services.",
-      image: "/images/ucb1.webp",
+        "Distributing Quran Translations and Seerah Books to Multi-Faith Rooms in Hospitals, Prisons and Universities.",
+      image: "/images/project1.webp",
     },
     {
       name: "Quran Translations",
       description:
         "Publishing & Distributing Quran Translations for Children through Electronic and Paper Media.",
-      image: "/images/ucb2.webp",
+      image: "/images/project2.webp",
     },
     {
       name: "Encyclopedia of Hadith",
       description:
         "Developing a Free, Multi-Language Encyclopedia of Hadith of Prophet Muhammad (PBUH).",
-      image: "/images/ucb3.webp",
+      image: "/images/project3.webp",
     },
   ];
 
@@ -1175,7 +1341,7 @@ function Step3({ formData, updateFormData }) {
 }
 
 // Step 4: Payment
-function Step4({ formData, updateFormData }) {
+function Step4({ formData, updateFormData, donationId, paypalButtonRef, isLoading, submittingPayPal, paypalLoaded }) {
   return (
     <div className="space-y-6">
       <div>
@@ -1369,10 +1535,39 @@ function Step4({ formData, updateFormData }) {
         {formData.paymentMethod === "stripe" &&
           "You'll be redirected to Stripe's secure payment page"}
         {formData.paymentMethod === "paypal" &&
-          `PayPal invoice will be sent to ${formData.email}`}
+          "Pay securely with PayPal"}
         {formData.paymentMethod === "bank-transfer" &&
           "Bank transfer details will be sent to your email"}
       </p>
+
+      {/* PayPal Button Container */}
+      {donationId && formData.paymentMethod === "paypal" && (
+        <div className="bg-white border-2 border-blue-200 rounded-lg p-6">
+          <div className="text-center mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Complete Your Payment
+            </h3>
+            <p className="text-sm text-gray-600">
+              Click the PayPal button below to complete your donation securely
+            </p>
+          </div>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="animate-spin h-8 w-8 text-blue-600" />
+              <span className="ml-3 text-gray-600">Processing payment...</span>
+            </div>
+          ) : !paypalLoaded ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="animate-spin h-8 w-8 text-gray-400" />
+              <span className="ml-3 text-gray-600">Loading PayPal...</span>
+            </div>
+          ) : (
+            <div>
+              <div ref={paypalButtonRef} className="payment-button-container" />
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Payment Method Info */}
       {/* <div className="bg-blue-50 border-2 border-blue-300 border-dashed rounded-lg p-8 text-center">

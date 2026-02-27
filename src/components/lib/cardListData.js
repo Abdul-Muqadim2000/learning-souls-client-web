@@ -4,7 +4,7 @@ export const cardListData = [
     bgImage: "/images/project1.webp",
     title: "Distributing Quran Seerah",
     description:
-      "Distributing Quran Translations and Seerah Books to Multi-Faith Rooms in NHS Hospitals and HM Prisons Services.",
+      "Distributing Quran Translations and Seerah Books to Multi-Faith Rooms in Hospitals, Prisons and Universities.",
     buttonText: "More Info",
     buttonLink: "/projects/distributing-quran-and-seerah",
     gradientValue: "from-[#bd2387] to-[#f15a24]",
