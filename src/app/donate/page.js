@@ -768,7 +768,7 @@ function Step1({ formData, updateFormData }) {
                     {/* Show amount input only when more than 1 project is selected */}
                     {formData.projects.length > 1 && (
                       <div className="relative flex-1 xs:flex-initial">
-                        <span className="absolute left-2 xs:left-3 top-1/2 -translate-y-1/2 text-gray-600 font-medium text-sm xs:text-base">
+                        <span className="absolute left-4 xs:left-3 top-1/2 -translate-y-1/2 text-gray-600 font-medium text-sm xs:text-base">
                           {getCurrencySymbol(formData.currency)}
                         </span>
                         <NumberInput
@@ -779,7 +779,7 @@ function Step1({ formData, updateFormData }) {
                           min="1"
                           step="1"
                           placeholder="Amount"
-                          className="pl-6 xs:pl-7 pr-2 w-full xs:w-28 sm:w-32 text-sm xs:text-base [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="pl-14 sm:pl-12 pr-2 w-full xs:w-28 sm:w-32 text-sm xs:text-base [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                       </div>
                     )}
