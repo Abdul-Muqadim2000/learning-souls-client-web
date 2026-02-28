@@ -217,7 +217,7 @@ function LoginPageContent() {
                 <button
                   type="button"
                   onClick={() => setActiveTab("otp")}
-                  className={`flex-1 py-2 xs:py-2.5 sm:py-3 px-2 xs:px-4 sm:px-6 rounded-full font-semibold text-xs xs:text-sm sm:text-base transition-all duration-300 ${
+                  className={`flex-1 py-2 xs:py-2.5 sm:py-3 px-2 xs:px-4 sm:px-6 rounded-full font-semibold text-xs xs:text-sm sm:text-base transition-all duration-300 cursor-pointer ${
                     activeTab === "otp"
                       ? "bg-[#09b29d] text-white shadow-md"
                       : "text-gray-600 hover:text-gray-800"
@@ -228,7 +228,7 @@ function LoginPageContent() {
                 <button
                   type="button"
                   onClick={() => setActiveTab("password")}
-                  className={`flex-1 py-2 xs:py-2.5 sm:py-3 px-2 xs:px-4 sm:px-6 rounded-full font-semibold text-xs xs:text-sm sm:text-base transition-all duration-300 ${
+                  className={`flex-1 py-2 xs:py-2.5 sm:py-3 px-2 xs:px-4 sm:px-6 rounded-full font-semibold text-xs xs:text-sm sm:text-base transition-all duration-300 cursor-pointer ${
                     activeTab === "password"
                       ? "bg-[#09b29d] text-white shadow-md"
                       : "text-gray-600 hover:text-gray-800"
@@ -255,6 +255,57 @@ function LoginPageContent() {
                   required
                 />
 
+                {/* New User Call-to-Action for OTP Login */}
+                {activeTab === "otp" && (
+                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-xl p-4 xs:p-5">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 mt-0.5">
+                        <svg
+                          className="w-5 h-5 xs:w-6 xs:h-6 text-blue-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-sm xs:text-base font-semibold text-gray-900 mb-1">
+                          First Time Here?
+                        </h3>
+                        <p className="text-xs xs:text-sm text-gray-600 mb-3">
+                          New users need to set up a password before logging in
+                          for the first time.
+                        </p>
+                        <Link
+                          href="/login/setup-password/request"
+                          className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-[#09b29d] hover:bg-[#09b29d]/90 px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                            />
+                          </svg>
+                          Set Up Password
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {activeTab === "password" && (
                   <>
                     <PasswordInput
@@ -265,19 +316,62 @@ function LoginPageContent() {
                       required
                     />
 
-                    <div className="flex flex-col xs:flex-row justify-between items-start xs:items-center gap-2 xs:gap-0 text-xs xs:text-sm">
-                      <Link
-                        href="/login/setup-password/request"
-                        className="text-gray-500 hover:text-[#09b29d] transition-colors"
-                      >
-                        New user? Set up password first.
-                      </Link>
+                    <div className="flex justify-end">
                       <Link
                         href="/login/reset-password"
-                        className="text-gray-500 hover:text-[#09b29d] transition-colors"
+                        className="text-sm text-gray-600 hover:text-[#09b29d] transition-colors font-medium"
                       >
                         Forgot password?
                       </Link>
+                    </div>
+
+                    {/* New User Call-to-Action */}
+                    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-xl p-4 xs:p-5">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0 mt-0.5">
+                          <svg
+                            className="w-5 h-5 xs:w-6 xs:h-6 text-blue-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-sm xs:text-base font-semibold text-gray-900 mb-1">
+                            First Time Here?
+                          </h3>
+                          <p className="text-xs xs:text-sm text-gray-600 mb-3">
+                            New users need to set up a password before logging
+                            in for the first time.
+                          </p>
+                          <Link
+                            href="/login/setup-password/request"
+                            className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-[#09b29d] hover:bg-[#09b29d]/90 px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+                          >
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                              />
+                            </svg>
+                            Set Up Password
+                          </Link>
+                        </div>
+                      </div>
                     </div>
                   </>
                 )}

@@ -425,15 +425,34 @@ export default function DonatePage() {
       console.log("Auto-submitting PayPal donation...");
       handleSubmit(true);
     }
-  }, [formData.paymentMethod, currentStep, donationId, submittingPayPal, isLoading, formData.projects, formData.fullname, formData.email]);
+  }, [
+    formData.paymentMethod,
+    currentStep,
+    donationId,
+    submittingPayPal,
+    isLoading,
+    formData.projects,
+    formData.fullname,
+    formData.email,
+  ]);
 
   // Render PayPal button when donation record is created
   useEffect(() => {
-    console.log("PayPal button useEffect triggered:", { donationId, paypalLoaded, hasPaypal: !!window.paypal, paymentMethod: formData.paymentMethod });
-    
-    if (donationId && paypalLoaded && window.paypal && formData.paymentMethod === "paypal") {
+    console.log("PayPal button useEffect triggered:", {
+      donationId,
+      paypalLoaded,
+      hasPaypal: !!window.paypal,
+      paymentMethod: formData.paymentMethod,
+    });
+
+    if (
+      donationId &&
+      paypalLoaded &&
+      window.paypal &&
+      formData.paymentMethod === "paypal"
+    ) {
       console.log("Rendering PayPal button...");
-      
+
       // Clear any existing buttons
       if (paypalButtonRef.current) {
         paypalButtonRef.current.innerHTML = "";
@@ -442,79 +461,86 @@ export default function DonatePage() {
       try {
         window.paypal
           .Buttons({
-          style: {
-            layout: "vertical",
-            color: "blue",
-            shape: "rect",
-            label: "paypal",
-          },
-          createOrder: async () => {
-            try {
-              const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/public/paypal/create-order`,
-                {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ donationId }),
+            style: {
+              layout: "vertical",
+              color: "blue",
+              shape: "rect",
+              label: "paypal",
+            },
+            createOrder: async () => {
+              try {
+                const response = await fetch(
+                  `${process.env.NEXT_PUBLIC_API_URL}/public/paypal/create-order`,
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ donationId }),
+                  },
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                  throw new Error(
+                    data.message || "Failed to create PayPal order",
+                  );
                 }
-              );
 
-              const data = await response.json();
-
-              if (!response.ok) {
-                throw new Error(data.message || "Failed to create PayPal order");
+                return data.data.orderId;
+              } catch (error) {
+                console.error("Error creating PayPal order:", error);
+                setErrorMessage(error.message);
+                throw error;
               }
+            },
+            onApprove: async (data) => {
+              try {
+                setIsLoading(true);
 
-              return data.data.orderId;
-            } catch (error) {
-              console.error("Error creating PayPal order:", error);
-              setErrorMessage(error.message);
-              throw error;
-            }
-          },
-          onApprove: async (data) => {
-            try {
-              setIsLoading(true);
+                const response = await fetch(
+                  `${process.env.NEXT_PUBLIC_API_URL}/public/paypal/capture-order`,
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ orderId: data.orderID }),
+                  },
+                );
 
-              const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/public/paypal/capture-order`,
-                {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ orderId: data.orderID }),
+                const result = await response.json();
+
+                if (!response.ok) {
+                  throw new Error(
+                    result.message || "Failed to capture payment",
+                  );
                 }
-              );
 
-              const result = await response.json();
+                // Clear form data on success
+                localStorage.removeItem("donateFormData");
+                localStorage.removeItem("donateCurrentStep");
 
-              if (!response.ok) {
-                throw new Error(result.message || "Failed to capture payment");
+                // Redirect to success page
+                window.location.href =
+                  "/donate/success?provider=paypal&donationId=" + donationId;
+              } catch (error) {
+                console.error("Error capturing PayPal payment:", error);
+                setErrorMessage(error.message);
+                setIsLoading(false);
               }
-
-              // Clear form data on success
-              localStorage.removeItem("donateFormData");
-              localStorage.removeItem("donateCurrentStep");
-
-              // Redirect to success page
-              window.location.href = "/donate/success?provider=paypal&donationId=" + donationId;
-            } catch (error) {
-              console.error("Error capturing PayPal payment:", error);
-              setErrorMessage(error.message);
+            },
+            onCancel: () => {
+              setErrorMessage("Payment was cancelled. You can try again.");
+              setDonationId(null);
               setIsLoading(false);
-            }
-          },
-          onCancel: () => {
-            setErrorMessage("Payment was cancelled. You can try again.");
-            setDonationId(null);
-            setIsLoading(false);
-          },
-          onError: (err) => {
-            console.error("PayPal error:", err);
-            setErrorMessage("An error occurred with PayPal. Please try again or use a different payment method.");
-            setDonationId(null);
-            setIsLoading(false);
-          },
-        })
+            },
+            onError: (err) => {
+              console.error("PayPal error:", err);
+              setErrorMessage(
+                "An error occurred with PayPal. Please try again or use a different payment method.",
+              );
+              setDonationId(null);
+              setIsLoading(false);
+            },
+          })
           .render(paypalButtonRef.current)
           .then(() => console.log("PayPal button rendered successfully"))
           .catch((err) => console.error("Error rendering PayPal button:", err));
@@ -540,237 +566,241 @@ export default function DonatePage() {
           async
         />
       )}
-      
+
       <div className="min-h-screen bg-gray-50 py-6 xs:py-8 sm:py-12 px-2 xs:px-4">
-      <div className="max-w-3xl mx-auto">
-        {/* Progress Indicator */}
-        <div ref={progressBarRef} className="mb-6 xs:mb-8">
-          <div className="flex items-center w-full">
-            {[1, 2, 3, 4].map((step, index) => (
-              <>
-                <div
-                  key={step}
-                  className={`flex items-center justify-center w-8 h-8 xs:w-10 xs:h-10 rounded-full border-2 transition shrink-0 text-sm xs:text-base ${
-                    currentStep >= step
-                      ? "border-(--color-secondary) bg-(--color-secondary) text-white"
-                      : "border-gray-300 bg-white text-gray-400"
-                  }`}
-                >
-                  {step}
-                </div>
-                {index < 3 && (
+        <div className="max-w-3xl mx-auto">
+          {/* Progress Indicator */}
+          <div ref={progressBarRef} className="mb-6 xs:mb-8">
+            <div className="flex items-center w-full">
+              {[1, 2, 3, 4].map((step, index) => (
+                <>
                   <div
-                    className={`flex-1 h-0.5 xs:h-1 mx-1 xs:mx-2 transition ${
-                      currentStep > step
-                        ? "bg-(--color-secondary)"
-                        : "bg-gray-300"
+                    key={step}
+                    className={`flex items-center justify-center w-8 h-8 xs:w-10 xs:h-10 rounded-full border-2 transition shrink-0 text-sm xs:text-base ${
+                      currentStep >= step
+                        ? "border-(--color-secondary) bg-(--color-secondary) text-white"
+                        : "border-gray-300 bg-white text-gray-400"
                     }`}
-                  />
-                )}
-              </>
-            ))}
+                  >
+                    {step}
+                  </div>
+                  {index < 3 && (
+                    <div
+                      className={`flex-1 h-0.5 xs:h-1 mx-1 xs:mx-2 transition ${
+                        currentStep > step
+                          ? "bg-(--color-secondary)"
+                          : "bg-gray-300"
+                      }`}
+                    />
+                  )}
+                </>
+              ))}
+            </div>
+            <div className="flex justify-between mt-2">
+              <span className="text-[10px] xs:text-xs font-medium text-gray-600">
+                Donation
+              </span>
+              <span className="text-[10px] xs:text-xs font-medium text-gray-600 -ml-2 xs:ml-0 lg:mr-14">
+                Information
+              </span>
+              <span className="text-[10px] xs:text-xs font-medium text-gray-600 lg:mr-18">
+                Gift Aid
+              </span>
+              <span className="text-[10px] xs:text-xs font-medium text-gray-600">
+                Payment
+              </span>
+            </div>
           </div>
-          <div className="flex justify-between mt-2">
-            <span className="text-[10px] xs:text-xs font-medium text-gray-600">
-              Donation
-            </span>
-            <span className="text-[10px] xs:text-xs font-medium text-gray-600 -ml-2 xs:ml-0 lg:mr-14">
-              Information
-            </span>
-            <span className="text-[10px] xs:text-xs font-medium text-gray-600 lg:mr-18">
-              Gift Aid
-            </span>
-            <span className="text-[10px] xs:text-xs font-medium text-gray-600">
-              Payment
-            </span>
-          </div>
-        </div>
 
-        {/* Step Content */}
-        <div
-          ref={formContainerRef}
-          className="bg-white rounded-lg shadow-lg p-3 xs:p-4 sm:p-6 lg:p-8"
-        >
-          {/* Error Message */}
-          {errorMessage && (
-            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg">
-              <div className="flex items-start">
-                <svg
-                  className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <div className="flex-1">
-                  <p className="font-semibold text-sm">Error</p>
-                  <p className="text-sm mt-1">{errorMessage}</p>
-                </div>
-                <button
-                  onClick={() => setErrorMessage("")}
-                  className="ml-4 text-red-500 hover:text-red-700"
-                  aria-label="Close"
-                >
+          {/* Step Content */}
+          <div
+            ref={formContainerRef}
+            className="bg-white rounded-lg shadow-lg p-3 xs:p-4 sm:p-6 lg:p-8"
+          >
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg">
+                <div className="flex items-start">
                   <svg
-                    className="w-5 h-5"
+                    className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
                     <path
                       fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                       clipRule="evenodd"
                     />
                   </svg>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Success Message */}
-          {successMessage && (
-            <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-lg">
-              <div className="flex items-start">
-                <svg
-                  className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <div className="flex-1">
-                  <p className="font-semibold text-sm">Success</p>
-                  <p className="text-sm mt-1">{successMessage}</p>
+                  <div className="flex-1">
+                    <p className="font-semibold text-sm">Error</p>
+                    <p className="text-sm mt-1">{errorMessage}</p>
+                  </div>
+                  <button
+                    onClick={() => setErrorMessage("")}
+                    className="ml-4 text-red-500 hover:text-red-700"
+                    aria-label="Close"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
                 </div>
-                <button
-                  onClick={() => setSuccessMessage("")}
-                  className="ml-4 text-green-500 hover:text-green-700"
-                  aria-label="Close"
-                >
+              </div>
+            )}
+
+            {/* Success Message */}
+            {successMessage && (
+              <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-lg">
+                <div className="flex items-start">
                   <svg
-                    className="w-5 h-5"
+                    className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
                     <path
                       fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                       clipRule="evenodd"
                     />
                   </svg>
-                </button>
+                  <div className="flex-1">
+                    <p className="font-semibold text-sm">Success</p>
+                    <p className="text-sm mt-1">{successMessage}</p>
+                  </div>
+                  <button
+                    onClick={() => setSuccessMessage("")}
+                    className="ml-4 text-green-500 hover:text-green-700"
+                    aria-label="Close"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {currentStep === 1 && (
-            <Step1 formData={formData} updateFormData={updateFormData} />
-          )}
-          {currentStep === 2 && (
-            <Step2
-              formData={formData}
-              updateFormData={updateFormData}
-              handleReset={handleReset}
-            />
-          )}
-          {currentStep === 3 && (
-            <Step3 formData={formData} updateFormData={updateFormData} />
-          )}
-          {currentStep === 4 && (
-            <Step4 
-              formData={formData} 
-              updateFormData={updateFormData}
-              donationId={donationId}
-              paypalButtonRef={paypalButtonRef}
-              isLoading={isLoading}
-              submittingPayPal={submittingPayPal}
-              paypalLoaded={paypalLoaded}
-            />
-          )}
-
-          {/* Navigation Buttons */}
-          <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4 mt-6">
-            {currentStep > 0 && (
-              <SecondaryButton
-                onClick={handleBack}
-                text="Back"
-                icon={ChevronLeft}
-                disabled={currentStep === 1}
-                className="hover:text-white text-sm sm:text-base w-full sm:w-auto"
+            {currentStep === 1 && (
+              <Step1 formData={formData} updateFormData={updateFormData} />
+            )}
+            {currentStep === 2 && (
+              <Step2
+                formData={formData}
+                updateFormData={updateFormData}
+                handleReset={handleReset}
               />
             )}
-            {currentStep < 4 ? (
-              <PrimaryButton
-                onClick={handleNext}
-                text="Next"
-                icon={ChevronRight}
-                disabled={
-                  (currentStep === 1 &&
-                    (!formData.projects || formData.projects.length === 0)) ||
-                  (currentStep === 2 &&
-                    (!formData.fullname ||
-                      !formData.email ||
-                      !formData.phone ||
-                      !formData.country ||
-                      !formData.countryCode))
-                }
-                className="text-sm sm:text-base w-full sm:w-auto"
+            {currentStep === 3 && (
+              <Step3 formData={formData} updateFormData={updateFormData} />
+            )}
+            {currentStep === 4 && (
+              <Step4
+                formData={formData}
+                updateFormData={updateFormData}
+                donationId={donationId}
+                paypalButtonRef={paypalButtonRef}
+                isLoading={isLoading}
+                submittingPayPal={submittingPayPal}
+                paypalLoaded={paypalLoaded}
               />
-            ) : formData.paymentMethod === "paypal" && (!donationId || submittingPayPal) ? (
-              // Show loading state while PayPal is being submitted/loaded
-              <PrimaryButton
-                text={submittingPayPal ? "Creating Payment..." : "Loading PayPal..."}
-                icon={isLoading || submittingPayPal ? Loader2 : ChevronRight}
-                disabled={true}
-                className={`text-sm sm:text-base w-full sm:w-auto !bg-[#2790C3]`}
-                iconClassName={isLoading || submittingPayPal ? "animate-spin" : ""}
-              />
-            ) : donationId && formData.paymentMethod === "paypal" ? (
-              // PayPal button will be rendered in Step4, no button needed here
-              null
-            ) : (
-              <PrimaryButton
-                onClick={handleSubmit}
-                text={
-                  isLoading
-                    ? "Processing..."
-                    : formData.paymentMethod === "stripe"
-                      ? "Proceed to Payment"
-                      : formData.paymentMethod === "paypal"
+            )}
+
+            {/* Navigation Buttons */}
+            <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4 mt-6">
+              {currentStep > 0 && (
+                <SecondaryButton
+                  onClick={handleBack}
+                  text="Back"
+                  icon={ChevronLeft}
+                  disabled={currentStep === 1}
+                  className="hover:text-white text-sm sm:text-base w-full sm:w-auto"
+                />
+              )}
+              {currentStep < 4 ? (
+                <PrimaryButton
+                  onClick={handleNext}
+                  text="Next"
+                  icon={ChevronRight}
+                  disabled={
+                    (currentStep === 1 &&
+                      (!formData.projects || formData.projects.length === 0)) ||
+                    (currentStep === 2 &&
+                      (!formData.fullname ||
+                        !formData.email ||
+                        !formData.phone ||
+                        !formData.country ||
+                        !formData.countryCode))
+                  }
+                  className="text-sm sm:text-base w-full sm:w-auto"
+                />
+              ) : formData.paymentMethod === "paypal" &&
+                (!donationId || submittingPayPal) ? (
+                // Show loading state while PayPal is being submitted/loaded
+                <PrimaryButton
+                  text={
+                    submittingPayPal
+                      ? "Creating Payment..."
+                      : "Loading PayPal..."
+                  }
+                  icon={isLoading || submittingPayPal ? Loader2 : ChevronRight}
+                  disabled={true}
+                  className={`text-sm sm:text-base w-full sm:w-auto !bg-[#2790C3]`}
+                  iconClassName={
+                    isLoading || submittingPayPal ? "animate-spin" : ""
+                  }
+                />
+              ) : donationId && formData.paymentMethod === "paypal" ? null : ( // PayPal button will be rendered in Step4, no button needed here
+                <PrimaryButton
+                  onClick={handleSubmit}
+                  text={
+                    isLoading
+                      ? "Processing..."
+                      : formData.paymentMethod === "stripe"
                         ? "Proceed to Payment"
-                        : "Get Bank Details"
-                }
-                icon={isLoading ? Loader2 : CheckCircle}
-                className={`ml-auto text-xs sm:text-sm md:text-base w-full sm:w-auto ${
-                  formData.paymentMethod === "stripe"
-                    ? "!bg-[#635BFF] hover:!bg-[#5349e6]"
-                    : formData.paymentMethod === "paypal"
-                      ? "!bg-[#2790C3] hover:!bg-[#1f7ba8]"
-                      : "!bg-green-600 hover:!bg-green-700"
-                }`}
-                iconClassName={isLoading ? "animate-spin" : ""}
-                disabled={
-                  isLoading ||
-                  !formData.paymentMethod ||
-                  (formData.paymentMethod === "paypal" &&
-                    !["USD", "EUR", "GBP", "AUD", "CAD", "JPY"].includes(
-                      formData.currency,
-                    ))
-                }
-              />
-            )}
+                        : formData.paymentMethod === "paypal"
+                          ? "Proceed to Payment"
+                          : "Get Bank Details"
+                  }
+                  icon={isLoading ? Loader2 : CheckCircle}
+                  className={`ml-auto text-xs sm:text-sm md:text-base w-full sm:w-auto ${
+                    formData.paymentMethod === "stripe"
+                      ? "!bg-[#635BFF] hover:!bg-[#5349e6]"
+                      : formData.paymentMethod === "paypal"
+                        ? "!bg-[#2790C3] hover:!bg-[#1f7ba8]"
+                        : "!bg-green-600 hover:!bg-green-700"
+                  }`}
+                  iconClassName={isLoading ? "animate-spin" : ""}
+                  disabled={
+                    isLoading ||
+                    !formData.paymentMethod ||
+                    (formData.paymentMethod === "paypal" &&
+                      !["USD", "EUR", "GBP", "AUD", "CAD", "JPY"].includes(
+                        formData.currency,
+                      ))
+                  }
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }
@@ -918,7 +948,7 @@ function Step1({ formData, updateFormData }) {
                 key={project.name}
                 className="bg-[#c8e6df] border border-green-300 rounded-lg p-3 xs:p-4"
               >
-                <div className="flex flex-col xs:flex-row xs:items-center gap-3 xs:gap-4">
+                <div className="flex flex-row items-center gap-3 xs:gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="font-semibold text-gray-900 text-sm xs:text-base">
                       {project.name}
@@ -930,23 +960,28 @@ function Step1({ formData, updateFormData }) {
                       }
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 xs:gap-2 justify-between xs:justify-end">
+                  <div className="flex items-center gap-2 xs:gap-3 justify-between xs:justify-end">
                     {/* Show amount input only when more than 1 project is selected */}
                     {formData.projects.length > 1 && (
-                      <div className="relative flex-1 xs:flex-initial">
-                        <span className="absolute left-4 xs:left-3 top-1/2 -translate-y-1/2 text-gray-600 font-medium text-sm xs:text-base">
-                          {getCurrencySymbol(formData.currency)}
-                        </span>
-                        <NumberInput
-                          value={project.amount}
-                          onChange={(e) =>
-                            updateProjectAmount(project.name, e.target.value)
-                          }
-                          min="1"
-                          step="1"
-                          placeholder="Amount"
-                          className="pl-14 sm:pl-12 pr-2 w-full xs:w-28 sm:w-32 text-sm xs:text-base [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        />
+                      <div className="relative flex-1 xs:flex-initial min-w-[140px] xs:min-w-[160px]">
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          Amount
+                        </label>
+                        <div className="relative">
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-700 font-semibold text-base">
+                            {getCurrencySymbol(formData.currency)}
+                          </span>
+                          <NumberInput
+                            value={project.amount}
+                            onChange={(e) =>
+                              updateProjectAmount(project.name, e.target.value)
+                            }
+                            min="1"
+                            step="1"
+                            placeholder="0.00"
+                            className="pl-8 pr-3 w-full text-base font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          />
+                        </div>
                       </div>
                     )}
                     <button
@@ -1341,7 +1376,15 @@ function Step3({ formData, updateFormData }) {
 }
 
 // Step 4: Payment
-function Step4({ formData, updateFormData, donationId, paypalButtonRef, isLoading, submittingPayPal, paypalLoaded }) {
+function Step4({
+  formData,
+  updateFormData,
+  donationId,
+  paypalButtonRef,
+  isLoading,
+  submittingPayPal,
+  paypalLoaded,
+}) {
   return (
     <div className="space-y-6">
       <div>
@@ -1534,8 +1577,7 @@ function Step4({ formData, updateFormData, donationId, paypalButtonRef, isLoadin
       <p className="text-xs mb-4 italic text-end">
         {formData.paymentMethod === "stripe" &&
           "You'll be redirected to Stripe's secure payment page"}
-        {formData.paymentMethod === "paypal" &&
-          "Pay securely with PayPal"}
+        {formData.paymentMethod === "paypal" && "Pay securely with PayPal"}
         {formData.paymentMethod === "bank-transfer" &&
           "Bank transfer details will be sent to your email"}
       </p>
