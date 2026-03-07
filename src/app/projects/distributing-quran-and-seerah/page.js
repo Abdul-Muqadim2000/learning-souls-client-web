@@ -3,6 +3,7 @@ import GenericHeader from "@/components/GenericHeader";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 
 // Metadata for SEO
 import dynamic from "next/dynamic";
@@ -84,6 +85,102 @@ const QRModal = ({ isOpen, onClose, qrCodeImage }) => {
   );
 };
 
+// External Redirect Modal Component
+const ExternalRedirectModal = ({ isOpen, onClose, onConfirm, url }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Using timeout to avoid cascading renders
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => {
+      clearTimeout(timer);
+      setMounted(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!mounted || !isOpen) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 bg-black/70 z-9999 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div
+        className="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Close"
+        >
+          <svg
+            className="w-6 h-6 text-gray-700"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        <div className="flex items-center justify-center mb-4">
+          <div className="bg-blue-100 p-3 rounded-full">
+            <ExternalLink size={32} className="text-blue-600" />
+          </div>
+        </div>
+
+        <h3 className="text-xl font-bold text-gray-800 mb-3 text-center">
+          External Content Notice
+        </h3>
+
+        <p className="text-gray-600 text-center mb-4 leading-relaxed">
+          You are being redirected to an external source. Please note that this
+          content is not owned by us and is provided by a third party for
+          educational purposes.
+        </p>
+
+        <div className="bg-gray-50 rounded-lg p-3 mb-5">
+          <p className="text-xs text-gray-500 text-center break-all">{url}</p>
+        </div>
+
+        <div className="flex gap-3">
+          <button
+            onClick={onClose}
+            className="flex-1 px-4 py-2.5 bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-300 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className="flex-1 px-4 py-2.5 bg-[#bd2387] text-white rounded-lg text-sm font-semibold hover:bg-[#a01d72] transition-colors flex items-center justify-center gap-2"
+          >
+            Continue
+            <ExternalLink size={16} />
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+};
+
 // Project Data
 const projectData = {
   hero: {
@@ -109,7 +206,7 @@ const projectData = {
       primaryButtonText: "Download",
       primaryButtonHref: "https://archive.org/details/B-001-000-904",
       secondaryButtonText: "QR Code",
-      qrCodeImage: "/images/wise-quran-qr.jpg",
+      qrCodeImage: "/images/muhammad-earliest-sources-qr.png",
     },
     {
       imageUrl: "/images/product2.webp",
@@ -118,9 +215,9 @@ const projectData = {
       description:
         "An insightful biography exploring the life and teachings of Prophet Muhammad ﷺ.",
       primaryButtonText: "Download",
-      primaryButtonHref: "https://archive.org/details/B-001-000-904",
+      primaryButtonHref: "https://archive.org/details/muhammad_1997/mode/2up",
       secondaryButtonText: "QR Code",
-      qrCodeImage: "/images/wise-quran-qr.jpg",
+      qrCodeImage: "/images/muhammad-prophet-for-our-time-qr.png",
     },
     {
       imageUrl: "/images/product3.webp",
@@ -131,13 +228,32 @@ const projectData = {
       primaryButtonText: "Download",
       primaryButtonHref: "https://www.mustaqim.co.uk/TheWiseQuran.pdf",
       secondaryButtonText: "QR Code",
-      qrCodeImage: "/images/wise-quran-qr.jpg",
+      qrCodeImage: "/images/wise-quran-qr.png",
     },
   ],
 };
 
 export default function DistributingQuranSeerahPage() {
   const [activeQRModal, setActiveQRModal] = useState(null);
+  const [showExternalRedirectModal, setShowExternalRedirectModal] =
+    useState(false);
+  const [selectedBookUrl, setSelectedBookUrl] = useState("");
+
+  const handleDownloadClick = (url) => {
+    setSelectedBookUrl(url);
+    setShowExternalRedirectModal(true);
+  };
+
+  const handleConfirmRedirect = () => {
+    setShowExternalRedirectModal(false);
+    window.open(selectedBookUrl, "_blank", "noopener,noreferrer");
+    setSelectedBookUrl("");
+  };
+
+  const handleCloseRedirectModal = () => {
+    setShowExternalRedirectModal(false);
+    setSelectedBookUrl("");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -246,10 +362,8 @@ export default function DistributingQuranSeerahPage() {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2">
-                  <a
-                    href={book.primaryButtonHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => handleDownloadClick(book.primaryButtonHref)}
                     className="px-6 sm:px-8 py-2.5 sm:py-2 bg-[#bd2387] text-white rounded-full text-sm font-semibold hover:bg-[#a01d72] hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <svg
@@ -264,7 +378,7 @@ export default function DistributingQuranSeerahPage() {
                       />
                     </svg>
                     {book.primaryButtonText}
-                  </a>
+                  </button>
                   <button
                     onClick={() => setActiveQRModal(book.qrCodeImage)}
                     className="px-6 sm:px-8 py-2.5 sm:py-2 bg-white border-2 border-[#09b29d] text-[#09b29d] rounded-full text-sm font-semibold hover:bg-[#09b29d] hover:text-white hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
@@ -295,6 +409,14 @@ export default function DistributingQuranSeerahPage() {
         isOpen={activeQRModal !== null}
         onClose={() => setActiveQRModal(null)}
         qrCodeImage={activeQRModal || ""}
+      />
+
+      {/* External Redirect Modal */}
+      <ExternalRedirectModal
+        isOpen={showExternalRedirectModal}
+        onClose={handleCloseRedirectModal}
+        onConfirm={handleConfirmRedirect}
+        url={selectedBookUrl}
       />
 
       {/* Support Section - Donation Form */}

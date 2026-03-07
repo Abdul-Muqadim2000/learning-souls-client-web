@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 import CarouselSlider from "@/components/CarouselSlider";
 import FullscreenHeader from "@/components/FullscreenHeader";
+import DownloadModal from "@/components/DownloadModal";
 import { FAQAccordion } from "@/components/ui/Accordion";
 import { BookOpen, Sparkles, Globe } from "lucide-react";
 
@@ -21,6 +23,32 @@ const faqData = [
     answer: "YES. YOU CAN DOWNLOAD, SHARE, PRINT — WITHOUT ASKING PERMISSION.",
   },
 ];
+
+// Download options for the 3 available books
+const downloadOptionsGodEdition = {
+  pdf: "/books/Al-Mustafa-Quran-Translation-God-Edition.pdf",
+  ebook: "/books/Al-Mustafa-Quran-Translation-God-Edition.epub",
+  kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
+  apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
+  google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
+};
+
+const downloadOptionsAllahEdition = {
+  pdf: "/books/Al-Mustafa-Quran-Translation-Allah-Edition.pdf",
+  ebook: "/books/Al-Mustafa-Quran-Translation-Allah-Edition.epub",
+  kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
+  apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
+  google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
+};
+
+const downloadOptionsAdvancedLearnerEdition = {
+  pdf: "/books/Al-Mustafa-Quran-Translation-Advanced-Learner-Edition.pdf",
+  ebook: "/books/Al-Mustafa-Quran-Translation-Advanced-Learner-Edition.epub",
+  kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
+  apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
+  google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
+};
+
 const upcomingBooksItems = [
   {
     image: "/images/ucb1.png",
@@ -32,11 +60,25 @@ const upcomingBooksItems = [
   },
   {
     image: "/images/ucb3.png",
-    heading: "Coming Soon",
+    heading: "Download Now",
+    downloadOptions: {
+      pdf: "/books/Al-Mustafa-Quran-Translation-God-Edition.pdf",
+      ebook: "/books/Al-Mustafa-Quran-Translation-God-Edition.epub",
+      kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
+      apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
+      google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
+    },
   },
   {
     image: "/images/ucb4.png",
-    heading: "Coming Soon",
+    heading: "Download Now",
+    downloadOptions: {
+      pdf: "/books/Al-Mustafa-Quran-Translation-Allah-Edition.pdf",
+      ebook: "/books/Al-Mustafa-Quran-Translation-Allah-Edition.epub",
+      kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
+      apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
+      google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
+    },
   },
   {
     image: "/images/ucb5.png",
@@ -44,7 +86,15 @@ const upcomingBooksItems = [
   },
   {
     image: "/images/ucb6.png",
-    heading: "Coming Soon",
+    heading: "Download Now",
+    downloadOptions: {
+      pdf: "/books/Al-Mustafa-Quran-Translation-Advanced-Learner-Edition.pdf",
+      ebook:
+        "/books/Al-Mustafa-Quran-Translation-Advanced-Learner-Edition.epub",
+      kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
+      apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
+      google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
+    },
   },
   {
     image: "/images/ucb7.png",
@@ -52,6 +102,23 @@ const upcomingBooksItems = [
   },
 ];
 export default function AlMustafaTranslation() {
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [selectedBookDownloadOptions, setSelectedBookDownloadOptions] =
+    useState(null);
+  const [selectedBookTitle, setSelectedBookTitle] = useState("");
+
+  const handleOpenDownloadModal = (downloadOptions, title) => {
+    setSelectedBookDownloadOptions(downloadOptions);
+    setSelectedBookTitle(title);
+    setShowDownloadModal(true);
+  };
+
+  const handleCloseDownloadModal = () => {
+    setShowDownloadModal(false);
+    setSelectedBookDownloadOptions(null);
+    setSelectedBookTitle("");
+  };
+
   return (
     <>
       {/* Premium Hero Section */}
@@ -156,8 +223,13 @@ export default function AlMustafaTranslation() {
             "Easy to read for both Muslim and non-Muslim readers",
           ]}
           textColor="var(--color-primary)"
-          secondaryButtonText={"Coming Soon"}
-          secondaryButtonLink={"#"}
+          secondaryButtonText={"Download Now"}
+          secondaryButtonOnClick={() =>
+            handleOpenDownloadModal(
+              downloadOptionsGodEdition,
+              "Al-Mustafa Quran Translation - God Edition",
+            )
+          }
           textAlign="text-left"
           // backgroundImage={"/images/al-mustafa1.webp"}
           helperImage={"/images/ucb3.png"}
@@ -175,8 +247,13 @@ export default function AlMustafaTranslation() {
           listItemsBold={true}
           textColor="var(--color-secondary)"
           bgColor="var(--color-primary)"
-          primaryButtonText={"Coming Soon"}
-          primaryButtonLink={"#"}
+          primaryButtonText={"Download Now"}
+          primaryButtonOnClick={() =>
+            handleOpenDownloadModal(
+              downloadOptionsAllahEdition,
+              "Al-Mustafa Quran Translation - Allah Edition",
+            )
+          }
           textAlign="text-left"
           backgroundImage={"/images/Asset-1.webp"}
           helperImage={"/images/ucb4.png"}
@@ -212,8 +289,13 @@ export default function AlMustafaTranslation() {
           listItemsBold={true}
           textColor="var(--color-secondary)"
           bgColor="var(--color-primary)"
-          primaryButtonText={"Coming Soon"}
-          primaryButtonLink={"#"}
+          primaryButtonText={"Download Now"}
+          primaryButtonOnClick={() =>
+            handleOpenDownloadModal(
+              downloadOptionsAdvancedLearnerEdition,
+              "Al-Mustafa Quran Translation - Advanced Learner Edition",
+            )
+          }
           textAlign="text-left"
           backgroundImage={"/images/Asset-1.webp"}
           helperImage={"/images/ucb6.png"}
@@ -288,6 +370,14 @@ export default function AlMustafaTranslation() {
           <FAQAccordion faqs={faqData} />
         </div>
       </section>
+
+      {/* Download Modal */}
+      <DownloadModal
+        isOpen={showDownloadModal}
+        onClose={handleCloseDownloadModal}
+        downloadOptions={selectedBookDownloadOptions}
+        bookTitle={selectedBookTitle}
+      />
     </>
   );
 }

@@ -2,8 +2,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download } from "lucide-react";
 import GenericHeader from "./GenericHeader";
+import DownloadModal from "./DownloadModal";
 
 const CarouselSlider = ({
   items = [],
@@ -19,6 +20,8 @@ const CarouselSlider = ({
   const [itemsPerView, setItemsPerView] = useState(3);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,6 +66,16 @@ const CarouselSlider = ({
       // Swiped right
       handlePrev();
     }
+  };
+
+  const handleOpenDownloadModal = (item) => {
+    setSelectedBook(item);
+    setShowDownloadModal(true);
+  };
+
+  const handleCloseDownloadModal = () => {
+    setShowDownloadModal(false);
+    setSelectedBook(null);
   };
 
   useEffect(() => {
@@ -133,7 +146,7 @@ const CarouselSlider = ({
           )}
 
           {/* Carousel Wrapper */}
-          <div 
+          <div
             className="overflow-hidden"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
@@ -148,13 +161,13 @@ const CarouselSlider = ({
               {items.map((item, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 px-2 sm:px-3 flex justify-center"
+                  className="shrink-0 px-2 sm:px-3 flex justify-center"
                   style={{ width: `${slideWidth}%` }}
                 >
-                  <div className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full w-full max-w-[280px] sm:max-w-none">
+                  <div className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full w-full max-w-70 sm:max-w-none">
                     {/* Image Only */}
                     {item.image && !item.heading && !item.description && (
-                      <div className="relative w-full aspect-[2/3] sm:aspect-[3/4]">
+                      <div className="relative w-full aspect-2/3 sm:aspect-3/4">
                         <Image
                           src={item.image}
                           alt={`Slide ${index + 1}`}
@@ -168,7 +181,7 @@ const CarouselSlider = ({
                     {/* Image with Content */}
                     {item.image && (item.heading || item.description) && (
                       <>
-                        <div className="relative w-full aspect-[2/3] sm:aspect-[3/4]">
+                        <div className="relative w-full aspect-2/3 sm:aspect-3/4 group">
                           <Image
                             src={item.image}
                             alt={item.heading || `Slide ${index + 1}`}
@@ -176,10 +189,33 @@ const CarouselSlider = ({
                             className="object-cover"
                             sizes={`(max-width: 640px) 280px, (max-width: 1024px) 50vw, 33vw`}
                           />
+
+                          {/* Download Overlay for items with downloadOptions */}
+                          {item.downloadOptions && (
+                            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-6">
+                              <button
+                                onClick={() => handleOpenDownloadModal(item)}
+                                className="bg-white text-purple-600 px-6 py-3 rounded-full font-bold text-sm md:text-base flex items-center gap-2 shadow-lg hover:bg-purple-600 hover:text-white transition-all duration-300 transform hover:scale-105"
+                              >
+                                <Download size={20} />
+                                Download
+                              </button>
+                            </div>
+                          )}
                         </div>
                         <div className="p-3 sm:p-4 md:p-5 text-center">
                           {item.heading && (
-                            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-1 sm:mb-2">
+                            <h3
+                              className={`text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2 ${
+                                item.downloadOptions
+                                  ? "text-purple-600 cursor-pointer hover:text-purple-700"
+                                  : "text-gray-800"
+                              }`}
+                              onClick={() =>
+                                item.downloadOptions &&
+                                handleOpenDownloadModal(item)
+                              }
+                            >
                               {item.heading}
                             </h3>
                           )}
@@ -194,7 +230,7 @@ const CarouselSlider = ({
 
                     {/* Fallback */}
                     {!item.image && (
-                      <div className="w-full aspect-[2/3] sm:aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                      <div className="w-full aspect-2/3 sm:aspect-3/4 flex items-center justify-center bg-linear-to-br from-gray-100 to-gray-200">
                         <span className="text-3xl sm:text-4xl font-bold text-gray-400">
                           {index + 1}
                         </span>
@@ -232,6 +268,14 @@ const CarouselSlider = ({
           )}
         </div>
       </div>
+
+      {/* Download Modal */}
+      <DownloadModal
+        isOpen={showDownloadModal}
+        onClose={handleCloseDownloadModal}
+        downloadOptions={selectedBook?.downloadOptions}
+        bookTitle={selectedBook?.heading}
+      />
     </section>
   );
 };

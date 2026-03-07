@@ -1,12 +1,11 @@
+"use client";
+
 import GenericHeader from "@/components/GenericHeader";
 import FullscreenHeader from "@/components/FullscreenHeader";
 import Image from "next/image";
 import { SecondaryButton } from "@/components/ui/Button";
-
-export const metadata = {
-  title: "Apps - Learning Souls",
-  description: "Download our mobile and desktop applications",
-};
+import AppDownloadModal from "@/components/AppDownloadModal";
+import { useState } from "react";
 
 const appsData = [
   {
@@ -91,6 +90,16 @@ const appsData = [
 ];
 
 export default function Apps() {
+  const [showAppDownloadModal, setShowAppDownloadModal] = useState(false);
+
+  const handleOpenAppDownloadModal = () => {
+    setShowAppDownloadModal(true);
+  };
+
+  const handleCloseAppDownloadModal = () => {
+    setShowAppDownloadModal(false);
+  };
+
   return (
     <>
       <GenericHeader
@@ -373,9 +382,9 @@ export default function Apps() {
               {/* Button */}
               <div className="pt-4">
                 <SecondaryButton
-                  as="a"
-                  href="#"
-                  text="Coming Soon"
+                  as="button"
+                  onClick={handleOpenAppDownloadModal}
+                  text="Download"
                   className="px-8 py-3"
                 />
               </div>
@@ -383,6 +392,13 @@ export default function Apps() {
           </div>
         </div>
       </section>
+
+      {/* App Download Modal */}
+      <AppDownloadModal
+        isOpen={showAppDownloadModal}
+        onClose={handleCloseAppDownloadModal}
+        appName="Khushii Dua App"
+      />
     </>
   );
 }

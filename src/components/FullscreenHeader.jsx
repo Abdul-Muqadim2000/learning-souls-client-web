@@ -15,9 +15,11 @@ const FullscreenHeader = ({
   primaryButtonText,
   primaryButtonLink,
   primaryButtonIcon,
+  primaryButtonOnClick,
   secondaryButtonText,
   secondaryButtonLink,
   secondaryButtonIcon,
+  secondaryButtonOnClick,
   backgroundImage,
   helperImage,
   helperImage1,
@@ -120,24 +122,30 @@ const FullscreenHeader = ({
           {/* Buttons - Inline */}
           {(primaryButtonText || secondaryButtonText) && (
             <div className="flex flex-wrap gap-3 sm:gap-4 items-center">
-              {primaryButtonText && primaryButtonLink && (
-                <PrimaryButton
-                  as="a"
-                  href={primaryButtonLink}
-                  className="px-4 sm:px-6 xl:px-8 text-sm sm:text-base"
-                  text={primaryButtonText}
-                  icon={primaryButtonIcon}
-                />
-              )}
-              {secondaryButtonText && secondaryButtonLink && (
-                <SecondaryButton
-                  as="a"
-                  href={secondaryButtonLink}
-                  className="px-4 sm:px-8 py-2 bg-white border-2 border-(--color-secondary) text-(--color-secondary) rounded-full text-xs sm:text-sm font-semibold flex items-center gap-2 hover:bg-gray-200 transition-colors"
-                  text={secondaryButtonText}
-                  icon={secondaryButtonIcon}
-                />
-              )}
+              {primaryButtonText &&
+                (primaryButtonLink || primaryButtonOnClick) && (
+                  <PrimaryButton
+                    as={primaryButtonOnClick ? "button" : "a"}
+                    href={primaryButtonOnClick ? undefined : primaryButtonLink}
+                    onClick={primaryButtonOnClick}
+                    className="px-4 sm:px-6 xl:px-8 text-sm sm:text-base"
+                    text={primaryButtonText}
+                    icon={primaryButtonIcon}
+                  />
+                )}
+              {secondaryButtonText &&
+                (secondaryButtonLink || secondaryButtonOnClick) && (
+                  <SecondaryButton
+                    as={secondaryButtonOnClick ? "button" : "a"}
+                    href={
+                      secondaryButtonOnClick ? undefined : secondaryButtonLink
+                    }
+                    onClick={secondaryButtonOnClick}
+                    className="px-4 sm:px-8 py-2 bg-white border-2 border-(--color-secondary) text-(--color-secondary) rounded-full text-xs sm:text-sm font-semibold flex items-center gap-2 hover:bg-gray-200 transition-colors"
+                    text={secondaryButtonText}
+                    icon={secondaryButtonIcon}
+                  />
+                )}
             </div>
           )}
         </div>

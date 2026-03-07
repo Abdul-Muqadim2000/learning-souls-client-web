@@ -99,7 +99,9 @@ const Footer = () => {
             {/* App Download Links */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
               <a
-                href="#"
+                href="https://apps.apple.com/us/app/khushii-dua/id6499438620"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block hover:opacity-90 transition-opacity duration-200 hover-pulse"
                 aria-label="Download on the App Store"
               >
@@ -112,7 +114,9 @@ const Footer = () => {
                 />
               </a>
               <a
-                href="#"
+                href="https://play.google.com/store/apps/details?id=com.khushiidua.app&pcampaignid=web_share"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block hover:opacity-90 transition-opacity duration-200 hover-pulse"
                 aria-label="Get it on Google Play"
               >
