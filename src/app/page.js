@@ -73,10 +73,6 @@ export default function Home() {
       heading: "Download Now",
       downloadOptions: {
         pdf: "/books/Al-Mustafa-Quran-Translation-God-Edition.pdf",
-        ebook: "/books/Al-Mustafa-Quran-Translation-God-Edition.epub",
-        kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
-        apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
-        google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
       },
     },
     {
@@ -84,10 +80,6 @@ export default function Home() {
       heading: "Download Now",
       downloadOptions: {
         pdf: "/books/Al-Mustafa-Quran-Translation-Allah-Edition.pdf",
-        ebook: "/books/Al-Mustafa-Quran-Translation-Allah-Edition.epub",
-        kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
-        apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
-        google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
       },
     },
     {
@@ -99,11 +91,6 @@ export default function Home() {
       heading: "Download Now",
       downloadOptions: {
         pdf: "/books/Al-Mustafa-Quran-Translation-Advanced-Learner-Edition.pdf",
-        ebook:
-          "/books/Al-Mustafa-Quran-Translation-Advanced-Learner-Edition.epub",
-        kindle: "https://www.amazon.com/dp/YOUR_KINDLE_LINK",
-        apple: "https://books.apple.com/YOUR_APPLE_BOOKS_LINK",
-        google: "https://play.google.com/store/books/YOUR_GOOGLE_BOOKS_LINK",
       },
     },
     {

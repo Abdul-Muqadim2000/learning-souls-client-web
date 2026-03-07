@@ -50,7 +50,7 @@ const DownloadModal = ({ isOpen, onClose, downloadOptions, bookTitle }) => {
       type: "pdf",
       label: "Download PDF",
       icon: <FileText size={24} />,
-      color: "bg-red-500 hover:bg-red-600",
+      color: "bg-teal-600 hover:bg-teal-700",
       url: downloadOptions?.pdf,
     },
     {
@@ -64,14 +64,14 @@ const DownloadModal = ({ isOpen, onClose, downloadOptions, bookTitle }) => {
       type: "kindle",
       label: "Get on Kindle",
       icon: <ShoppingBag size={24} />,
-      color: "bg-orange-500 hover:bg-orange-600",
+      color: "bg-indigo-700 hover:bg-indigo-800",
       url: downloadOptions?.kindle,
     },
     {
       type: "apple",
       label: "Apple Books",
       icon: <Apple size={24} />,
-      color: "bg-gray-800 hover:bg-gray-900",
+      color: "bg-purple-700 hover:bg-purple-800",
       url: downloadOptions?.apple,
     },
     {
@@ -126,16 +126,18 @@ const DownloadModal = ({ isOpen, onClose, downloadOptions, bookTitle }) => {
 
         {/* Download Options */}
         <div className="space-y-3">
-          {downloadButtons.map((button) => (
-            <button
-              key={button.type}
-              onClick={() => handleDownload(button.url, button.type)}
-              className={`w-full ${button.color} text-white rounded-lg px-6 py-4 font-semibold text-base md:text-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-95`}
-            >
-              <span className="shrink-0">{button.icon}</span>
-              <span>{button.label}</span>
-            </button>
-          ))}
+          {downloadButtons
+            .filter((button) => button.url)
+            .map((button) => (
+              <button
+                key={button.type}
+                onClick={() => handleDownload(button.url, button.type)}
+                className={`w-full ${button.color} text-white rounded-lg px-6 py-4 font-semibold text-base md:text-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-95`}
+              >
+                <span className="shrink-0">{button.icon}</span>
+                <span>{button.label}</span>
+              </button>
+            ))}
         </div>
 
         {/* Footer Note */}
