@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide explains how to implement the donation payment flow on the frontend Next.js application.
+This guide explains how to implement the donation payment flow on the frontend Next.js application using Stripe.
 
 ---
 
@@ -17,10 +17,8 @@ NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
 # Stripe Configuration (Get from: https://dashboard.stripe.com/test/apikeys)
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxx
 
-# Apple Pay (native Apple Pay JS)
+# Apple Pay UI toggle (Apple Pay is handled by Stripe Checkout)
 NEXT_PUBLIC_APPLE_PAY_ENABLED=true
-NEXT_PUBLIC_APPLE_PAY_COUNTRY_CODE=GB
-NEXT_PUBLIC_APPLE_PAY_LABEL=Learning Souls Donation
 ```
 
 ### Environment Variables Explanation:
@@ -39,16 +37,10 @@ NEXT_PUBLIC_APPLE_PAY_LABEL=Learning Souls Donation
   - `false`: Hide Apple Pay option
   - Default behavior in code treats missing value as enabled
 
-4. **`NEXT_PUBLIC_APPLE_PAY_COUNTRY_CODE`** - 2-letter ISO country code for Apple Pay request
-  - Example: `GB`, `US`, `AE`
-
-5. **`NEXT_PUBLIC_APPLE_PAY_LABEL`** - Label shown in Apple Pay sheet total row
-  - Example: `Learning Souls Donation`
-
 ### Apple Pay Requirements
 
-- Apple Pay uses native `ApplePaySession` in Safari on supported Apple devices.
-- Your domain must be verified in Apple Developer and configured on backend.
+- Apple Pay uses Stripe Checkout and appears on supported Apple devices/browsers.
+- Your domain must be verified for Apple Pay in Stripe Dashboard.
 - Use HTTPS in production.
 
 ---
