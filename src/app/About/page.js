@@ -16,6 +16,7 @@ export const metadata = {
     "Learning Souls",
     "About Learning Souls",
     "Islamic Education",
+    "Islamic Education",
     "Community Projects",
   ],
 };
