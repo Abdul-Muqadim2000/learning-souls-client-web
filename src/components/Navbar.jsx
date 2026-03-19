@@ -86,7 +86,7 @@ const Navbar = () => {
       ],
     },
     {
-      href: "#",
+      href: "/downloads",
       label: "Downloads",
       isDropdown: true,
       items: [
@@ -111,7 +111,7 @@ const Navbar = () => {
       ],
     },
     {
-      href: "#",
+      href: "/About",
       label: "About",
       isDropdown: true,
       items: [
@@ -145,7 +145,7 @@ const Navbar = () => {
       <div className="max-w-8xl mx-auto px-8 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16 sm:h-20 lg:h-24">
           {/* Logo */}
-          <div className="flex-shrink-0 z-10">
+          <div className="shrink-0 z-10">
             <Link href="/">
               <Image
                 src="/images/logo.webp"
