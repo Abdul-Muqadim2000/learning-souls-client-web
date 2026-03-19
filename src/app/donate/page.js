@@ -344,6 +344,11 @@ export default function DonatePage() {
     setErrorMessage("");
     setSuccessMessage("");
 
+    if (formData.paymentMethod === "apple-pay") {
+      startApplePaySession();
+      return;
+    }
+
     // Validate PayPal currency support
     const paypalSupportedCurrencies = [
       "USD",
@@ -392,19 +397,6 @@ export default function DonatePage() {
         return;
       }
 
-      // Handle native Apple Pay flow
-      if (formData.paymentMethod === "apple-pay") {
-        const createdDonationId = data.data?.donationId;
-
-        if (!createdDonationId) {
-          throw new Error("Apple Pay donation record was not created.");
-        }
-
-        setDonationId(createdDonationId);
-        await startApplePaySession(createdDonationId);
-        return;
-      }
-
       // Handle PayPal - store donation ID and render button
       if (formData.paymentMethod === "paypal") {
         setDonationId(data.data.donationId);
@@ -435,7 +427,7 @@ export default function DonatePage() {
     }
   };
 
-  const startApplePaySession = async (currentDonationId) => {
+  const startApplePaySession = () => {
     if (
       typeof window === "undefined" ||
       typeof window.ApplePaySession === "undefined"
@@ -475,16 +467,45 @@ export default function DonatePage() {
     };
 
     const session = new window.ApplePaySession(3, paymentRequest);
+    let currentDonationId = null;
+
+    const createApplePayDonation = async () => {
+      if (currentDonationId) return currentDonationId;
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/public/donate`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        },
+      );
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Donation failed");
+      }
+
+      currentDonationId = data.data?.donationId;
+      if (!currentDonationId) {
+        throw new Error("Apple Pay donation record was not created.");
+      }
+
+      setDonationId(currentDonationId);
+      return currentDonationId;
+    };
 
     session.onvalidatemerchant = async (event) => {
       try {
+        const donationIdForSession = await createApplePayDonation();
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/public/apple-pay/validate-merchant`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              donationId: currentDonationId,
+              donationId: donationIdForSession,
               validationUrl: event.validationURL,
             }),
           },
@@ -508,13 +529,16 @@ export default function DonatePage() {
 
     session.onpaymentauthorized = async (event) => {
       try {
+        const donationIdForPayment =
+          currentDonationId || (await createApplePayDonation());
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/public/apple-pay/confirm-payment`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              donationId: currentDonationId,
+              donationId: donationIdForPayment,
               payment: event.payment,
             }),
           },
@@ -532,7 +556,7 @@ export default function DonatePage() {
         setIsLoading(false);
 
         window.location.href =
-          `/donate/success?provider=apple-pay&donationId=${currentDonationId}`;
+          `/donate/success?provider=apple-pay&donationId=${donationIdForPayment}`;
       } catch (error) {
         session.completePayment(window.ApplePaySession.STATUS_FAILURE);
         setErrorMessage(
