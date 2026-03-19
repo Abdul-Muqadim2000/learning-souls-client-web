@@ -101,7 +101,7 @@ function DonateSuccessContent() {
                     </p>
                     {provider && (
                       <p className="text-xs text-gray-500 mt-1">
-                        Payment Method: {provider === "paypal" ? "PayPal" : "Stripe"}
+                        Payment Method: {provider === "paypal" ? "PayPal" : provider === "apple-pay" ? "Apple Pay" : "Stripe"}
                       </p>
                     )}
                   </div>

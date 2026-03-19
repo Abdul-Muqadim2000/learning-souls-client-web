@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide explains how to implement the donation payment flow on the frontend Next.js application using Stripe.
+This guide explains how to implement the donation payment flow on the frontend Next.js application.
 
 ---
 
@@ -16,6 +16,11 @@ NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
 
 # Stripe Configuration (Get from: https://dashboard.stripe.com/test/apikeys)
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxx
+
+# Apple Pay (native Apple Pay JS)
+NEXT_PUBLIC_APPLE_PAY_ENABLED=true
+NEXT_PUBLIC_APPLE_PAY_COUNTRY_CODE=GB
+NEXT_PUBLIC_APPLE_PAY_LABEL=Learning Souls Donation
 ```
 
 ### Environment Variables Explanation:
@@ -28,6 +33,23 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxx
    - Test mode: `pk_test_...`
    - Production: `pk_live_...`
    - Get from: https://dashboard.stripe.com/test/apikeys
+
+3. **`NEXT_PUBLIC_APPLE_PAY_ENABLED`** - Controls Apple Pay option visibility in donation UI
+  - `true`: Show Apple Pay option next to Stripe
+  - `false`: Hide Apple Pay option
+  - Default behavior in code treats missing value as enabled
+
+4. **`NEXT_PUBLIC_APPLE_PAY_COUNTRY_CODE`** - 2-letter ISO country code for Apple Pay request
+  - Example: `GB`, `US`, `AE`
+
+5. **`NEXT_PUBLIC_APPLE_PAY_LABEL`** - Label shown in Apple Pay sheet total row
+  - Example: `Learning Souls Donation`
+
+### Apple Pay Requirements
+
+- Apple Pay uses native `ApplePaySession` in Safari on supported Apple devices.
+- Your domain must be verified in Apple Developer and configured on backend.
+- Use HTTPS in production.
 
 ---
 
