@@ -34,6 +34,8 @@ export default function DonatePage() {
   const [donationId, setDonationId] = useState(null);
   const paypalButtonRef = useRef(null);
   const [submittingPayPal, setSubmittingPayPal] = useState(false);
+  const applePayEnabled = process.env.NEXT_PUBLIC_APPLE_PAY_ENABLED !== "false";
+  const [applePaySupported, setApplePaySupported] = useState(false);
   const [formData, setFormData] = useState({
     // Step 1: Donation Details
     donationFrequency: "one-time", // 'one-time' or 'monthly'
@@ -53,7 +55,7 @@ export default function DonatePage() {
     // Step 3: Gift Aid
     giftAid: false,
     // Step 4: Payment Method
-    paymentMethod: "", // 'paypal', 'stripe', 'bank-transfer'
+    paymentMethod: "", // 'paypal', 'stripe', 'apple-pay', 'bank-transfer'
   });
 
   // Load form data from localStorage on mount
@@ -84,6 +86,16 @@ export default function DonatePage() {
   useEffect(() => {
     localStorage.setItem("donateCurrentStep", currentStep.toString());
   }, [currentStep]);
+
+  // Apple Pay support detection
+  useEffect(() => {
+    const supported =
+      typeof window !== "undefined" &&
+      typeof window.ApplePaySession !== "undefined" &&
+      window.ApplePaySession.canMakePayments();
+
+    setApplePaySupported(Boolean(supported));
+  }, []);
 
   // Reset loading state when user returns to page (e.g., browser back from payment)
   useEffect(() => {
@@ -380,6 +392,19 @@ export default function DonatePage() {
         return;
       }
 
+      // Handle native Apple Pay flow
+      if (formData.paymentMethod === "apple-pay") {
+        const createdDonationId = data.data?.donationId;
+
+        if (!createdDonationId) {
+          throw new Error("Apple Pay donation record was not created.");
+        }
+
+        setDonationId(createdDonationId);
+        await startApplePaySession(createdDonationId);
+        return;
+      }
+
       // Handle PayPal - store donation ID and render button
       if (formData.paymentMethod === "paypal") {
         setDonationId(data.data.donationId);
@@ -408,6 +433,121 @@ export default function DonatePage() {
       // Scroll to top to show error
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+  };
+
+  const startApplePaySession = async (currentDonationId) => {
+    if (
+      typeof window === "undefined" ||
+      typeof window.ApplePaySession === "undefined"
+    ) {
+      setErrorMessage(
+        "Apple Pay is not supported in this browser. Please use Safari on an Apple device.",
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    if (!window.ApplePaySession.canMakePayments()) {
+      setErrorMessage(
+        "Apple Pay is unavailable on this device/browser. Please use another payment method.",
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    const donationTotal =
+      formData.projects && formData.projects.length > 0
+        ? formData.projects.reduce((sum, p) => sum + (p.amount || 0), 0)
+        : formData.amount;
+
+    const paymentRequest = {
+      countryCode: process.env.NEXT_PUBLIC_APPLE_PAY_COUNTRY_CODE || "GB",
+      currencyCode: formData.currency,
+      merchantCapabilities: ["supports3DS"],
+      supportedNetworks: ["visa", "masterCard", "amex", "discover"],
+      total: {
+        label:
+          process.env.NEXT_PUBLIC_APPLE_PAY_LABEL ||
+          "Learning Souls Donation",
+        amount: Number(donationTotal).toFixed(2),
+        type: "final",
+      },
+    };
+
+    const session = new window.ApplePaySession(3, paymentRequest);
+
+    session.onvalidatemerchant = async (event) => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/public/apple-pay/validate-merchant`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              donationId: currentDonationId,
+              validationUrl: event.validationURL,
+            }),
+          },
+        );
+
+        const result = await response.json();
+        if (!response.ok || !result?.data?.merchantSession) {
+          throw new Error(result.message || "Failed to validate Apple Pay merchant");
+        }
+
+        session.completeMerchantValidation(result.data.merchantSession);
+      } catch (error) {
+        setErrorMessage(
+          error.message ||
+            "Unable to validate Apple Pay merchant session. Please try again.",
+        );
+        setIsLoading(false);
+        session.abort();
+      }
+    };
+
+    session.onpaymentauthorized = async (event) => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/public/apple-pay/confirm-payment`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              donationId: currentDonationId,
+              payment: event.payment,
+            }),
+          },
+        );
+
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.message || "Apple Pay authorization failed");
+        }
+
+        session.completePayment(window.ApplePaySession.STATUS_SUCCESS);
+
+        localStorage.removeItem("donateFormData");
+        localStorage.removeItem("donateCurrentStep");
+        setIsLoading(false);
+
+        window.location.href =
+          `/donate/success?provider=apple-pay&donationId=${currentDonationId}`;
+      } catch (error) {
+        session.completePayment(window.ApplePaySession.STATUS_FAILURE);
+        setErrorMessage(
+          error.message || "Apple Pay payment failed. Please try again.",
+        );
+        setIsLoading(false);
+      }
+    };
+
+    session.oncancel = () => {
+      setErrorMessage("Apple Pay payment was cancelled.");
+      setIsLoading(false);
+    };
+
+    session.begin();
   };
 
   // Auto-submit when PayPal is selected on Step 4
@@ -719,6 +859,8 @@ export default function DonatePage() {
                 isLoading={isLoading}
                 submittingPayPal={submittingPayPal}
                 paypalLoaded={paypalLoaded}
+                applePayEnabled={applePayEnabled}
+                applePaySupported={applePaySupported}
               />
             )}
 
@@ -772,7 +914,9 @@ export default function DonatePage() {
                   text={
                     isLoading
                       ? "Processing..."
-                      : formData.paymentMethod === "stripe"
+                      : formData.paymentMethod === "apple-pay"
+                        ? "Pay with Apple Pay"
+                        : formData.paymentMethod === "stripe"
                         ? "Proceed to Payment"
                         : formData.paymentMethod === "paypal"
                           ? "Proceed to Payment"
@@ -782,6 +926,8 @@ export default function DonatePage() {
                   className={`ml-auto text-xs sm:text-sm md:text-base w-full sm:w-auto ${
                     formData.paymentMethod === "stripe"
                       ? "!bg-[#635BFF] hover:!bg-[#5349e6]"
+                      : formData.paymentMethod === "apple-pay"
+                        ? "!bg-black hover:!bg-gray-800"
                       : formData.paymentMethod === "paypal"
                         ? "!bg-[#2790C3] hover:!bg-[#1f7ba8]"
                         : "!bg-green-600 hover:!bg-green-700"
@@ -790,6 +936,8 @@ export default function DonatePage() {
                   disabled={
                     isLoading ||
                     !formData.paymentMethod ||
+                    (formData.paymentMethod === "apple-pay" &&
+                      (!applePayEnabled || !applePaySupported)) ||
                     (formData.paymentMethod === "paypal" &&
                       !["USD", "EUR", "GBP", "AUD", "CAD", "JPY"].includes(
                         formData.currency,
@@ -1384,7 +1532,50 @@ function Step4({
   isLoading,
   submittingPayPal,
   paypalLoaded,
+  applePayEnabled,
+  applePaySupported,
 }) {
+  const paymentOptions = [
+    {
+      value: "stripe",
+      label: "Card Payment",
+      description: "Pay with Debit/Credit Card",
+      textColor: "#ffffff",
+      badgeImage: "/images/stripe-logo.svg",
+      bgColor: "#635BFF",
+    },
+    ...(applePayEnabled
+      ? [
+          {
+            value: "apple-pay",
+            label: "Apple Pay",
+            description: applePaySupported
+              ? "Pay directly with Apple Pay"
+              : "Available in Safari on Apple devices",
+            badge: "Apple",
+            textColor: "#ffffff",
+            bgColor: "#111111",
+            disabled: !applePaySupported,
+          },
+        ]
+      : []),
+    {
+      value: "paypal",
+      label: "PayPal",
+      description: "Pay with PayPal",
+      textColor: "#ffffff",
+      badgeImage: "/images/paypal-logo.svg",
+      bgColor: "#2790C3",
+    },
+    {
+      value: "bank-transfer",
+      label: "Bank Transfer",
+      description: "Manual transfer",
+      badge: <Mail size={16} strokeWidth={3} />,
+      bgColor: "#f0f9ff",
+    },
+  ];
+
   return (
     <div className="space-y-6">
       <div>
@@ -1509,37 +1700,11 @@ function Step4({
       </div>
       <ToggleButtonGroup
         label="Select Payment Method"
-        options={[
-          {
-            value: "stripe",
-            label: "Card Payment",
-            description: "Pay with Debit/Credit Card",
-            // badge: "Stripe",
-            textColor: "#ffffff",
-            badgeImage: "/images/stripe-logo.svg",
-            bgColor: "#635BFF",
-          },
-          {
-            value: "paypal",
-            label: "PayPal",
-            description: "Pay with PayPal",
-            // badge: "PayPal",
-            textColor: "#ffffff",
-            badgeImage: "/images/paypal-logo.svg",
-            bgColor: "#2790C3",
-          },
-          {
-            value: "bank-transfer",
-            label: "Bank Transfer",
-            description: "Manual transfer",
-            badge: <Mail size={16} strokeWidth={3} />,
-            bgColor: "#f0f9ff",
-          },
-        ]}
+        options={paymentOptions}
         value={formData.paymentMethod}
         onChange={(value) => updateFormData("paymentMethod", value)}
-        columns={3}
-        responsiveColumns={{ sm: 1, md: 3, lg: 3 }}
+        columns={paymentOptions.length}
+        responsiveColumns={{ sm: 1, md: paymentOptions.length, lg: paymentOptions.length }}
       />
 
       {/* PayPal Currency Warning */}
@@ -1577,10 +1742,22 @@ function Step4({
       <p className="text-xs mb-4 italic text-end">
         {formData.paymentMethod === "stripe" &&
           "You'll be redirected to Stripe's secure payment page"}
+        {formData.paymentMethod === "apple-pay" &&
+          "Apple Pay sheet will open for secure authorization"}
         {formData.paymentMethod === "paypal" && "Pay securely with PayPal"}
         {formData.paymentMethod === "bank-transfer" &&
           "Bank transfer details will be sent to your email"}
       </p>
+
+      {formData.paymentMethod === "apple-pay" && !applePaySupported && (
+        <div className="mb-4 p-4 bg-orange-50 border-l-4 border-orange-500 text-orange-800 rounded-lg">
+          <p className="font-semibold text-sm">Apple Pay Not Available</p>
+          <p className="text-sm mt-1">
+            Apple Pay is only available in Safari on supported Apple devices.
+            Please switch device/browser or choose a different payment method.
+          </p>
+        </div>
+      )}
 
       {/* PayPal Button Container */}
       {donationId && formData.paymentMethod === "paypal" && (
