@@ -19,6 +19,71 @@ import {
   RefreshCcwIcon,
 } from "lucide-react";
 
+function parseDonationError(errorPayload, fallbackMessage) {
+  const fallback = fallbackMessage || "Something went wrong. Please try again.";
+
+  const collectMessages = (value) => {
+    if (!value) return [];
+
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (!trimmed) return [];
+
+      // Some APIs stringify validation objects/arrays in `message`.
+      if (
+        (trimmed.startsWith("{") && trimmed.endsWith("}")) ||
+        (trimmed.startsWith("[") && trimmed.endsWith("]"))
+      ) {
+        try {
+          return collectMessages(JSON.parse(trimmed));
+        } catch {
+          return [trimmed];
+        }
+      }
+
+      return [trimmed];
+    }
+
+    if (Array.isArray(value)) {
+      return value.flatMap((item) => collectMessages(item));
+    }
+
+    if (value instanceof Error) {
+      return collectMessages(value.message);
+    }
+
+    if (typeof value === "object") {
+      const candidateKeys = [
+        "message",
+        "msg",
+        "error",
+        "details",
+        "errors",
+        "fieldErrors",
+      ];
+
+      const keyedMessages = candidateKeys.flatMap((key) =>
+        collectMessages(value[key]),
+      );
+
+      if (keyedMessages.length > 0) {
+        return keyedMessages;
+      }
+
+      return Object.values(value).flatMap((item) => collectMessages(item));
+    }
+
+    return [String(value)];
+  };
+
+  const messages = collectMessages(errorPayload)
+    .map((msg) => msg?.trim())
+    .filter(Boolean);
+
+  const uniqueMessages = [...new Set(messages)];
+  return uniqueMessages.length > 0 ? uniqueMessages.join(". ") : fallback;
+}
+
 export default function DonatePage() {
   const pathname = usePathname();
   const { user, isAuthenticated } = useAuth();
@@ -385,7 +450,7 @@ export default function DonatePage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Donation failed");
+        throw new Error(parseDonationError(data, "Donation failed"));
       }
 
       console.log("Response data:", data);
@@ -418,7 +483,7 @@ export default function DonatePage() {
     } catch (error) {
       console.error("Error submitting donation:", error);
       setErrorMessage(
-        error.message || "Failed to process donation. Please try again.",
+        parseDonationError(error, "Failed to process donation. Please try again."),
       );
       setIsLoading(false);
       setSubmittingPayPal(false);
@@ -483,7 +548,7 @@ export default function DonatePage() {
 
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || "Donation failed");
+        throw new Error(parseDonationError(data, "Donation failed"));
       }
 
       currentDonationId = data.data?.donationId;
@@ -513,14 +578,18 @@ export default function DonatePage() {
 
         const result = await response.json();
         if (!response.ok || !result?.data?.merchantSession) {
-          throw new Error(result.message || "Failed to validate Apple Pay merchant");
+          throw new Error(
+            parseDonationError(result, "Failed to validate Apple Pay merchant"),
+          );
         }
 
         session.completeMerchantValidation(result.data.merchantSession);
       } catch (error) {
         setErrorMessage(
-          error.message ||
+          parseDonationError(
+            error,
             "Unable to validate Apple Pay merchant session. Please try again.",
+          ),
         );
         setIsLoading(false);
         session.abort();
@@ -546,7 +615,9 @@ export default function DonatePage() {
 
         const result = await response.json();
         if (!response.ok) {
-          throw new Error(result.message || "Apple Pay authorization failed");
+          throw new Error(
+            parseDonationError(result, "Apple Pay authorization failed"),
+          );
         }
 
         session.completePayment(window.ApplePaySession.STATUS_SUCCESS);
@@ -560,7 +631,7 @@ export default function DonatePage() {
       } catch (error) {
         session.completePayment(window.ApplePaySession.STATUS_FAILURE);
         setErrorMessage(
-          error.message || "Apple Pay payment failed. Please try again.",
+          parseDonationError(error, "Apple Pay payment failed. Please try again."),
         );
         setIsLoading(false);
       }
@@ -646,14 +717,16 @@ export default function DonatePage() {
 
                 if (!response.ok) {
                   throw new Error(
-                    data.message || "Failed to create PayPal order",
+                    parseDonationError(data, "Failed to create PayPal order"),
                   );
                 }
 
                 return data.data.orderId;
               } catch (error) {
                 console.error("Error creating PayPal order:", error);
-                setErrorMessage(error.message);
+                setErrorMessage(
+                  parseDonationError(error, "Failed to create PayPal order."),
+                );
                 throw error;
               }
             },
@@ -674,7 +747,7 @@ export default function DonatePage() {
 
                 if (!response.ok) {
                   throw new Error(
-                    result.message || "Failed to capture payment",
+                    parseDonationError(result, "Failed to capture payment"),
                   );
                 }
 
@@ -687,7 +760,9 @@ export default function DonatePage() {
                   "/donate/success?provider=paypal&donationId=" + donationId;
               } catch (error) {
                 console.error("Error capturing PayPal payment:", error);
-                setErrorMessage(error.message);
+                setErrorMessage(
+                  parseDonationError(error, "Failed to capture payment."),
+                );
                 setIsLoading(false);
               }
             },
