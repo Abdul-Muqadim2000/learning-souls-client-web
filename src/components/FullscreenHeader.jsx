@@ -34,6 +34,7 @@ const FullscreenHeader = ({
   customImageMaxWidth,
   customImageScale,
   customImageClassName,
+  hideImageGroupOnMobile = false,
   textAlign = "sm:text-center lg:text-left", // New prop for custom text alignment
 }) => {
   // Use larger padding for sections with only background image, smaller for sections with helper images
@@ -153,7 +154,9 @@ const FullscreenHeader = ({
         {/* Right Column - Helper Image */}
         {/* Right Column - Helper Image with Abstract SVG Shapes */}
         {helperImage && (
-          <div className="flex items-center justify-center lg:justify-end overflow-visible px-2 sm:px-4 py-6 sm:py-8">
+          <div
+            className={`${hideImageGroupOnMobile ? "hidden sm:flex" : "flex"} items-center justify-center lg:justify-end overflow-visible px-2 sm:px-4 py-6 sm:py-8`}
+          >
             <div
               className={`relative w-full ${customImageMaxWidth || "max-w-[280px] sm:max-w-[340px] md:max-w-md lg:max-w-[480px] xl:max-w-xl"} aspect-square overflow-visible`}
             >

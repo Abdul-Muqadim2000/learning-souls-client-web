@@ -33,6 +33,7 @@ const page = () => {
         helperImage1="/images/ucb2.webp"
         helperImage2="/images/ucb3.webp"
         customImageMaxWidth="max-w-[300px] sm:max-w-[360px] md:max-w-md lg:max-w-lg xl:max-w-2xl"
+        hideImageGroupOnMobile={true}
       />
 
       {/* Visual Separator */}
