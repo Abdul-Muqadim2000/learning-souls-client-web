@@ -953,62 +953,57 @@ function Step1({ formData, updateFormData }) {
             {formData.projects.map((project) => (
               <div
                 key={project.name}
-                className="bg-[#c8e6df] border border-green-300 rounded-lg p-3 xs:p-4"
+                className="relative bg-[#c8e6df] border border-green-300 rounded-lg p-3 xs:p-4"
               >
-                <div className="flex flex-row items-center gap-3 xs:gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-gray-900 text-sm xs:text-base">
-                      {project.name}
-                    </div>
-                    <div className="text-xs xs:text-sm text-gray-600 mt-1 line-clamp-2 xs:line-clamp-none">
-                      {
-                        projects.find((p) => p.name === project.name)
-                          ?.description
-                      }
-                    </div>
+                <button
+                  onClick={() => toggleProject(project.name)}
+                  className="absolute top-2 right-2 text-gray-600 hover:text-red-600 transition p-1.5 xs:p-2 hover:bg-red-50 rounded flex-shrink-0"
+                  aria-label="Remove project"
+                >
+                  <svg
+                    className="w-4 h-4 xs:w-5 xs:h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+
+                <div className="space-y-2 pr-10">
+                  <div className="font-semibold text-gray-900 text-sm xs:text-base">
+                    {project.name}
                   </div>
-                  <div className="flex items-center gap-2 xs:gap-3 justify-between xs:justify-end">
-                    {/* Show amount input only when more than 1 project is selected */}
-                    {formData.projects.length > 1 && (
-                      <div className="relative flex-1 xs:flex-initial min-w-[140px] xs:min-w-[160px]">
-                        <label className="block text-xs font-medium text-gray-700 mb-1">
-                          Amount
-                        </label>
-                        <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-700 font-semibold text-base">
-                            {getCurrencySymbol(formData.currency)}
-                          </span>
-                          <NumberInput
-                            value={project.amount}
-                            onChange={(e) =>
-                              updateProjectAmount(project.name, e.target.value)
-                            }
-                            min="1"
-                            step="1"
-                            placeholder="0.00"
-                            className="pl-8 pr-3 w-full text-base font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                          />
-                        </div>
-                      </div>
-                    )}
-                    <button
-                      onClick={() => toggleProject(project.name)}
-                      className="text-gray-600 hover:text-red-600 transition p-1.5 xs:p-2 hover:bg-red-50 rounded flex-shrink-0"
-                      aria-label="Remove project"
-                    >
-                      <svg
-                        className="w-4 h-4 xs:w-5 xs:h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          clipRule="evenodd"
+                  <div className="text-xs xs:text-sm text-gray-600 line-clamp-2 xs:line-clamp-none">
+                    {projects.find((p) => p.name === project.name)?.description}
+                  </div>
+
+                  {/* Show amount input only when more than 1 project is selected */}
+                  {formData.projects.length > 1 && (
+                    <div className="relative w-full xs:max-w-[260px]">
+                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                        Amount
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-700 font-semibold text-base">
+                          {getCurrencySymbol(formData.currency)}
+                        </span>
+                        <NumberInput
+                          value={project.amount}
+                          onChange={(e) =>
+                            updateProjectAmount(project.name, e.target.value)
+                          }
+                          min="1"
+                          step="1"
+                          placeholder="0.00"
+                          className="pl-8 pr-3 w-full text-base font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
-                      </svg>
-                    </button>
-                  </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
