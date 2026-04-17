@@ -157,10 +157,10 @@ const DownloadsPage = () => {
       <section id="download-categories" className="py-10 sm:py-14 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[#bd2387]">
+            <p className="text-sm sm:text-base font-semibold uppercase tracking-[0.18em] text-[#bd2387]">
               Download Categories
             </p>
-            <h2 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-black text-[#09b29d] leading-tight">
+            <h2 className="mt-3 text-[clamp(2.2rem,4vw,4.5rem)] font-black text-[#09b29d] leading-[0.95]">
               Find What You Need in One Place
             </h2>
             <p className="mt-4 text-gray-600 leading-relaxed text-base sm:text-lg">
@@ -176,20 +176,19 @@ const DownloadsPage = () => {
               return (
                 <article
                   key={resource.id}
-                  className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                  className="group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_24px_60px_rgba(4,99,87,0.22)]"
                 >
-                  <div
-                    className={`h-1.5 w-full bg-linear-to-r ${resource.accent}`}
-                  />
-                  <div className="p-6 sm:p-7">
-                    <div className="inline-flex rounded-xl bg-[#09b29d]/10 p-3">
-                      <Icon className="h-5 w-5 text-[#09b29d]" />
+                  <div className={`absolute inset-0 bg-linear-to-br ${resource.accent}`} />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.1),transparent_40%)]" />
+                  <div className="relative p-6 sm:p-7 pb-24 sm:pb-24 text-white min-h-[320px] flex flex-col h-full">
+                    <div className="inline-flex rounded-2xl bg-white/15 p-3 ring-1 ring-white/20 backdrop-blur-sm w-fit">
+                      <Icon className="h-5 w-5 text-white" />
                     </div>
 
-                    <h3 className="mt-5 text-xl sm:text-2xl font-bold text-gray-900 leading-snug">
+                    <h3 className="mt-6 text-2xl sm:text-3xl font-black leading-tight max-w-md">
                       {resource.title}
                     </h3>
-                    <p className="mt-3 text-gray-600 leading-relaxed text-sm sm:text-base">
+                    <p className="mt-3 text-white/90 leading-relaxed text-sm sm:text-base max-w-md">
                       {resource.description}
                     </p>
 
@@ -197,9 +196,9 @@ const DownloadsPage = () => {
                       {resource.points.map((point) => (
                         <li
                           key={point}
-                          className="flex items-start gap-2 text-sm sm:text-base text-gray-700"
+                          className="flex items-start gap-2 text-sm sm:text-base text-white/90"
                         >
-                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#bd2387]" />
+                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-white" />
                           <span>{point}</span>
                         </li>
                       ))}
@@ -207,7 +206,7 @@ const DownloadsPage = () => {
 
                     <Link
                       href={resource.href}
-                      className="mt-7 inline-flex items-center gap-2 rounded-full border border-[#09b29d]/30 px-5 py-2.5 text-sm font-semibold text-[#09b29d] transition-colors duration-200 hover:bg-[#09b29d] hover:text-white"
+                      className="absolute left-6 sm:left-7 bottom-6 sm:bottom-7 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#057769] shadow-lg shadow-black/10 transition-transform duration-200 hover:scale-[1.03]"
                     >
                       View Downloads
                       <ArrowRight className="h-4 w-4" />

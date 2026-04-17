@@ -847,6 +847,12 @@ function Step1({ formData, updateFormData }) {
         "Developing a Free, Multi-Language Encyclopedia of Hadith of Prophet Muhammad (PBUH).",
       image: "/images/project3.webp",
     },
+    {
+      name: "Wherever Needed Most",
+      description:
+        "Let Learning Souls direct your donation to the project with the greatest current need.",
+      image: "/images/ucb1.webp",
+    },
   ];
 
   const quickAmounts = [25, 50, 100];
