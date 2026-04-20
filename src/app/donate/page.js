@@ -21,6 +21,7 @@ import {
 
 export default function DonatePage() {
   const pathname = usePathname();
+  const isDonatePage = pathname === "/donate";
   const { user, isAuthenticated } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -200,27 +201,21 @@ export default function DonatePage() {
 
   // Scroll to top of form (progress bar) when page loads or step changes
   useEffect(() => {
-    if (
-      (pathname === "/donate" || pathname?.startsWith("/projects/")) &&
-      progressBarRef.current
-    ) {
+    if (isDonatePage && progressBarRef.current) {
       progressBarRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
-  }, [currentStep, pathname]);
+  }, [currentStep, isDonatePage]);
 
   // Scroll to top on initial page load
   useEffect(() => {
-    if (
-      (pathname === "/donate" || pathname?.startsWith("/projects/")) &&
-      progressBarRef.current
-    ) {
+    if (isDonatePage && progressBarRef.current) {
       // Scroll to top immediately when component mounts
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }, [pathname]);
+  }, [isDonatePage]);
 
   // Scroll to error message when error occurs
   useEffect(() => {

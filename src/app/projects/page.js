@@ -29,11 +29,9 @@ const page = () => {
         bgColor="var(--color-primary)"
         backgroundImage="/images/Asset-1.webp"
         height="auto"
-        helperImage="/images/ucb1.webp"
-        helperImage1="/images/ucb2.webp"
-        helperImage2="/images/ucb3.webp"
+        helperImage="/images/our_projects.PNG"
         customImageMaxWidth="max-w-[300px] sm:max-w-[360px] md:max-w-md lg:max-w-lg xl:max-w-2xl"
-        hideImageGroupOnMobile={true}
+        // hideImageGroupOnMobile={true}
       />
 
       {/* Visual Separator */}

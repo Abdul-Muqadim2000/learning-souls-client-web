@@ -90,12 +90,18 @@ const projectData = {
         description:
           "With out Arabic. Suitable for western non Muslim readers. Names and places are in English",
         image: "/images/ucb3.png",
+        downloadOptions: {
+          pdf: "/books/Al-Mustafa-Quran-Translation-God-Edition.pdf",
+        },
       },
       {
         title: "Allah Edition",
         description:
           "Arabic and English in two columns Ayah by Ayah. Names and places are Arabic",
         image: "/images/ucb4.png",
+        downloadOptions: {
+          pdf: "/books/Al-Mustafa-Quran-Translation-Allah-Edition.pdf",
+        },
       },
       {
         title: "Tajweed Edition",
@@ -108,6 +114,9 @@ const projectData = {
         description:
           "Allah edition with word by word meaning in the Arabic section",
         image: "/images/ucb6.png",
+        downloadOptions: {
+          pdf: "/books/Al-Mustafa-Quran-Translation-Advanced-Learner-Edition.pdf",
+        },
       },
       {
         title: "Easy Urdu Translation",
