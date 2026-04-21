@@ -10,10 +10,6 @@ export default function EditionsShowcase({ title, description, editions }) {
   const [selectedEdition, setSelectedEdition] = useState(null);
 
   const handleOpenDownloadModal = (edition) => {
-    if (!edition.downloadOptions) {
-      return;
-    }
-
     setSelectedEdition(edition);
     setShowDownloadModal(true);
   };
@@ -56,12 +52,7 @@ export default function EditionsShowcase({ title, description, editions }) {
                 key={index}
                 type="button"
                 onClick={() => handleOpenDownloadModal(edition)}
-                disabled={!edition.downloadOptions}
-                className={`flex flex-col sm:flex-row overflow-hidden bg-white sm:bg-gray-100 rounded-xl transition-all duration-300 min-h-[280px] text-left ${
-                  edition.downloadOptions
-                    ? "hover:shadow-2xl hover:scale-[1.02] cursor-pointer"
-                    : "opacity-95 cursor-default"
-                }`}
+                className="flex flex-col sm:flex-row overflow-hidden bg-white sm:bg-gray-100 rounded-xl transition-all duration-300 min-h-[280px] text-left hover:shadow-2xl hover:scale-[1.02] cursor-pointer"
               >
                 {/* Image */}
                 <div className="relative w-full sm:w-2/5 shrink-0 min-h-[320px] sm:min-h-full bg-white flex items-center justify-center p-4 sm:p-0">
@@ -81,11 +72,11 @@ export default function EditionsShowcase({ title, description, editions }) {
                     {edition.downloadOptions ? (
                       <span className="inline-flex items-center gap-1 rounded-full bg-[#bd2387]/10 px-3 py-1 text-xs font-semibold text-[#bd2387]">
                         <Download className="h-3.5 w-3.5" />
-                        PDF available
+                        Formats available
                       </span>
                     ) : (
                       <span className="inline-flex rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-gray-600">
-                        Coming soon
+                        More formats coming soon
                       </span>
                     )}
                   </div>
@@ -107,8 +98,8 @@ export default function EditionsShowcase({ title, description, editions }) {
                   </p>
                   <p className="mt-4 text-sm font-semibold text-[#bd2387]">
                     {edition.downloadOptions
-                      ? "Click this card to open PDF download options."
-                      : "This edition will be available as a PDF soon."}
+                      ? "Click this card to explore available download formats."
+                      : "This edition will add more ebook and store options soon."}
                   </p>
                 </div>
               </button>
