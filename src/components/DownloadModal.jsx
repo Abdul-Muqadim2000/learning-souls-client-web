@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { X, FileText, BookOpen, ShoppingBag, Apple } from "lucide-react";
+import { X, BookOpen } from "lucide-react";
 import Image from "next/image";
 
 const DownloadModal = ({ isOpen, onClose, downloadOptions, bookTitle }) => {
@@ -31,6 +31,10 @@ const DownloadModal = ({ isOpen, onClose, downloadOptions, bookTitle }) => {
   if (!mounted || !isOpen) return null;
 
   const handleDownload = (url, type) => {
+    if (!url) {
+      return;
+    }
+
     if (url.startsWith("http")) {
       // External link (Kindle, Apple, Google)
       window.open(url, "_blank", "noopener,noreferrer");
@@ -38,7 +42,7 @@ const DownloadModal = ({ isOpen, onClose, downloadOptions, bookTitle }) => {
       // Local file download
       const link = document.createElement("a");
       link.href = url;
-      link.download = url.split("/").pop();
+      link.download = decodeURIComponent(url.split("/").pop());
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -49,49 +53,47 @@ const DownloadModal = ({ isOpen, onClose, downloadOptions, bookTitle }) => {
     {
       type: "pdf",
       label: "Download PDF",
-      icon: <FileText size={24} />,
+      icon: "/pdf.svg",
+      iconAlt: "PDF",
       color: "bg-teal-600 hover:bg-teal-700",
       url: downloadOptions?.pdf,
     },
     {
       type: "ebook",
       label: "Download EPUB",
-      icon: <BookOpen size={24} />,
+      icon: null,
       color: "bg-blue-500 hover:bg-blue-600",
       url: downloadOptions?.ebook,
     },
     {
       type: "kindle",
       label: "Get on Kindle",
-      icon: <ShoppingBag size={24} />,
+      icon: "/kindle.svg",
+      iconAlt: "Kindle",
       color: "bg-indigo-700 hover:bg-indigo-800",
       url: downloadOptions?.kindle,
     },
     {
       type: "apple",
       label: "Apple Books",
-      icon: <Apple size={24} />,
+      icon: "/apple.svg",
+      iconAlt: "Apple Books",
       color: "bg-purple-700 hover:bg-purple-800",
       url: downloadOptions?.apple,
     },
     {
       type: "google",
       label: "Google Play Books",
-      icon: (
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M4 6v12l8 4.5 8-4.5V6L12 1.5 4 6zm8 13.5l-6-3.375V7.875L12 11.25v8.25zm6-3.375l-6 3.375V11.25l6-3.375v8.25z" />
-        </svg>
-      ),
+      icon: "/play-store.svg",
+      iconAlt: "Google Play Books",
       color: "bg-green-600 hover:bg-green-700",
       url: downloadOptions?.google,
     },
   ];
+
+  const footerText = downloadOptions?.pdf
+    ? "Available formats open now. Coming soon options are shown in gray."
+    : "Formats in gray are coming soon. Available downloads will open immediately.";
 
   return createPortal(
     <div
@@ -126,23 +128,41 @@ const DownloadModal = ({ isOpen, onClose, downloadOptions, bookTitle }) => {
 
         {/* Download Options */}
         <div className="space-y-3">
-          {downloadButtons
-            .filter((button) => button.url)
-            .map((button) => (
+          {downloadButtons.map((button) => {
+            const isAvailable = Boolean(button.url);
+            const buttonClasses = isAvailable
+              ? `${button.color} text-white hover:shadow-lg transform hover:scale-[1.02] active:scale-95`
+              : "bg-gray-100 text-gray-500 border border-dashed border-gray-300 cursor-not-allowed opacity-80";
+
+            return (
               <button
                 key={button.type}
-                onClick={() => handleDownload(button.url, button.type)}
-                className={`w-full ${button.color} text-white rounded-lg px-6 py-4 font-semibold text-base md:text-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-95`}
+                onClick={() => isAvailable && handleDownload(button.url, button.type)}
+                disabled={!isAvailable}
+                className={`w-full rounded-lg px-6 py-4 font-semibold text-base md:text-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-md ${buttonClasses}`}
               >
-                <span className="shrink-0">{button.icon}</span>
-                <span>{button.label}</span>
+                <span className={`shrink-0 ${isAvailable ? "" : "opacity-60"}`}>
+                  {button.icon ? (
+                    <Image
+                      src={button.icon}
+                      alt={button.iconAlt || button.label}
+                      width={24}
+                      height={24}
+                      className={`h-6 w-6 ${isAvailable ? "brightness-0 invert" : ""}`}
+                    />
+                  ) : (
+                    <BookOpen size={24} className={isAvailable ? "text-white" : "text-gray-400"} />
+                  )}
+                </span>
+                <span>{isAvailable ? button.label : `${button.label} - Coming soon`}</span>
               </button>
-            ))}
+            );
+          })}
         </div>
 
         {/* Footer Note */}
         <p className="text-xs text-center text-gray-500 mt-6 leading-relaxed">
-          Choose your preferred format to download and read offline
+          {footerText}
         </p>
       </div>
     </div>,

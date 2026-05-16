@@ -92,6 +92,7 @@ const projectData = {
         image: "/images/ucb3.png",
         downloadOptions: {
           pdf: "/books/Al-Mustafa-Quran-Translation-God-Edition.pdf",
+          ebook: "/books/Al-Mustafa%20Quran%20Translation-%20God%20Edition.epub",
         },
       },
       {
