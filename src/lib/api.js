@@ -19,26 +19,10 @@ async function fetchWithAuth(url, options = {}) {
     headers["Authorization"] = `Bearer ${accessToken}`;
   }
 
-  let response = await fetch(url, {
+  const response = await fetch(url, {
     ...options,
     headers,
   });
-  console.log("fetchWithAuth response:", response);
-
-  // If token expired, try to refresh
-  if (response.status === 401 && accessToken) {
-    const refreshed = await refreshAccessToken();
-
-    if (refreshed) {
-      // Retry the original request with new token
-      headers["Authorization"] =
-        `Bearer ${localStorage.getItem("accessToken")}`;
-      response = await fetch(url, {
-        ...options,
-        headers,
-      });
-    }
-  }
 
   return response;
 }
@@ -62,8 +46,49 @@ export async function login(email, password) {
 
   const data = await response.json();
 
-  // Return challengeId for OTP verification
+  // If login directly returns tokens (verified accounts, no MFA needed)
+  if (data?.data?.tokens?.accessToken) {
+    localStorage.setItem("accessToken", data.data.tokens.accessToken);
+    localStorage.setItem("accountType", "user");
+  }
+
+  // Return data (challengeId for OTP verification, or tokens)
   return data;
+}
+
+/**
+ * Admin login — separate endpoint, separate token type
+ */
+export async function adminLogin(email, password) {
+  const response = await fetch(`${API_URL}/admin/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Admin login failed");
+  }
+
+  if (data?.data?.tokens?.accessToken) {
+    localStorage.setItem("accessToken", data.data.tokens.accessToken);
+    localStorage.setItem("accountType", "admin");
+  }
+  if (data?.data?.admin) {
+    localStorage.setItem("user", JSON.stringify(data.data.admin));
+  }
+  return data;
+}
+
+/**
+ * Get current admin from /admin/me
+ */
+export async function getCurrentAdmin() {
+  const response = await fetchWithAuth(`${API_URL}/admin/me`);
+  if (!response.ok) throw new Error("Failed to fetch admin");
+  const data = await response.json();
+  return data.data.admin;
 }
 
 /**
@@ -86,11 +111,10 @@ export async function verifyMFA(challengeId, code) {
   const data = await response.json();
 
   // Store the JWT token
-  if (data.data.accessToken) {
-    localStorage.setItem("accessToken", data.data.accessToken);
-  }
-  if (data.data.refreshToken) {
-    localStorage.setItem("refreshToken", data.data.refreshToken);
+  const accessToken = data?.data?.accessToken || data?.data?.tokens?.accessToken;
+  if (accessToken) {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("accountType", "user");
   }
 
   return data;
@@ -101,23 +125,25 @@ export async function verifyMFA(challengeId, code) {
  */
 export function logout() {
   localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("accountType");
   localStorage.removeItem("user");
 }
 
 /**
- * Get current user info
+ * Get current user/admin info — routes based on stored accountType
  */
 export async function getCurrentUser() {
-  const response = await fetchWithAuth(`${API_URL}/user/get-me`);
+  const accountType = localStorage.getItem("accountType");
+  const endpoint = accountType === "admin" ? "/admin/me" : "/user/get-me";
+  const response = await fetchWithAuth(`${API_URL}${endpoint}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch user");
   }
 
   const data = await response.json();
-
-  return data.data;
+  // /admin/me returns { data: { admin } }, /user/get-me returns { data: { user } } or { data }
+  return data.data?.admin || data.data?.user || data.data;
 }
 
 /**
@@ -175,13 +201,9 @@ export async function confirmPasswordReset(token, password, passwordConfirm) {
   const data = await response.json();
 
   // Store the JWT tokens after successful reset
-  if (data.data?.tokens) {
-    if (data.data.tokens.accessToken) {
-      localStorage.setItem("accessToken", data.data.tokens.accessToken);
-    }
-    if (data.data.tokens.refreshToken) {
-      localStorage.setItem("refreshToken", data.data.tokens.refreshToken);
-    }
+  if (data.data?.tokens?.accessToken) {
+    localStorage.setItem("accessToken", data.data.tokens.accessToken);
+    localStorage.setItem("accountType", "user");
   }
 
   return data;
@@ -228,13 +250,9 @@ export async function setupPassword(token, password, passwordConfirm) {
   const data = await response.json();
 
   // Store the JWT tokens after successful setup
-  if (data.data?.tokens) {
-    if (data.data.tokens.accessToken) {
-      localStorage.setItem("accessToken", data.data.tokens.accessToken);
-    }
-    if (data.data.tokens.refreshToken) {
-      localStorage.setItem("refreshToken", data.data.tokens.refreshToken);
-    }
+  if (data.data?.tokens?.accessToken) {
+    localStorage.setItem("accessToken", data.data.tokens.accessToken);
+    localStorage.setItem("accountType", "user");
   }
 
   return data;
@@ -461,41 +479,125 @@ export async function register(userData) {
   return data;
 }*/
 /**
- * Refresh access token using refresh token
- * CURRENTLY NOT IN USE - handled inside fetchWithAuth
-export async function refreshAccessToken() {
-  const refreshToken = localStorage.getItem("refreshToken");
+ * --- ADMIN API CALLS ---
+ */
+export async function getAdminStats() {
+  const response = await fetchWithAuth(`${API_URL}/admin/stats`);
+  if (!response.ok) throw new Error("Failed to fetch admin stats");
+  return (await response.json()).data;
+}
 
-  if (!refreshToken) {
-    return false;
+export async function getAdminAnalytics(days = 30) {
+  const response = await fetchWithAuth(`${API_URL}/admin/analytics?days=${days}`);
+  if (!response.ok) throw new Error("Failed to fetch analytics");
+  return (await response.json()).data;
+}
+
+export async function getAdminDonations(page = 1, limit = 10, filters = {}) {
+  const params = new URLSearchParams({ page, limit, ...filters });
+  const response = await fetchWithAuth(`${API_URL}/admin/donations?${params}`);
+  if (!response.ok) throw new Error("Failed to fetch admin donations");
+  return await response.json();
+}
+
+export async function getAdminDonors(page = 1, limit = 10, filters = {}) {
+  const params = new URLSearchParams({ page, limit, ...filters });
+  const response = await fetchWithAuth(`${API_URL}/admin/donors?${params}`);
+  if (!response.ok) throw new Error("Failed to fetch admin donors");
+  return await response.json();
+}
+
+export async function getAdminTeam() {
+  const response = await fetchWithAuth(`${API_URL}/admin/team`);
+  if (!response.ok) throw new Error("Failed to fetch admin team");
+  return (await response.json()).data;
+}
+
+export async function inviteTeamMember(payload) {
+  const response = await fetchWithAuth(`${API_URL}/admin/team/invite`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to send invite");
+  return data;
+}
+
+export async function updateTeamMember(adminId, updates) {
+  const response = await fetchWithAuth(`${API_URL}/admin/team/${adminId}`, {
+    method: "PATCH",
+    body: JSON.stringify(updates),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to update member");
+  return data;
+}
+
+export async function getNotifications() {
+  const response = await fetchWithAuth(`${API_URL}/admin/notifications`);
+  if (!response.ok) throw new Error("Failed to fetch notifications");
+  return (await response.json()).data;
+}
+
+export async function markNotificationsSeen() {
+  const response = await fetchWithAuth(`${API_URL}/admin/notifications/seen`, {
+    method: "POST",
+  });
+  if (!response.ok) throw new Error("Failed to mark notifications seen");
+  return (await response.json()).data;
+}
+
+export async function revokeTeamInvite(inviteId) {
+  const response = await fetchWithAuth(`${API_URL}/admin/team/invite/${inviteId}`, {
+    method: "DELETE",
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to revoke invite");
+  return data;
+}
+
+export async function acceptTeamInvite(token, password, passwordConfirm) {
+  const response = await fetch(`${API_URL}/admin/team/invite/accept`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, password, passwordConfirm }),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to accept invite");
+  if (data?.data?.tokens?.accessToken) {
+    localStorage.setItem("accessToken", data.data.tokens.accessToken);
+    localStorage.setItem("accountType", "admin");
   }
+  return data;
+}
 
-  try {
-    const response = await fetch(`${API_URL}/auth/refresh`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
+export async function sendPromotionalEmail(payload) {
+  const response = await fetchWithAuth(`${API_URL}/admin/donors/promo-email`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to send promo email");
+  return data;
+}
 
-    if (!response.ok) {
-      // Refresh token is invalid or expired
-      logout();
-      return false;
-    }
-
-    const data = await response.json();
-
-    if (data.accessToken) {
-      localStorage.setItem("accessToken", data.accessToken);
-      return true;
-    }
-
-    return false;
-  } catch (error) {
-    console.error("Token refresh failed:", error);
-    logout();
-    return false;
-  }
-}*/
+/**
+ * Trigger a CSV/PDF export download from any admin endpoint.
+ * @param {"donations"|"donors"|"team"} resource
+ * @param {"csv"|"pdf"} format
+ * @param {object} filters
+ */
+export async function exportAdminResource(resource, format, filters = {}) {
+  const params = new URLSearchParams({ format, ...filters });
+  const response = await fetchWithAuth(`${API_URL}/admin/${resource}/export?${params}`);
+  if (!response.ok) throw new Error(`Failed to export ${resource}`);
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${resource}-${new Date().toISOString().slice(0, 10)}.${format}`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}

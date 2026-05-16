@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
   login as apiLogin,
+  adminLogin as apiAdminLogin,
   // register as apiRegister,
   verifyMFA as apiVerifyMFA,
   logout as apiLogout,
@@ -42,9 +43,32 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const data = await apiLogin(email, password);
-      // Returns challengeId, not user data
-      return { success: true, data };
+      const resp = await apiLogin(email, password);
+      // If the backend returns tokens immediately (no MFA required)
+      if (resp?.data?.tokens) {
+        setLoading(true);
+        const userData = await getCurrentUser();
+        const parsedUser = userData.data || userData;
+        setUser(parsedUser);
+        setLoading(false);
+        return { success: true, isVerified: true, user: parsedUser };
+      }
+      // Otherwise, it returned a challengeId for MFA
+      return { success: true, isVerified: false, data: resp.data };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+
+  const adminLogin = async (email, password) => {
+    try {
+      const resp = await apiAdminLogin(email, password);
+      const admin = resp?.data?.admin;
+      if (!admin) {
+        return { success: false, error: "Admin data missing from response" };
+      }
+      setUser(admin);
+      return { success: true, user: admin };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -70,12 +94,19 @@ export function AuthProvider({ children }) {
   const logout = () => {
     apiLogout();
     setUser(null);
-    router.push("/login");
+
+    // Redirect admins to admin login, users to public login
+    if (pathname.startsWith("/admin")) {
+      router.push("/admin/login");
+    } else {
+      router.push("/login");
+    }
   };
 
   const value = {
     user,
     login,
+    adminLogin,
     // register,
     verifyMFA,
     logout,
